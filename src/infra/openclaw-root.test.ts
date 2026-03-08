@@ -89,12 +89,12 @@ vi.mock("node:fs/promises", async (importOriginal) => {
   return { ...wrapped, default: wrapped };
 });
 
-describe("resolveOpenClawPackageRoot", () => {
-  let resolveOpenClawPackageRoot: typeof import("./openclaw-root.js").resolveOpenClawPackageRoot;
-  let resolveOpenClawPackageRootSync: typeof import("./openclaw-root.js").resolveOpenClawPackageRootSync;
+describe("resolveCodyAIPackageRoot", () => {
+  let resolveCodyAIPackageRoot: typeof import("./openclaw-root.js").resolveCodyAIPackageRoot;
+  let resolveCodyAIPackageRootSync: typeof import("./openclaw-root.js").resolveCodyAIPackageRootSync;
 
   beforeAll(async () => {
-    ({ resolveOpenClawPackageRoot, resolveOpenClawPackageRootSync } =
+    ({ resolveCodyAIPackageRoot, resolveCodyAIPackageRootSync } =
       await import("./openclaw-root.js"));
   });
 
@@ -106,50 +106,50 @@ describe("resolveOpenClawPackageRoot", () => {
 
   it("resolves package root from .bin argv1", async () => {
     const project = fx("bin-scenario");
-    const argv1 = path.join(project, "node_modules", ".bin", "openclaw");
-    const pkgRoot = path.join(project, "node_modules", "openclaw");
-    setFile(path.join(pkgRoot, "package.json"), JSON.stringify({ name: "openclaw" }));
+    const argv1 = path.join(project, "node_modules", ".bin", "codyai");
+    const pkgRoot = path.join(project, "node_modules", "codyai");
+    setFile(path.join(pkgRoot, "package.json"), JSON.stringify({ name: "codyai" }));
 
-    expect(resolveOpenClawPackageRootSync({ argv1 })).toBe(pkgRoot);
+    expect(resolveCodyAIPackageRootSync({ argv1 })).toBe(pkgRoot);
   });
 
   it("resolves package root via symlinked argv1", async () => {
     const project = fx("symlink-scenario");
-    const bin = path.join(project, "bin", "openclaw");
+    const bin = path.join(project, "bin", "codyai");
     const realPkg = path.join(project, "real-pkg");
     state.realpaths.set(abs(bin), abs(path.join(realPkg, "openclaw.mjs")));
-    setFile(path.join(realPkg, "package.json"), JSON.stringify({ name: "openclaw" }));
+    setFile(path.join(realPkg, "package.json"), JSON.stringify({ name: "codyai" }));
 
-    expect(resolveOpenClawPackageRootSync({ argv1: bin })).toBe(realPkg);
+    expect(resolveCodyAIPackageRootSync({ argv1: bin })).toBe(realPkg);
   });
 
   it("falls back when argv1 realpath throws", async () => {
     const project = fx("realpath-throw-scenario");
-    const argv1 = path.join(project, "node_modules", ".bin", "openclaw");
-    const pkgRoot = path.join(project, "node_modules", "openclaw");
+    const argv1 = path.join(project, "node_modules", ".bin", "codyai");
+    const pkgRoot = path.join(project, "node_modules", "codyai");
     state.realpathErrors.add(abs(argv1));
-    setFile(path.join(pkgRoot, "package.json"), JSON.stringify({ name: "openclaw" }));
+    setFile(path.join(pkgRoot, "package.json"), JSON.stringify({ name: "codyai" }));
 
-    expect(resolveOpenClawPackageRootSync({ argv1 })).toBe(pkgRoot);
+    expect(resolveCodyAIPackageRootSync({ argv1 })).toBe(pkgRoot);
   });
 
   it("prefers moduleUrl candidates", async () => {
     const pkgRoot = fx("moduleurl");
-    setFile(path.join(pkgRoot, "package.json"), JSON.stringify({ name: "openclaw" }));
+    setFile(path.join(pkgRoot, "package.json"), JSON.stringify({ name: "codyai" }));
     const moduleUrl = pathToFileURL(path.join(pkgRoot, "dist", "index.js")).toString();
 
-    expect(resolveOpenClawPackageRootSync({ moduleUrl })).toBe(pkgRoot);
+    expect(resolveCodyAIPackageRootSync({ moduleUrl })).toBe(pkgRoot);
   });
 
   it("ignores invalid moduleUrl values and falls back to cwd", async () => {
     const pkgRoot = fx("invalid-moduleurl");
-    setFile(path.join(pkgRoot, "package.json"), JSON.stringify({ name: "openclaw" }));
+    setFile(path.join(pkgRoot, "package.json"), JSON.stringify({ name: "codyai" }));
 
-    expect(resolveOpenClawPackageRootSync({ moduleUrl: "not-a-file-url", cwd: pkgRoot })).toBe(
+    expect(resolveCodyAIPackageRootSync({ moduleUrl: "not-a-file-url", cwd: pkgRoot })).toBe(
       pkgRoot,
     );
     await expect(
-      resolveOpenClawPackageRoot({ moduleUrl: "not-a-file-url", cwd: pkgRoot }),
+      resolveCodyAIPackageRoot({ moduleUrl: "not-a-file-url", cwd: pkgRoot }),
     ).resolves.toBe(pkgRoot);
   });
 
@@ -157,17 +157,17 @@ describe("resolveOpenClawPackageRoot", () => {
     const pkgRoot = fx("not-openclaw");
     setFile(path.join(pkgRoot, "package.json"), JSON.stringify({ name: "not-openclaw" }));
 
-    expect(resolveOpenClawPackageRootSync({ cwd: pkgRoot })).toBeNull();
+    expect(resolveCodyAIPackageRootSync({ cwd: pkgRoot })).toBeNull();
   });
 
   it("async resolver matches sync behavior", async () => {
     const pkgRoot = fx("async");
-    setFile(path.join(pkgRoot, "package.json"), JSON.stringify({ name: "openclaw" }));
+    setFile(path.join(pkgRoot, "package.json"), JSON.stringify({ name: "codyai" }));
 
-    await expect(resolveOpenClawPackageRoot({ cwd: pkgRoot })).resolves.toBe(pkgRoot);
+    await expect(resolveCodyAIPackageRoot({ cwd: pkgRoot })).resolves.toBe(pkgRoot);
   });
 
   it("async resolver returns null when no package roots exist", async () => {
-    await expect(resolveOpenClawPackageRoot({ cwd: fx("missing") })).resolves.toBeNull();
+    await expect(resolveCodyAIPackageRoot({ cwd: fx("missing") })).resolves.toBeNull();
   });
 });

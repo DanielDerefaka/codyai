@@ -12,9 +12,9 @@ describe("pairing setup code", () => {
   }
 
   beforeEach(() => {
-    vi.stubEnv("OPENCLAW_GATEWAY_TOKEN", "");
+    vi.stubEnv("CODYAI_GATEWAY_TOKEN", "");
     vi.stubEnv("CLAWDBOT_GATEWAY_TOKEN", "");
-    vi.stubEnv("OPENCLAW_GATEWAY_PASSWORD", "");
+    vi.stubEnv("CODYAI_GATEWAY_PASSWORD", "");
     vi.stubEnv("CLAWDBOT_GATEWAY_PASSWORD", "");
   });
 
@@ -85,7 +85,7 @@ describe("pairing setup code", () => {
     expect(resolved.authLabel).toBe("password");
   });
 
-  it("uses OPENCLAW_GATEWAY_PASSWORD without resolving configured password SecretRef", async () => {
+  it("uses CODYAI_GATEWAY_PASSWORD without resolving configured password SecretRef", async () => {
     const resolved = await resolvePairingSetupFromConfig(
       {
         gateway: {
@@ -104,7 +104,7 @@ describe("pairing setup code", () => {
       },
       {
         env: {
-          OPENCLAW_GATEWAY_PASSWORD: "password-from-env", // pragma: allowlist secret
+          CODYAI_GATEWAY_PASSWORD: "password-from-env", // pragma: allowlist secret
         },
       },
     );
@@ -221,7 +221,7 @@ describe("pairing setup code", () => {
       },
       {
         env: {
-          OPENCLAW_GATEWAY_PASSWORD: "password-from-env", // pragma: allowlist secret
+          CODYAI_GATEWAY_PASSWORD: "password-from-env", // pragma: allowlist secret
         },
       },
     );
@@ -320,7 +320,7 @@ describe("pairing setup code", () => {
       },
       {
         env: {
-          OPENCLAW_GATEWAY_TOKEN: "new-token",
+          CODYAI_GATEWAY_TOKEN: "new-token",
         },
       },
     );

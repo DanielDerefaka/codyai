@@ -2,8 +2,8 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import type {
-  OpenClawPluginApi,
-  OpenClawPluginCommandDefinition,
+  CodyAIPluginApi,
+  CodyAIPluginCommandDefinition,
   PluginCommandContext,
 } from "openclaw/plugin-sdk/phone-control";
 import { describe, expect, it, vi } from "vitest";
@@ -13,8 +13,8 @@ function createApi(params: {
   stateDir: string;
   getConfig: () => Record<string, unknown>;
   writeConfig: (next: Record<string, unknown>) => Promise<void>;
-  registerCommand: (command: OpenClawPluginCommandDefinition) => void;
-}): OpenClawPluginApi {
+  registerCommand: (command: CodyAIPluginCommandDefinition) => void;
+}): CodyAIPluginApi {
   return {
     id: "phone-control",
     name: "phone-control",
@@ -29,7 +29,7 @@ function createApi(params: {
         loadConfig: () => params.getConfig(),
         writeConfigFile: (next: Record<string, unknown>) => params.writeConfig(next),
       },
-    } as OpenClawPluginApi["runtime"],
+    } as CodyAIPluginApi["runtime"],
     logger: { info() {}, warn() {}, error() {} },
     registerTool() {},
     registerHook() {},
@@ -74,7 +74,7 @@ describe("phone-control plugin", () => {
         config = next;
       });
 
-      let command: OpenClawPluginCommandDefinition | undefined;
+      let command: CodyAIPluginCommandDefinition | undefined;
       registerPhoneControl(
         createApi({
           stateDir,

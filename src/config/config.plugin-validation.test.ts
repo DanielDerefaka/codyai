@@ -39,8 +39,8 @@ describe("config plugin validation", () => {
   let bluebubblesPluginDir = "";
   let voiceCallSchemaPluginDir = "";
   const envSnapshot = {
-    OPENCLAW_STATE_DIR: process.env.OPENCLAW_STATE_DIR,
-    OPENCLAW_PLUGIN_MANIFEST_CACHE_MS: process.env.OPENCLAW_PLUGIN_MANIFEST_CACHE_MS,
+    CODYAI_STATE_DIR: process.env.CODYAI_STATE_DIR,
+    CODYAI_PLUGIN_MANIFEST_CACHE_MS: process.env.CODYAI_PLUGIN_MANIFEST_CACHE_MS,
   };
 
   const validateInSuite = (raw: unknown) => validateConfigObjectWithPlugins(raw);
@@ -102,8 +102,8 @@ describe("config plugin validation", () => {
       id: "voice-call-schema-fixture",
       schema: voiceCallManifest.configSchema,
     });
-    process.env.OPENCLAW_STATE_DIR = path.join(suiteHome, ".openclaw");
-    process.env.OPENCLAW_PLUGIN_MANIFEST_CACHE_MS = "10000";
+    process.env.CODYAI_STATE_DIR = path.join(suiteHome, ".openclaw");
+    process.env.CODYAI_PLUGIN_MANIFEST_CACHE_MS = "10000";
     clearPluginManifestRegistryCache();
     // Warm the plugin manifest cache once so path-based validations can reuse
     // parsed manifests across test cases.
@@ -118,15 +118,15 @@ describe("config plugin validation", () => {
   afterAll(async () => {
     await fs.rm(fixtureRoot, { recursive: true, force: true });
     clearPluginManifestRegistryCache();
-    if (envSnapshot.OPENCLAW_STATE_DIR === undefined) {
-      delete process.env.OPENCLAW_STATE_DIR;
+    if (envSnapshot.CODYAI_STATE_DIR === undefined) {
+      delete process.env.CODYAI_STATE_DIR;
     } else {
-      process.env.OPENCLAW_STATE_DIR = envSnapshot.OPENCLAW_STATE_DIR;
+      process.env.CODYAI_STATE_DIR = envSnapshot.CODYAI_STATE_DIR;
     }
-    if (envSnapshot.OPENCLAW_PLUGIN_MANIFEST_CACHE_MS === undefined) {
-      delete process.env.OPENCLAW_PLUGIN_MANIFEST_CACHE_MS;
+    if (envSnapshot.CODYAI_PLUGIN_MANIFEST_CACHE_MS === undefined) {
+      delete process.env.CODYAI_PLUGIN_MANIFEST_CACHE_MS;
     } else {
-      process.env.OPENCLAW_PLUGIN_MANIFEST_CACHE_MS = envSnapshot.OPENCLAW_PLUGIN_MANIFEST_CACHE_MS;
+      process.env.CODYAI_PLUGIN_MANIFEST_CACHE_MS = envSnapshot.CODYAI_PLUGIN_MANIFEST_CACHE_MS;
     }
   });
 

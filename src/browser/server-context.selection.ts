@@ -48,7 +48,7 @@ export function createProfileSelectionOps({
         if (tabs1.length === 0) {
           throw new Error(
             `tab not found (no attached Chrome tabs for profile "${profile.name}"). ` +
-              "Click the OpenClaw Browser Relay toolbar icon on the tab you want to control (badge ON).",
+              "Click the CodyAI Browser Relay toolbar icon on the tab you want to control (badge ON).",
           );
         }
       } else {

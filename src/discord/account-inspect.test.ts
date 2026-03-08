@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 import { inspectDiscordAccount } from "./account-inspect.js";
 
-function asConfig(value: unknown): OpenClawConfig {
-  return value as OpenClawConfig;
+function asConfig(value: unknown): CodyAIConfig {
+  return value as CodyAIConfig;
 }
 
 describe("inspectDiscordAccount", () => {

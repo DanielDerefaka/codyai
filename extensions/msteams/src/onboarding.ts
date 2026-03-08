@@ -1,7 +1,7 @@
 import type {
   ChannelOnboardingAdapter,
   ChannelOnboardingDmPolicy,
-  OpenClawConfig,
+  CodyAIConfig,
   DmPolicy,
   WizardPrompter,
   MSTeamsTeamConfig,
@@ -26,7 +26,7 @@ import { hasConfiguredMSTeamsCredentials, resolveMSTeamsCredentials } from "./to
 
 const channel = "msteams" as const;
 
-function setMSTeamsDmPolicy(cfg: OpenClawConfig, dmPolicy: DmPolicy) {
+function setMSTeamsDmPolicy(cfg: CodyAIConfig, dmPolicy: DmPolicy) {
   return setTopLevelChannelDmPolicyWithAllowFrom({
     cfg,
     channel: "msteams",
@@ -34,7 +34,7 @@ function setMSTeamsDmPolicy(cfg: OpenClawConfig, dmPolicy: DmPolicy) {
   });
 }
 
-function setMSTeamsAllowFrom(cfg: OpenClawConfig, allowFrom: string[]): OpenClawConfig {
+function setMSTeamsAllowFrom(cfg: CodyAIConfig, allowFrom: string[]): CodyAIConfig {
   return setTopLevelChannelAllowFrom({
     cfg,
     channel: "msteams",
@@ -73,9 +73,9 @@ async function promptMSTeamsCredentials(prompter: WizardPrompter): Promise<{
 }
 
 async function promptMSTeamsAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   prompter: WizardPrompter;
-}): Promise<OpenClawConfig> {
+}): Promise<CodyAIConfig> {
   const existing = params.cfg.channels?.msteams?.allowFrom ?? [];
   await params.prompter.note(
     [
@@ -149,9 +149,9 @@ async function noteMSTeamsCredentialHelp(prompter: WizardPrompter): Promise<void
 }
 
 function setMSTeamsGroupPolicy(
-  cfg: OpenClawConfig,
+  cfg: CodyAIConfig,
   groupPolicy: "open" | "allowlist" | "disabled",
-): OpenClawConfig {
+): CodyAIConfig {
   return setTopLevelChannelGroupPolicy({
     cfg,
     channel: "msteams",
@@ -161,9 +161,9 @@ function setMSTeamsGroupPolicy(
 }
 
 function setMSTeamsTeamsAllowlist(
-  cfg: OpenClawConfig,
+  cfg: CodyAIConfig,
   entries: Array<{ teamKey: string; channelKey?: string }>,
-): OpenClawConfig {
+): CodyAIConfig {
   const baseTeams = cfg.channels?.msteams?.teams ?? {};
   const teams: Record<string, { channels?: Record<string, unknown> }> = { ...baseTeams };
   for (const entry of entries) {

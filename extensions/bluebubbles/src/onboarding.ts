@@ -1,7 +1,7 @@
 import type {
   ChannelOnboardingAdapter,
   ChannelOnboardingDmPolicy,
-  OpenClawConfig,
+  CodyAIConfig,
   DmPolicy,
   WizardPrompter,
 } from "openclaw/plugin-sdk/bluebubbles";
@@ -25,7 +25,7 @@ import { normalizeBlueBubblesServerUrl } from "./types.js";
 
 const channel = "bluebubbles" as const;
 
-function setBlueBubblesDmPolicy(cfg: OpenClawConfig, dmPolicy: DmPolicy): OpenClawConfig {
+function setBlueBubblesDmPolicy(cfg: CodyAIConfig, dmPolicy: DmPolicy): CodyAIConfig {
   return setTopLevelChannelDmPolicyWithAllowFrom({
     cfg,
     channel: "bluebubbles",
@@ -34,10 +34,10 @@ function setBlueBubblesDmPolicy(cfg: OpenClawConfig, dmPolicy: DmPolicy): OpenCl
 }
 
 function setBlueBubblesAllowFrom(
-  cfg: OpenClawConfig,
+  cfg: CodyAIConfig,
   accountId: string,
   allowFrom: string[],
-): OpenClawConfig {
+): CodyAIConfig {
   if (accountId === DEFAULT_ACCOUNT_ID) {
     return {
       ...cfg,
@@ -76,10 +76,10 @@ function parseBlueBubblesAllowFromInput(raw: string): string[] {
 }
 
 async function promptBlueBubblesAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   prompter: WizardPrompter;
   accountId?: string;
-}): Promise<OpenClawConfig> {
+}): Promise<CodyAIConfig> {
   const accountId =
     params.accountId && normalizeAccountId(params.accountId)
       ? (normalizeAccountId(params.accountId) ?? DEFAULT_ACCOUNT_ID)
@@ -286,7 +286,7 @@ export const blueBubblesOnboardingAdapter: ChannelOnboardingAdapter = {
       [
         "Configure the webhook URL in BlueBubbles Server:",
         "1. Open BlueBubbles Server → Settings → Webhooks",
-        "2. Add your OpenClaw gateway URL + webhook path",
+        "2. Add your CodyAI gateway URL + webhook path",
         "   Example: https://your-gateway-host:3000/bluebubbles-webhook",
         "3. Enable the webhook and save",
         "",

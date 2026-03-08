@@ -118,7 +118,7 @@ export function loadPluginManifest(
   };
 }
 
-// package.json "openclaw" metadata (used for onboarding/catalog)
+// package.json "codyai" metadata (used for onboarding/catalog)
 export type PluginPackageChannel = {
   id?: string;
   label?: string;
@@ -146,7 +146,7 @@ export type PluginPackageInstall = {
   defaultChoice?: "npm" | "local";
 };
 
-export type OpenClawPackageManifest = {
+export type CodyAIPackageManifest = {
   extensions?: string[];
   channel?: PluginPackageChannel;
   install?: PluginPackageInstall;
@@ -170,11 +170,11 @@ export type PackageManifest = {
   name?: string;
   version?: string;
   description?: string;
-} & Partial<Record<ManifestKey, OpenClawPackageManifest>>;
+} & Partial<Record<ManifestKey, CodyAIPackageManifest>>;
 
 export function getPackageManifestMetadata(
   manifest: PackageManifest | undefined,
-): OpenClawPackageManifest | undefined {
+): CodyAIPackageManifest | undefined {
   if (!manifest) {
     return undefined;
   }

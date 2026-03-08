@@ -84,11 +84,11 @@ export function pickProbeHostForBind(
 }
 
 const SAFE_DAEMON_ENV_KEYS = [
-  "OPENCLAW_PROFILE",
-  "OPENCLAW_STATE_DIR",
-  "OPENCLAW_CONFIG_PATH",
-  "OPENCLAW_GATEWAY_PORT",
-  "OPENCLAW_NIX_MODE",
+  "CODYAI_PROFILE",
+  "CODYAI_STATE_DIR",
+  "CODYAI_CONFIG_PATH",
+  "CODYAI_GATEWAY_PORT",
+  "CODYAI_NIX_MODE",
 ];
 
 export function filterDaemonEnv(env: Record<string, string> | undefined): Record<string, string> {
@@ -150,8 +150,8 @@ export function renderRuntimeHints(
     hints.push(
       ...buildPlatformRuntimeLogHints({
         env,
-        systemdServiceName: resolveGatewaySystemdServiceName(env.OPENCLAW_PROFILE),
-        windowsTaskName: resolveGatewayWindowsTaskName(env.OPENCLAW_PROFILE),
+        systemdServiceName: resolveGatewaySystemdServiceName(env.CODYAI_PROFILE),
+        windowsTaskName: resolveGatewayWindowsTaskName(env.CODYAI_PROFILE),
       }),
     );
   }
@@ -159,7 +159,7 @@ export function renderRuntimeHints(
 }
 
 export function renderGatewayServiceStartHints(env: NodeJS.ProcessEnv = process.env): string[] {
-  const profile = env.OPENCLAW_PROFILE;
+  const profile = env.CODYAI_PROFILE;
   return buildPlatformServiceStartHints({
     installCommand: formatCliCommand("openclaw gateway install", env),
     startCommand: formatCliCommand("openclaw gateway", env),

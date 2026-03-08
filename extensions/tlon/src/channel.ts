@@ -4,7 +4,7 @@ import type {
   ChannelOutboundAdapter,
   ChannelPlugin,
   ChannelSetupInput,
-  OpenClawConfig,
+  CodyAIConfig,
 } from "openclaw/plugin-sdk/tlon";
 import {
   applyAccountNameToChannelSection,
@@ -101,10 +101,10 @@ type TlonSetupInput = ChannelSetupInput & {
 };
 
 function applyTlonSetupConfig(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   accountId: string;
   input: TlonSetupInput;
-}): OpenClawConfig {
+}): CodyAIConfig {
   const { cfg, accountId, input } = params;
   const useDefault = accountId === DEFAULT_ACCOUNT_ID;
   const namedConfig = applyAccountNameToChannelSection({
@@ -311,7 +311,7 @@ export const tlonPlugin: ChannelPlugin = {
               enabled,
             },
           },
-        } as OpenClawConfig;
+        } as CodyAIConfig;
       }
       return {
         ...cfg,
@@ -328,7 +328,7 @@ export const tlonPlugin: ChannelPlugin = {
             },
           },
         },
-      } as OpenClawConfig;
+      } as CodyAIConfig;
     },
     deleteAccount: ({ cfg, accountId }) => {
       const useDefault = !accountId || accountId === "default";
@@ -346,7 +346,7 @@ export const tlonPlugin: ChannelPlugin = {
             ...cfg.channels,
             tlon: rest,
           },
-        } as OpenClawConfig;
+        } as CodyAIConfig;
       }
       const { [accountId]: _removed, ...remainingAccounts } = cfg.channels?.tlon?.accounts ?? {};
       return {
@@ -358,7 +358,7 @@ export const tlonPlugin: ChannelPlugin = {
             accounts: remainingAccounts,
           },
         },
-      } as OpenClawConfig;
+      } as CodyAIConfig;
     },
     isConfigured: (account) => account.configured,
     describeAccount: (account) => ({

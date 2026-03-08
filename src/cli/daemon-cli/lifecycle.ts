@@ -90,7 +90,7 @@ function isGatewayArgv(args: string[]): boolean {
   }
 
   const exe = stripExecutableExtension(normalized[0] ?? "");
-  return exe.endsWith("/openclaw") || exe === "openclaw" || exe.endsWith("/openclaw-gateway");
+  return exe.endsWith("/openclaw") || exe === "codyai" || exe.endsWith("/openclaw-gateway");
 }
 
 function readGatewayProcessArgsSync(pid: number): string[] | null {
@@ -161,8 +161,8 @@ async function assertUnmanagedGatewayRestartEnabled(port: number): Promise<void>
   const probe = await probeGateway({
     url: `ws://127.0.0.1:${port}`,
     auth: {
-      token: process.env.OPENCLAW_GATEWAY_TOKEN?.trim() || undefined,
-      password: process.env.OPENCLAW_GATEWAY_PASSWORD?.trim() || undefined,
+      token: process.env.CODYAI_GATEWAY_TOKEN?.trim() || undefined,
+      password: process.env.CODYAI_GATEWAY_PASSWORD?.trim() || undefined,
     },
     timeoutMs: 1_000,
   }).catch(() => null);

@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 import { resolveMemorySearchConfig } from "./memory-search.js";
 
-const asConfig = (cfg: OpenClawConfig): OpenClawConfig => cfg;
+const asConfig = (cfg: CodyAIConfig): CodyAIConfig => cfg;
 
 describe("memory search config", () => {
   function configWithDefaultProvider(
     provider: "openai" | "local" | "gemini" | "mistral" | "ollama",
-  ): OpenClawConfig {
+  ): CodyAIConfig {
     return asConfig({
       agents: {
         defaults: {

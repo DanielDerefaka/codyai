@@ -1,5 +1,5 @@
 /**
- * Synology Chat Channel Plugin for OpenClaw.
+ * Synology Chat Channel Plugin for CodyAI.
  *
  * Implements the ChannelPlugin interface following the LINE pattern.
  */
@@ -49,7 +49,7 @@ export function createSynologyChatPlugin() {
       selectionLabel: "Synology Chat (Webhook)",
       detailLabel: "Synology Chat (Webhook)",
       docsPath: "/channels/synology-chat",
-      blurb: "Connect your Synology NAS Chat to OpenClaw",
+      blurb: "Connect your Synology NAS Chat to CodyAI",
       order: 90,
     },
 
@@ -104,7 +104,7 @@ export function createSynologyChatPlugin() {
         if (!account.incomingUrl) return;
         await sendMessage(
           account.incomingUrl,
-          "OpenClaw: your access has been approved.",
+          "CodyAI: your access has been approved.",
           id,
           account.allowInsecureSsl,
         );

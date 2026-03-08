@@ -11,7 +11,7 @@ import {
 } from "../agents/model-selection.js";
 import { createConfiguredOllamaStreamFn } from "../agents/ollama-stream.js";
 import { resolveModel } from "../agents/pi-embedded-runner/model.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 import type {
   ResolvedTtsConfig,
   ResolvedTtsModelOverrides,
@@ -404,7 +404,7 @@ type SummaryModelSelection = {
 };
 
 function resolveSummaryModelRef(
-  cfg: OpenClawConfig,
+  cfg: CodyAIConfig,
   config: ResolvedTtsConfig,
 ): SummaryModelSelection {
   const defaultRef = resolveDefaultModelForAgent({ cfg });
@@ -432,7 +432,7 @@ function isTextContentBlock(block: { type: string }): block is TextContent {
 export async function summarizeText(params: {
   text: string;
   targetLength: number;
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   config: ResolvedTtsConfig;
   timeoutMs: number;
 }): Promise<SummarizeResult> {

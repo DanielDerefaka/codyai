@@ -1,6 +1,6 @@
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 
 const note = vi.hoisted(() => vi.fn());
 const resolveDefaultAgentId = vi.hoisted(() => vi.fn(() => "agent-default"));
@@ -34,7 +34,7 @@ import { noteMemorySearchHealth } from "./doctor-memory-search.js";
 import { detectLegacyWorkspaceDirs } from "./doctor-workspace.js";
 
 describe("noteMemorySearchHealth", () => {
-  const cfg = {} as OpenClawConfig;
+  const cfg = {} as CodyAIConfig;
 
   async function expectNoWarningWithConfiguredRemoteApiKey(provider: string) {
     resolveMemorySearchConfig.mockReturnValue({

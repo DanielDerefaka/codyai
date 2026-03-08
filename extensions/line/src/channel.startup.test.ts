@@ -1,7 +1,7 @@
 import type {
   ChannelGatewayContext,
   ChannelAccountSnapshot,
-  OpenClawConfig,
+  CodyAIConfig,
   PluginRuntime,
   ResolvedLineAccount,
 } from "openclaw/plugin-sdk/line";
@@ -55,7 +55,7 @@ function createStartAccountCtx(params: {
       tokenSource: "config" as const,
       config: {} as ResolvedLineAccount["config"],
     },
-    cfg: {} as OpenClawConfig,
+    cfg: {} as CodyAIConfig,
     runtime: params.runtime,
     abortSignal: params.abortSignal ?? new AbortController().signal,
     log: { info: vi.fn(), warn: vi.fn(), error: vi.fn(), debug: vi.fn() },

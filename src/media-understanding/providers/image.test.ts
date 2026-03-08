@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const completeMock = vi.fn();
 const minimaxUnderstandImageMock = vi.fn();
-const ensureOpenClawModelsJsonMock = vi.fn(async () => {});
+const ensureCodyAIModelsJsonMock = vi.fn(async () => {});
 const getApiKeyForModelMock = vi.fn(async () => ({
   apiKey: "oauth-test", // pragma: allowlist secret
   source: "test",
@@ -29,7 +29,7 @@ vi.mock("../../agents/minimax-vlm.js", () => ({
 }));
 
 vi.mock("../../agents/models-config.js", () => ({
-  ensureOpenClawModelsJson: ensureOpenClawModelsJsonMock,
+  ensureCodyAIModelsJson: ensureCodyAIModelsJsonMock,
 }));
 
 vi.mock("../../agents/model-auth.js", () => ({
@@ -77,7 +77,7 @@ describe("describeImageWithModel", () => {
       text: "portal ok",
       model: "MiniMax-VL-01",
     });
-    expect(ensureOpenClawModelsJsonMock).toHaveBeenCalled();
+    expect(ensureCodyAIModelsJsonMock).toHaveBeenCalled();
     expect(getApiKeyForModelMock).toHaveBeenCalled();
     expect(requireApiKeyMock).toHaveBeenCalled();
     expect(setRuntimeApiKeyMock).toHaveBeenCalledWith("minimax-portal", "oauth-test");

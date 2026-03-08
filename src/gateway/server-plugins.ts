@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import type { loadConfig } from "../config/config.js";
-import { loadOpenClawPlugins } from "../plugins/loader.js";
+import { loadCodyAIPlugins } from "../plugins/loader.js";
 import { getPluginRuntimeGatewayRequestScope } from "../plugins/runtime/gateway-request-scope.js";
 import type { PluginRuntime } from "../plugins/runtime/types.js";
 import { GATEWAY_CLIENT_IDS, GATEWAY_CLIENT_MODES } from "./protocol/client-info.js";
@@ -173,7 +173,7 @@ export function loadGatewayPlugins(params: {
   coreGatewayHandlers: Record<string, GatewayRequestHandler>;
   baseMethods: string[];
 }) {
-  const pluginRegistry = loadOpenClawPlugins({
+  const pluginRegistry = loadCodyAIPlugins({
     config: params.cfg,
     workspaceDir: params.workspaceDir,
     logger: {

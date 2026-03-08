@@ -1,4 +1,4 @@
-import { discoverOpenClawPlugins } from "./discovery.js";
+import { discoverCodyAIPlugins } from "./discovery.js";
 import { loadPluginManifest } from "./manifest.js";
 
 export type BundledPluginSource = {
@@ -33,7 +33,7 @@ export function findBundledPluginSourceInMap(params: {
 export function resolveBundledPluginSources(params: {
   workspaceDir?: string;
 }): Map<string, BundledPluginSource> {
-  const discovery = discoverOpenClawPlugins({ workspaceDir: params.workspaceDir });
+  const discovery = discoverCodyAIPlugins({ workspaceDir: params.workspaceDir });
   const bundled = new Map<string, BundledPluginSource>();
 
   for (const candidate of discovery.candidates) {

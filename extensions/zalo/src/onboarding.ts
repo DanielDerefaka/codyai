@@ -1,7 +1,7 @@
 import type {
   ChannelOnboardingAdapter,
   ChannelOnboardingDmPolicy,
-  OpenClawConfig,
+  CodyAIConfig,
   SecretInput,
   WizardPrompter,
 } from "openclaw/plugin-sdk/zalo";
@@ -22,24 +22,24 @@ const channel = "zalo" as const;
 type UpdateMode = "polling" | "webhook";
 
 function setZaloDmPolicy(
-  cfg: OpenClawConfig,
+  cfg: CodyAIConfig,
   dmPolicy: "pairing" | "allowlist" | "open" | "disabled",
 ) {
   return setTopLevelChannelDmPolicyWithAllowFrom({
     cfg,
     channel: "zalo",
     dmPolicy,
-  }) as OpenClawConfig;
+  }) as CodyAIConfig;
 }
 
 function setZaloUpdateMode(
-  cfg: OpenClawConfig,
+  cfg: CodyAIConfig,
   accountId: string,
   mode: UpdateMode,
   webhookUrl?: string,
   webhookSecret?: SecretInput,
   webhookPath?: string,
-): OpenClawConfig {
+): CodyAIConfig {
   const isDefault = accountId === DEFAULT_ACCOUNT_ID;
   if (mode === "polling") {
     if (isDefault) {
@@ -55,7 +55,7 @@ function setZaloUpdateMode(
           ...cfg.channels,
           zalo: rest,
         },
-      } as OpenClawConfig;
+      } as CodyAIConfig;
     }
     const accounts = { ...cfg.channels?.zalo?.accounts } as Record<string, Record<string, unknown>>;
     const existing = accounts[accountId] ?? {};
@@ -70,7 +70,7 @@ function setZaloUpdateMode(
           accounts,
         },
       },
-    } as OpenClawConfig;
+    } as CodyAIConfig;
   }
 
   if (isDefault) {
@@ -85,7 +85,7 @@ function setZaloUpdateMode(
           webhookPath,
         },
       },
-    } as OpenClawConfig;
+    } as CodyAIConfig;
   }
 
   const accounts = { ...cfg.channels?.zalo?.accounts } as Record<string, Record<string, unknown>>;
@@ -104,7 +104,7 @@ function setZaloUpdateMode(
         accounts,
       },
     },
-  } as OpenClawConfig;
+  } as CodyAIConfig;
 }
 
 async function noteZaloTokenHelp(prompter: WizardPrompter): Promise<void> {
@@ -121,10 +121,10 @@ async function noteZaloTokenHelp(prompter: WizardPrompter): Promise<void> {
 }
 
 async function promptZaloAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   prompter: WizardPrompter;
   accountId: string;
-}): Promise<OpenClawConfig> {
+}): Promise<CodyAIConfig> {
   const { cfg, prompter, accountId } = params;
   const resolved = resolveZaloAccount({ cfg, accountId });
   const existingAllowFrom = resolved.config.allowFrom ?? [];
@@ -158,7 +158,7 @@ async function promptZaloAllowFrom(params: {
           allowFrom: unique,
         },
       },
-    } as OpenClawConfig;
+    } as CodyAIConfig;
   }
 
   return {
@@ -179,7 +179,7 @@ async function promptZaloAllowFrom(params: {
         },
       },
     },
-  } as OpenClawConfig;
+  } as CodyAIConfig;
 }
 
 const dmPolicy: ChannelOnboardingDmPolicy = {
@@ -292,7 +292,7 @@ export const zaloOnboardingAdapter: ChannelOnboardingAdapter = {
             enabled: true,
           },
         },
-      } as OpenClawConfig;
+      } as CodyAIConfig;
     }
 
     if (token) {
@@ -307,7 +307,7 @@ export const zaloOnboardingAdapter: ChannelOnboardingAdapter = {
               botToken: token,
             },
           },
-        } as OpenClawConfig;
+        } as CodyAIConfig;
       } else {
         next = {
           ...next,
@@ -326,7 +326,7 @@ export const zaloOnboardingAdapter: ChannelOnboardingAdapter = {
               },
             },
           },
-        } as OpenClawConfig;
+        } as CodyAIConfig;
       }
     }
 

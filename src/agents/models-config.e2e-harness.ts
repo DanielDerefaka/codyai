@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, vi } from "vitest";
 import { withTempHome as withTempHomeBase } from "../../test/helpers/temp-home.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 import type { MockFn } from "../test-utils/vitest-mock-fn.js";
 import { resolveImplicitProviders } from "./models-config.providers.js";
 
@@ -96,7 +96,7 @@ export const MODELS_CONFIG_IMPLICIT_ENV_VARS = [
   "MOONSHOT_API_KEY",
   "NVIDIA_API_KEY",
   "OLLAMA_API_KEY",
-  "OPENCLAW_AGENT_DIR",
+  "CODYAI_AGENT_DIR",
   "OPENAI_API_KEY",
   "OPENROUTER_API_KEY",
   "PI_CODING_AGENT_DIR",
@@ -149,7 +149,7 @@ export async function resolveImplicitProvidersForTest(
   });
 }
 
-export const CUSTOM_PROXY_MODELS_CONFIG: OpenClawConfig = {
+export const CUSTOM_PROXY_MODELS_CONFIG: CodyAIConfig = {
   models: {
     providers: {
       "custom-proxy": {

@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/diffs";
+import type { CodyAIConfig } from "openclaw/plugin-sdk/diffs";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const { launchMock } = vi.hoisted(() => ({
@@ -181,12 +181,12 @@ describe("PlaywrightDiffScreenshotter", () => {
   });
 });
 
-function createConfig(): OpenClawConfig {
+function createConfig(): CodyAIConfig {
   return {
     browser: {
       executablePath: process.execPath,
     },
-  } as OpenClawConfig;
+  } as CodyAIConfig;
 }
 
 async function createScreenshotterHarness(options?: {

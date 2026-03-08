@@ -1,5 +1,5 @@
 import { formatCliCommand } from "../../cli/command-format.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { CodyAIConfig } from "../../config/config.js";
 import { resolveGatewayPort, writeConfigFile } from "../../config/config.js";
 import { logConfigUpdated } from "../../config/logging.js";
 import type { RuntimeEnv } from "../../runtime.js";
@@ -22,7 +22,7 @@ import { resolveNonInteractiveWorkspaceDir } from "./local/workspace.js";
 export async function runNonInteractiveOnboardingLocal(params: {
   opts: OnboardOptions;
   runtime: RuntimeEnv;
-  baseConfig: OpenClawConfig;
+  baseConfig: CodyAIConfig;
 }) {
   const { opts, runtime, baseConfig } = params;
   const mode = "local" as const;
@@ -33,7 +33,7 @@ export async function runNonInteractiveOnboardingLocal(params: {
     defaultWorkspaceDir: DEFAULT_WORKSPACE,
   });
 
-  let nextConfig: OpenClawConfig = applyOnboardingLocalWorkspaceConfig(baseConfig, workspaceDir);
+  let nextConfig: CodyAIConfig = applyOnboardingLocalWorkspaceConfig(baseConfig, workspaceDir);
 
   const inferredAuthChoice = inferAuthChoiceFromFlags(opts);
   if (!opts.authChoice && inferredAuthChoice.matches.length > 1) {

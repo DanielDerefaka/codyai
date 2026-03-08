@@ -203,7 +203,7 @@ const TalkSchema = z
     }
   });
 
-export const OpenClawSchema = z
+export const CodyAISchema = z
   .object({
     $schema: z.string().optional(),
     meta: z
@@ -360,7 +360,7 @@ export const OpenClawSchema = z
                 cdpPort: z.number().int().min(1).max(65535).optional(),
                 cdpUrl: z.string().optional(),
                 driver: z
-                  .union([z.literal("openclaw"), z.literal("clawd"), z.literal("extension")])
+                  .union([z.literal("codyai"), z.literal("clawd"), z.literal("extension")])
                   .optional(),
                 attachOnly: z.boolean().optional(),
                 color: HexColorSchema,

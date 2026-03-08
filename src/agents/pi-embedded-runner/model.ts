@@ -1,8 +1,8 @@
 import type { Api, Model } from "@mariozechner/pi-ai";
 import type { AuthStorage, ModelRegistry } from "@mariozechner/pi-coding-agent";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { CodyAIConfig } from "../../config/config.js";
 import type { ModelDefinitionConfig } from "../../config/types.js";
-import { resolveOpenClawAgentDir } from "../agent-paths.js";
+import { resolveCodyAIAgentDir } from "../agent-paths.js";
 import { DEFAULT_CONTEXT_TOKENS } from "../defaults.js";
 import { buildModelAliasLines } from "../model-alias-lines.js";
 import { isSecretRefHeaderValueMarker } from "../model-auth-markers.js";
@@ -46,7 +46,7 @@ function sanitizeModelHeaders(
 export { buildModelAliasLines };
 
 function resolveConfiguredProviderConfig(
-  cfg: OpenClawConfig | undefined,
+  cfg: CodyAIConfig | undefined,
   provider: string,
 ): InlineProviderConfig | undefined {
   const configuredProviders = cfg?.models?.providers;
@@ -138,7 +138,7 @@ export function resolveModelWithRegistry(params: {
   provider: string;
   modelId: string;
   modelRegistry: ModelRegistry;
-  cfg?: OpenClawConfig;
+  cfg?: CodyAIConfig;
 }): Model<Api> | undefined {
   const { provider, modelId, modelRegistry, cfg } = params;
   const providerConfig = resolveConfiguredProviderConfig(cfg, provider);
@@ -228,14 +228,14 @@ export function resolveModel(
   provider: string,
   modelId: string,
   agentDir?: string,
-  cfg?: OpenClawConfig,
+  cfg?: CodyAIConfig,
 ): {
   model?: Model<Api>;
   error?: string;
   authStorage: AuthStorage;
   modelRegistry: ModelRegistry;
 } {
-  const resolvedAgentDir = agentDir ?? resolveOpenClawAgentDir();
+  const resolvedAgentDir = agentDir ?? resolveCodyAIAgentDir();
   const authStorage = discoverAuthStorage(resolvedAgentDir);
   const modelRegistry = discoverModels(authStorage, resolvedAgentDir);
   const model = resolveModelWithRegistry({ provider, modelId, modelRegistry, cfg });

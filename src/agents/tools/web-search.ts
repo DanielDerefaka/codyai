@@ -1,6 +1,6 @@
 import { Type } from "@sinclair/typebox";
 import { formatCliCommand } from "../../cli/command-format.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { CodyAIConfig } from "../../config/config.js";
 import { normalizeResolvedSecretInputString } from "../../config/types.secrets.js";
 import { logVerbose } from "../../globals.js";
 import { wrapWebContent } from "../../security/external-content.js";
@@ -253,7 +253,7 @@ function createWebSearchSchema(params: {
   });
 }
 
-type WebSearchConfig = NonNullable<OpenClawConfig["tools"]>["web"] extends infer Web
+type WebSearchConfig = NonNullable<CodyAIConfig["tools"]>["web"] extends infer Web
   ? Web extends { search?: infer Search }
     ? Search
     : undefined
@@ -460,7 +460,7 @@ type GeminiGroundingResponse = {
 const DEFAULT_GEMINI_MODEL = "gemini-2.5-flash";
 const GEMINI_API_BASE = "https://generativelanguage.googleapis.com/v1beta";
 
-function resolveSearchConfig(cfg?: OpenClawConfig): WebSearchConfig {
+function resolveSearchConfig(cfg?: CodyAIConfig): WebSearchConfig {
   const search = cfg?.tools?.web?.search;
   if (!search || typeof search !== "object") {
     return undefined;
@@ -1137,7 +1137,7 @@ async function runPerplexitySearchApi(params: {
           Accept: "application/json",
           Authorization: `Bearer ${params.apiKey}`,
           "HTTP-Referer": "https://openclaw.ai",
-          "X-Title": "OpenClaw Web Search",
+          "X-Title": "CodyAI Web Search",
         },
         body: JSON.stringify(body),
       },
@@ -1202,7 +1202,7 @@ async function runPerplexitySearch(params: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${params.apiKey}`,
           "HTTP-Referer": "https://openclaw.ai",
-          "X-Title": "OpenClaw Web Search",
+          "X-Title": "CodyAI Web Search",
         },
         body: JSON.stringify(body),
       },
@@ -1802,7 +1802,7 @@ async function runWebSearch(params: {
 }
 
 export function createWebSearchTool(options?: {
-  config?: OpenClawConfig;
+  config?: CodyAIConfig;
   sandboxed?: boolean;
 }): AnyAgentTool | null {
   const search = resolveSearchConfig(options?.config);

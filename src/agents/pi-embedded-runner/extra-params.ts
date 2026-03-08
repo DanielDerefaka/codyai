@@ -2,7 +2,7 @@ import type { StreamFn } from "@mariozechner/pi-agent-core";
 import type { SimpleStreamOptions } from "@mariozechner/pi-ai";
 import { streamSimple } from "@mariozechner/pi-ai";
 import type { ThinkLevel } from "../../auto-reply/thinking.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { CodyAIConfig } from "../../config/config.js";
 import {
   createAnthropicBetaHeadersWrapper,
   createAnthropicToolPayloadCompatibilityWrapper,
@@ -39,7 +39,7 @@ import {
  * @internal Exported for testing only
  */
 export function resolveExtraParams(params: {
-  cfg: OpenClawConfig | undefined;
+  cfg: CodyAIConfig | undefined;
   provider: string;
   modelId: string;
   agentId?: string;
@@ -324,7 +324,7 @@ function createParallelToolCallsWrapper(
  */
 export function applyExtraParamsToAgent(
   agent: { streamFn?: StreamFn },
-  cfg: OpenClawConfig | undefined,
+  cfg: CodyAIConfig | undefined,
   provider: string,
   modelId: string,
   extraParamsOverride?: Record<string, unknown>,

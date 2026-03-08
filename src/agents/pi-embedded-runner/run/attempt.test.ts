@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { CodyAIConfig } from "../../../config/config.js";
 import { resolveOllamaBaseUrlForRun } from "../../ollama-stream.js";
 import {
   buildAfterTurnRuntimeContext,
@@ -16,7 +16,7 @@ import {
   wrapStreamFnTrimToolCallNames,
 } from "./attempt.js";
 
-function createOllamaProviderConfig(injectNumCtxForOpenAICompat: boolean): OpenClawConfig {
+function createOllamaProviderConfig(injectNumCtxForOpenAICompat: boolean): CodyAIConfig {
   return {
     models: {
       providers: {
@@ -143,7 +143,7 @@ describe("resolvePromptModeForSession", () => {
 
 describe("resolveAttemptFsWorkspaceOnly", () => {
   it("uses global tools.fs.workspaceOnly when agent has no override", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: CodyAIConfig = {
       tools: {
         fs: { workspaceOnly: true },
       },
@@ -158,7 +158,7 @@ describe("resolveAttemptFsWorkspaceOnly", () => {
   });
 
   it("prefers agent-specific tools.fs.workspaceOnly override", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: CodyAIConfig = {
       tools: {
         fs: { workspaceOnly: true },
       },
@@ -647,7 +647,7 @@ describe("buildAfterTurnRuntimeContext", () => {
         messageProvider: "slack",
         agentAccountId: "acct-1",
         authProfileId: "openai:p1",
-        config: {} as OpenClawConfig,
+        config: {} as CodyAIConfig,
         skillsSnapshot: undefined,
         senderIsOwner: true,
         provider: "openai-codex",
@@ -683,7 +683,7 @@ describe("buildAfterTurnRuntimeContext", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as CodyAIConfig,
         skillsSnapshot: undefined,
         senderIsOwner: true,
         provider: "openai-codex",
@@ -712,7 +712,7 @@ describe("buildAfterTurnRuntimeContext", () => {
         messageProvider: "slack",
         agentAccountId: "acct-1",
         authProfileId: "openai:p1",
-        config: { plugins: { slots: { contextEngine: "lossless-claw" } } } as OpenClawConfig,
+        config: { plugins: { slots: { contextEngine: "lossless-claw" } } } as CodyAIConfig,
         skillsSnapshot: undefined,
         senderIsOwner: true,
         provider: "openai-codex",

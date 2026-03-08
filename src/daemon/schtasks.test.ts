@@ -12,7 +12,7 @@ import {
 describe("schtasks runtime parsing", () => {
   it.each(["Ready", "Running"])("parses %s status", (status) => {
     const output = [
-      "TaskName: \\OpenClaw Gateway",
+      "TaskName: \\CodyAI Gateway",
       `Status: ${status}`,
       "Last Run Time: 1/8/2026 1:23:45 AM",
       "Last Run Result: 0x0",
@@ -112,27 +112,27 @@ describe("scheduled task runtime derivation", () => {
 describe("resolveTaskScriptPath", () => {
   it.each([
     {
-      name: "uses default path when OPENCLAW_PROFILE is unset",
+      name: "uses default path when CODYAI_PROFILE is unset",
       env: { USERPROFILE: "C:\\Users\\test" },
       expected: path.join("C:\\Users\\test", ".openclaw", "gateway.cmd"),
     },
     {
-      name: "uses profile-specific path when OPENCLAW_PROFILE is set to a custom value",
-      env: { USERPROFILE: "C:\\Users\\test", OPENCLAW_PROFILE: "jbphoenix" },
+      name: "uses profile-specific path when CODYAI_PROFILE is set to a custom value",
+      env: { USERPROFILE: "C:\\Users\\test", CODYAI_PROFILE: "jbphoenix" },
       expected: path.join("C:\\Users\\test", ".openclaw-jbphoenix", "gateway.cmd"),
     },
     {
-      name: "prefers OPENCLAW_STATE_DIR over profile-derived defaults",
+      name: "prefers CODYAI_STATE_DIR over profile-derived defaults",
       env: {
         USERPROFILE: "C:\\Users\\test",
-        OPENCLAW_PROFILE: "rescue",
-        OPENCLAW_STATE_DIR: "C:\\State\\openclaw",
+        CODYAI_PROFILE: "rescue",
+        CODYAI_STATE_DIR: "C:\\State\\openclaw",
       },
       expected: path.join("C:\\State\\openclaw", "gateway.cmd"),
     },
     {
       name: "falls back to HOME when USERPROFILE is not set",
-      env: { HOME: "/home/test", OPENCLAW_PROFILE: "default" },
+      env: { HOME: "/home/test", CODYAI_PROFILE: "default" },
       expected: path.join("/home/test", ".openclaw", "gateway.cmd"),
     },
   ])("$name", ({ env, expected }) => {
@@ -155,7 +155,7 @@ describe("readScheduledTaskCommand", () => {
       const extraEnv = typeof options.env === "function" ? options.env(tmpDir) : options.env;
       const env = {
         USERPROFILE: tmpDir,
-        OPENCLAW_PROFILE: "default",
+        CODYAI_PROFILE: "default",
         ...extraEnv,
       };
       if (options.scriptLines) {
@@ -206,10 +206,10 @@ describe("readScheduledTaskCommand", () => {
       {
         scriptLines: [
           "@echo off",
-          "rem OpenClaw Gateway",
+          "rem CodyAI Gateway",
           "cd /d C:\\Projects\\openclaw",
           "set NODE_ENV=production",
-          "set OPENCLAW_PORT=18789",
+          "set CODYAI_PORT=18789",
           "node gateway.js --verbose",
         ],
       },
@@ -220,7 +220,7 @@ describe("readScheduledTaskCommand", () => {
           workingDirectory: "C:\\Projects\\openclaw",
           environment: {
             NODE_ENV: "production",
-            OPENCLAW_PORT: "18789",
+            CODYAI_PORT: "18789",
           },
         });
       },
@@ -255,15 +255,15 @@ describe("readScheduledTaskCommand", () => {
       {
         scriptLines: [
           "@echo off",
-          '"\\\\fileserver\\OpenClaw Share\\node.exe" "\\\\fileserver\\OpenClaw Share\\dist\\index.js" gateway --port 18789',
+          '"\\\\fileserver\\CodyAI Share\\node.exe" "\\\\fileserver\\CodyAI Share\\dist\\index.js" gateway --port 18789',
         ],
       },
       async (env) => {
         const result = await readScheduledTaskCommand(env);
         expect(result).toEqual({
           programArguments: [
-            "\\\\fileserver\\OpenClaw Share\\node.exe",
-            "\\\\fileserver\\OpenClaw Share\\dist\\index.js",
+            "\\\\fileserver\\CodyAI Share\\node.exe",
+            "\\\\fileserver\\CodyAI Share\\dist\\index.js",
             "gateway",
             "--port",
             "18789",
@@ -273,10 +273,10 @@ describe("readScheduledTaskCommand", () => {
     );
   });
 
-  it("reads script from OPENCLAW_STATE_DIR override", async () => {
+  it("reads script from CODYAI_STATE_DIR override", async () => {
     await withScheduledTaskScript(
       {
-        env: (tmpDir) => ({ OPENCLAW_STATE_DIR: path.join(tmpDir, "custom-state") }),
+        env: (tmpDir) => ({ CODYAI_STATE_DIR: path.join(tmpDir, "custom-state") }),
         scriptLines: ["@echo off", "node gateway.js --from-state-dir"],
       },
       async (env) => {

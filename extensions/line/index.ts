@@ -1,4 +1,4 @@
-import type { OpenClawPluginApi } from "openclaw/plugin-sdk/line";
+import type { CodyAIPluginApi } from "openclaw/plugin-sdk/line";
 import { emptyPluginConfigSchema } from "openclaw/plugin-sdk/line";
 import { registerLineCardCommand } from "./src/card-command.js";
 import { linePlugin } from "./src/channel.js";
@@ -9,7 +9,7 @@ const plugin = {
   name: "LINE",
   description: "LINE Messaging API channel plugin",
   configSchema: emptyPluginConfigSchema(),
-  register(api: OpenClawPluginApi) {
+  register(api: CodyAIPluginApi) {
     setLineRuntime(api.runtime);
     api.registerChannel({ plugin: linePlugin });
     registerLineCardCommand(api);

@@ -27,8 +27,8 @@ const buildGatewayInstallPlan = vi.fn(
     programArguments: ["/bin/node", "cli", "gateway", "--port", String(params.port)],
     workingDirectory: process.cwd(),
     environment: {
-      OPENCLAW_GATEWAY_PORT: String(params.port),
-      ...(params.token ? { OPENCLAW_GATEWAY_TOKEN: params.token } : {}),
+      CODYAI_GATEWAY_PORT: String(params.port),
+      ...(params.token ? { CODYAI_GATEWAY_TOKEN: params.token } : {}),
     },
   }),
 );
@@ -119,15 +119,15 @@ describe("daemon-cli coverage", () => {
   beforeEach(() => {
     daemonProgram = createDaemonProgram();
     envSnapshot = captureEnv([
-      "OPENCLAW_STATE_DIR",
-      "OPENCLAW_CONFIG_PATH",
-      "OPENCLAW_GATEWAY_PORT",
-      "OPENCLAW_PROFILE",
+      "CODYAI_STATE_DIR",
+      "CODYAI_CONFIG_PATH",
+      "CODYAI_GATEWAY_PORT",
+      "CODYAI_PROFILE",
     ]);
-    process.env.OPENCLAW_STATE_DIR = "/tmp/openclaw-cli-state";
-    process.env.OPENCLAW_CONFIG_PATH = "/tmp/openclaw-cli-state/openclaw.json";
-    delete process.env.OPENCLAW_GATEWAY_PORT;
-    delete process.env.OPENCLAW_PROFILE;
+    process.env.CODYAI_STATE_DIR = "/tmp/openclaw-cli-state";
+    process.env.CODYAI_CONFIG_PATH = "/tmp/openclaw-cli-state/openclaw.json";
+    delete process.env.CODYAI_GATEWAY_PORT;
+    delete process.env.CODYAI_PROFILE;
     serviceReadCommand.mockResolvedValue(null);
     resolveGatewayProbeAuthWithSecretInputs.mockClear();
     buildGatewayInstallPlan.mockClear();
@@ -157,10 +157,10 @@ describe("daemon-cli coverage", () => {
     serviceReadCommand.mockResolvedValueOnce({
       programArguments: ["/bin/node", "cli", "gateway", "--port", "19001"],
       environment: {
-        OPENCLAW_PROFILE: "dev",
-        OPENCLAW_STATE_DIR: "/tmp/openclaw-daemon-state",
-        OPENCLAW_CONFIG_PATH: "/tmp/openclaw-daemon-state/openclaw.json",
-        OPENCLAW_GATEWAY_PORT: "19001",
+        CODYAI_PROFILE: "dev",
+        CODYAI_STATE_DIR: "/tmp/openclaw-daemon-state",
+        CODYAI_CONFIG_PATH: "/tmp/openclaw-daemon-state/openclaw.json",
+        CODYAI_GATEWAY_PORT: "19001",
       },
       sourcePath: "/tmp/ai.openclaw.gateway.plist",
     });

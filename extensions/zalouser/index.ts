@@ -1,4 +1,4 @@
-import type { AnyAgentTool, OpenClawPluginApi } from "openclaw/plugin-sdk/zalouser";
+import type { AnyAgentTool, CodyAIPluginApi } from "openclaw/plugin-sdk/zalouser";
 import { emptyPluginConfigSchema } from "openclaw/plugin-sdk/zalouser";
 import { zalouserDock, zalouserPlugin } from "./src/channel.js";
 import { setZalouserRuntime } from "./src/runtime.js";
@@ -9,7 +9,7 @@ const plugin = {
   name: "Zalo Personal",
   description: "Zalo personal account messaging via native zca-js integration",
   configSchema: emptyPluginConfigSchema(),
-  register(api: OpenClawPluginApi) {
+  register(api: CodyAIPluginApi) {
     setZalouserRuntime(api.runtime);
     api.registerChannel({ plugin: zalouserPlugin, dock: zalouserDock });
 

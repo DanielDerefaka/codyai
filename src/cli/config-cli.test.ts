@@ -1,6 +1,6 @@
 import { Command } from "commander";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { ConfigFileSnapshot, OpenClawConfig } from "../config/types.js";
+import type { ConfigFileSnapshot, CodyAIConfig } from "../config/types.js";
 
 /**
  * Test for issue #6070:
@@ -10,12 +10,12 @@ import type { ConfigFileSnapshot, OpenClawConfig } from "../config/types.js";
 
 const mockReadConfigFileSnapshot = vi.fn<() => Promise<ConfigFileSnapshot>>();
 const mockWriteConfigFile = vi.fn<
-  (cfg: OpenClawConfig, options?: { unsetPaths?: string[][] }) => Promise<void>
+  (cfg: CodyAIConfig, options?: { unsetPaths?: string[][] }) => Promise<void>
 >(async () => {});
 
 vi.mock("../config/config.js", () => ({
   readConfigFileSnapshot: () => mockReadConfigFileSnapshot(),
-  writeConfigFile: (cfg: OpenClawConfig, options?: { unsetPaths?: string[][] }) =>
+  writeConfigFile: (cfg: CodyAIConfig, options?: { unsetPaths?: string[][] }) =>
     mockWriteConfigFile(cfg, options),
 }));
 
@@ -35,8 +35,8 @@ vi.mock("../runtime.js", () => ({
 }));
 
 function buildSnapshot(params: {
-  resolved: OpenClawConfig;
-  config: OpenClawConfig;
+  resolved: CodyAIConfig;
+  config: CodyAIConfig;
 }): ConfigFileSnapshot {
   return {
     path: "/tmp/openclaw.json",
@@ -52,7 +52,7 @@ function buildSnapshot(params: {
   };
 }
 
-function setSnapshot(resolved: OpenClawConfig, config: OpenClawConfig) {
+function setSnapshot(resolved: CodyAIConfig, config: CodyAIConfig) {
   mockReadConfigFileSnapshot.mockResolvedValueOnce(buildSnapshot({ resolved, config }));
 }
 
@@ -60,7 +60,7 @@ function setSnapshotOnce(snapshot: ConfigFileSnapshot) {
   mockReadConfigFileSnapshot.mockResolvedValueOnce(snapshot);
 }
 
-function withRuntimeDefaults(resolved: OpenClawConfig): OpenClawConfig {
+function withRuntimeDefaults(resolved: CodyAIConfig): CodyAIConfig {
   return {
     ...resolved,
     agents: {
@@ -127,7 +127,7 @@ describe("config cli", () => {
 
   describe("config set - issue #6070", () => {
     it("preserves existing config keys when setting a new value", async () => {
-      const resolved: OpenClawConfig = {
+      const resolved: CodyAIConfig = {
         agents: {
           list: [{ id: "main" }, { id: "oracle", workspace: "~/oracle-workspace" }],
         },
@@ -135,7 +135,7 @@ describe("config cli", () => {
         tools: { allow: ["group:fs"] },
         logging: { level: "debug" },
       };
-      const runtimeMerged: OpenClawConfig = {
+      const runtimeMerged: CodyAIConfig = {
         ...withRuntimeDefaults(resolved),
       };
       setSnapshot(resolved, runtimeMerged);
@@ -153,7 +153,7 @@ describe("config cli", () => {
     });
 
     it("does not inject runtime defaults into the written config", async () => {
-      const resolved: OpenClawConfig = {
+      const resolved: CodyAIConfig = {
         gateway: { port: 18789 },
       };
       const runtimeMerged = {
@@ -167,7 +167,7 @@ describe("config cli", () => {
         } as never,
         messages: { ackReaction: "✅" } as never,
         sessions: { persistence: { enabled: true } } as never,
-      } as unknown as OpenClawConfig;
+      } as unknown as CodyAIConfig;
       setSnapshot(resolved, runtimeMerged);
 
       await runConfigCommand(["config", "set", "gateway.auth.mode", "token"]);
@@ -184,7 +184,7 @@ describe("config cli", () => {
     });
 
     it("auto-seeds a valid Ollama provider when setting only models.providers.ollama.apiKey", async () => {
-      const resolved: OpenClawConfig = {
+      const resolved: CodyAIConfig = {
         gateway: { port: 18789 },
       };
       setSnapshot(resolved, resolved);
@@ -204,7 +204,7 @@ describe("config cli", () => {
 
   describe("config get", () => {
     it("redacts sensitive values", async () => {
-      const resolved: OpenClawConfig = {
+      const resolved: CodyAIConfig = {
         gateway: {
           auth: {
             token: "super-secret-token",
@@ -215,13 +215,13 @@ describe("config cli", () => {
 
       await runConfigCommand(["config", "get", "gateway.auth.token"]);
 
-      expect(mockLog).toHaveBeenCalledWith("__OPENCLAW_REDACTED__");
+      expect(mockLog).toHaveBeenCalledWith("__CODYAI_REDACTED__");
     });
   });
 
   describe("config validate", () => {
     it("prints success and exits 0 when config is valid", async () => {
-      const resolved: OpenClawConfig = {
+      const resolved: CodyAIConfig = {
         gateway: { port: 18789 },
       };
       setSnapshot(resolved, resolved);
@@ -317,7 +317,7 @@ describe("config cli", () => {
 
   describe("config set parsing flags", () => {
     it("falls back to raw string when parsing fails and strict mode is off", async () => {
-      const resolved: OpenClawConfig = { gateway: { port: 18789 } };
+      const resolved: CodyAIConfig = { gateway: { port: 18789 } };
       setSnapshot(resolved, resolved);
 
       await runConfigCommand(["config", "set", "gateway.auth.mode", "{bad"]);
@@ -390,7 +390,7 @@ describe("config cli", () => {
 
   describe("config unset - issue #6070", () => {
     it("preserves existing config keys when unsetting a value", async () => {
-      const resolved: OpenClawConfig = {
+      const resolved: CodyAIConfig = {
         agents: { list: [{ id: "main" }] },
         gateway: { port: 18789 },
         tools: {
@@ -399,7 +399,7 @@ describe("config cli", () => {
         },
         logging: { level: "debug" },
       };
-      const runtimeMerged: OpenClawConfig = {
+      const runtimeMerged: CodyAIConfig = {
         ...withRuntimeDefaults(resolved),
       };
       setSnapshot(resolved, runtimeMerged);
@@ -422,7 +422,7 @@ describe("config cli", () => {
 
   describe("config file", () => {
     it("prints the active config file path", async () => {
-      const resolved: OpenClawConfig = { gateway: { port: 18789 } };
+      const resolved: CodyAIConfig = { gateway: { port: 18789 } };
       setSnapshot(resolved, resolved);
 
       await runConfigCommand(["config", "file"]);
@@ -432,7 +432,7 @@ describe("config cli", () => {
     });
 
     it("handles config file path with home directory", async () => {
-      const resolved: OpenClawConfig = { gateway: { port: 18789 } };
+      const resolved: CodyAIConfig = { gateway: { port: 18789 } };
       const snapshot = buildSnapshot({ resolved, config: resolved });
       snapshot.path = "/home/user/.openclaw/openclaw.json";
       mockReadConfigFileSnapshot.mockResolvedValueOnce(snapshot);

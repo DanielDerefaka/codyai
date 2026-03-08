@@ -15,13 +15,13 @@ For model selection rules, see [/concepts/models](/concepts/models).
 
 - Model refs use `provider/model` (example: `opencode/claude-opus-4-6`).
 - If you set `agents.defaults.models`, it becomes the allowlist.
-- CLI helpers: `openclaw onboard`, `openclaw models list`, `openclaw models set <provider/model>`.
+- CLI helpers: `codyai onboard`, `codyai models list`, `codyai models set <provider/model>`.
 
 ## API key rotation
 
 - Supports generic provider rotation for selected providers.
 - Configure multiple keys via:
-  - `OPENCLAW_LIVE_<PROVIDER>_KEY` (single live override, highest priority)
+  - `CODYAI_LIVE_<PROVIDER>_KEY` (single live override, highest priority)
   - `<PROVIDER>_API_KEYS` (comma or semicolon list)
   - `<PROVIDER>_API_KEY` (primary key)
   - `<PROVIDER>_API_KEY_*` (numbered list, e.g. `<PROVIDER>_API_KEY_1`)
@@ -33,16 +33,16 @@ For model selection rules, see [/concepts/models](/concepts/models).
 
 ## Built-in providers (pi-ai catalog)
 
-OpenClaw ships with the pi‑ai catalog. These providers require **no**
+CodyAI ships with the pi‑ai catalog. These providers require **no**
 `models.providers` config; just set auth + pick a model.
 
 ### OpenAI
 
 - Provider: `openai`
 - Auth: `OPENAI_API_KEY`
-- Optional rotation: `OPENAI_API_KEYS`, `OPENAI_API_KEY_1`, `OPENAI_API_KEY_2`, plus `OPENCLAW_LIVE_OPENAI_KEY` (single override)
+- Optional rotation: `OPENAI_API_KEYS`, `OPENAI_API_KEY_1`, `OPENAI_API_KEY_2`, plus `CODYAI_LIVE_OPENAI_KEY` (single override)
 - Example models: `openai/gpt-5.4`, `openai/gpt-5.4-pro`
-- CLI: `openclaw onboard --auth-choice openai-api-key`
+- CLI: `codyai onboard --auth-choice openai-api-key`
 - Default transport is `auto` (WebSocket-first, SSE fallback)
 - Override per model via `agents.defaults.models["openai/<model>"].params.transport` (`"sse"`, `"websocket"`, or `"auto"`)
 - OpenAI Responses WebSocket warm-up defaults to enabled via `params.openaiWsWarmup` (`true`/`false`)
@@ -58,9 +58,9 @@ OpenClaw ships with the pi‑ai catalog. These providers require **no**
 
 - Provider: `anthropic`
 - Auth: `ANTHROPIC_API_KEY` or `claude setup-token`
-- Optional rotation: `ANTHROPIC_API_KEYS`, `ANTHROPIC_API_KEY_1`, `ANTHROPIC_API_KEY_2`, plus `OPENCLAW_LIVE_ANTHROPIC_KEY` (single override)
+- Optional rotation: `ANTHROPIC_API_KEYS`, `ANTHROPIC_API_KEY_1`, `ANTHROPIC_API_KEY_2`, plus `CODYAI_LIVE_ANTHROPIC_KEY` (single override)
 - Example model: `anthropic/claude-opus-4-6`
-- CLI: `openclaw onboard --auth-choice token` (paste setup-token) or `openclaw models auth paste-token --provider anthropic`
+- CLI: `codyai onboard --auth-choice token` (paste setup-token) or `codyai models auth paste-token --provider anthropic`
 - Policy note: setup-token support is technical compatibility; Anthropic has blocked some subscription usage outside Claude Code in the past. Verify current Anthropic terms and decide based on your risk tolerance.
 - Recommendation: Anthropic API key auth is the safer, recommended path over subscription setup-token auth.
 
@@ -75,10 +75,10 @@ OpenClaw ships with the pi‑ai catalog. These providers require **no**
 - Provider: `openai-codex`
 - Auth: OAuth (ChatGPT)
 - Example model: `openai-codex/gpt-5.4`
-- CLI: `openclaw onboard --auth-choice openai-codex` or `openclaw models auth login --provider openai-codex`
+- CLI: `codyai onboard --auth-choice openai-codex` or `codyai models auth login --provider openai-codex`
 - Default transport is `auto` (WebSocket-first, SSE fallback)
 - Override per model via `agents.defaults.models["openai-codex/<model>"].params.transport` (`"sse"`, `"websocket"`, or `"auto"`)
-- Policy note: OpenAI Codex OAuth is explicitly supported for external tools/workflows like OpenClaw.
+- Policy note: OpenAI Codex OAuth is explicitly supported for external tools/workflows like CodyAI.
 
 ```json5
 {
@@ -91,7 +91,7 @@ OpenClaw ships with the pi‑ai catalog. These providers require **no**
 - Provider: `opencode`
 - Auth: `OPENCODE_API_KEY` (or `OPENCODE_ZEN_API_KEY`)
 - Example model: `opencode/claude-opus-4-6`
-- CLI: `openclaw onboard --auth-choice opencode-zen`
+- CLI: `codyai onboard --auth-choice opencode-zen`
 
 ```json5
 {
@@ -103,23 +103,23 @@ OpenClaw ships with the pi‑ai catalog. These providers require **no**
 
 - Provider: `google`
 - Auth: `GEMINI_API_KEY`
-- Optional rotation: `GEMINI_API_KEYS`, `GEMINI_API_KEY_1`, `GEMINI_API_KEY_2`, `GOOGLE_API_KEY` fallback, and `OPENCLAW_LIVE_GEMINI_KEY` (single override)
+- Optional rotation: `GEMINI_API_KEYS`, `GEMINI_API_KEY_1`, `GEMINI_API_KEY_2`, `GOOGLE_API_KEY` fallback, and `CODYAI_LIVE_GEMINI_KEY` (single override)
 - Example models: `google/gemini-3.1-pro-preview`, `google/gemini-3-flash-preview`, `google/gemini-3.1-flash-lite-preview`
-- Compatibility: legacy OpenClaw config using `google/gemini-3.1-flash-preview` is normalized to `google/gemini-3-flash-preview`, and bare `google/gemini-3.1-flash-lite` is normalized to `google/gemini-3.1-flash-lite-preview`
-- CLI: `openclaw onboard --auth-choice gemini-api-key`
+- Compatibility: legacy CodyAI config using `google/gemini-3.1-flash-preview` is normalized to `google/gemini-3-flash-preview`, and bare `google/gemini-3.1-flash-lite` is normalized to `google/gemini-3.1-flash-lite-preview`
+- CLI: `codyai onboard --auth-choice gemini-api-key`
 
 ### Google Vertex, Antigravity, and Gemini CLI
 
 - Providers: `google-vertex`, `google-antigravity`, `google-gemini-cli`
 - Auth: Vertex uses gcloud ADC; Antigravity/Gemini CLI use their respective auth flows
-- Caution: Antigravity and Gemini CLI OAuth in OpenClaw are unofficial integrations. Some users have reported Google account restrictions after using third-party clients. Review Google terms and use a non-critical account if you choose to proceed.
+- Caution: Antigravity and Gemini CLI OAuth in CodyAI are unofficial integrations. Some users have reported Google account restrictions after using third-party clients. Review Google terms and use a non-critical account if you choose to proceed.
 - Antigravity OAuth is shipped as a bundled plugin (`google-antigravity-auth`, disabled by default).
-  - Enable: `openclaw plugins enable google-antigravity-auth`
-  - Login: `openclaw models auth login --provider google-antigravity --set-default`
+  - Enable: `codyai plugins enable google-antigravity-auth`
+  - Login: `codyai models auth login --provider google-antigravity --set-default`
 - Gemini CLI OAuth is shipped as a bundled plugin (`google-gemini-cli-auth`, disabled by default).
-  - Enable: `openclaw plugins enable google-gemini-cli-auth`
-  - Login: `openclaw models auth login --provider google-gemini-cli --set-default`
-  - Note: you do **not** paste a client id or secret into `openclaw.json`. The CLI login flow stores
+  - Enable: `codyai plugins enable google-gemini-cli-auth`
+  - Login: `codyai models auth login --provider google-gemini-cli --set-default`
+  - Note: you do **not** paste a client id or secret into `codyai.json`. The CLI login flow stores
     tokens in auth profiles on the gateway host.
 
 ### Z.AI (GLM)
@@ -127,7 +127,7 @@ OpenClaw ships with the pi‑ai catalog. These providers require **no**
 - Provider: `zai`
 - Auth: `ZAI_API_KEY`
 - Example model: `zai/glm-5`
-- CLI: `openclaw onboard --auth-choice zai-api-key`
+- CLI: `codyai onboard --auth-choice zai-api-key`
   - Aliases: `z.ai/*` and `z-ai/*` normalize to `zai/*`
 
 ### Vercel AI Gateway
@@ -135,14 +135,14 @@ OpenClaw ships with the pi‑ai catalog. These providers require **no**
 - Provider: `vercel-ai-gateway`
 - Auth: `AI_GATEWAY_API_KEY`
 - Example model: `vercel-ai-gateway/anthropic/claude-opus-4.6`
-- CLI: `openclaw onboard --auth-choice ai-gateway-api-key`
+- CLI: `codyai onboard --auth-choice ai-gateway-api-key`
 
 ### Kilo Gateway
 
 - Provider: `kilocode`
 - Auth: `KILOCODE_API_KEY`
 - Example model: `kilocode/anthropic/claude-opus-4.6`
-- CLI: `openclaw onboard --kilocode-api-key <key>`
+- CLI: `codyai onboard --kilocode-api-key <key>`
 - Base URL: `https://api.kilo.ai/api/gateway/`
 - Expanded built-in catalog includes GLM-5 Free, MiniMax M2.5 Free, GPT-5.2, Gemini 3 Pro Preview, Gemini 3 Flash Preview, Grok Code Fast 1, and Kimi K2.5.
 
@@ -157,13 +157,13 @@ See [/providers/kilocode](/providers/kilocode) for setup details.
 - xAI: `xai` (`XAI_API_KEY`)
 - Mistral: `mistral` (`MISTRAL_API_KEY`)
 - Example model: `mistral/mistral-large-latest`
-- CLI: `openclaw onboard --auth-choice mistral-api-key`
+- CLI: `codyai onboard --auth-choice mistral-api-key`
 - Groq: `groq` (`GROQ_API_KEY`)
 - Cerebras: `cerebras` (`CEREBRAS_API_KEY`)
   - GLM models on Cerebras use ids `zai-glm-4.7` and `zai-glm-4.6`.
   - OpenAI-compatible base URL: `https://api.cerebras.ai/v1`.
 - GitHub Copilot: `github-copilot` (`COPILOT_GITHUB_TOKEN` / `GH_TOKEN` / `GITHUB_TOKEN`)
-- Hugging Face Inference: `huggingface` (`HUGGINGFACE_HUB_TOKEN` or `HF_TOKEN`) — OpenAI-compatible router; example model: `huggingface/deepseek-ai/DeepSeek-R1`; CLI: `openclaw onboard --auth-choice huggingface-api-key`. See [Hugging Face (Inference)](/providers/huggingface).
+- Hugging Face Inference: `huggingface` (`HUGGINGFACE_HUB_TOKEN` or `HF_TOKEN`) — OpenAI-compatible router; example model: `huggingface/deepseek-ai/DeepSeek-R1`; CLI: `codyai onboard --auth-choice huggingface-api-key`. See [Hugging Face (Inference)](/providers/huggingface).
 
 ## Providers via `models.providers` (custom/base URL)
 
@@ -237,8 +237,8 @@ Qwen provides OAuth access to Qwen Coder + Vision via a device-code flow.
 Enable the bundled plugin, then log in:
 
 ```bash
-openclaw plugins enable qwen-portal-auth
-openclaw models auth login --provider qwen-portal --set-default
+codyai plugins enable qwen-portal-auth
+codyai models auth login --provider qwen-portal --set-default
 ```
 
 Model refs:
@@ -255,7 +255,7 @@ Volcano Engine (火山引擎) provides access to Doubao and other models in Chin
 - Provider: `volcengine` (coding: `volcengine-plan`)
 - Auth: `VOLCANO_ENGINE_API_KEY`
 - Example model: `volcengine/doubao-seed-1-8-251228`
-- CLI: `openclaw onboard --auth-choice volcengine-api-key`
+- CLI: `codyai onboard --auth-choice volcengine-api-key`
 
 ```json5
 {
@@ -288,7 +288,7 @@ BytePlus ARK provides access to the same models as Volcano Engine for internatio
 - Provider: `byteplus` (coding: `byteplus-plan`)
 - Auth: `BYTEPLUS_API_KEY`
 - Example model: `byteplus/seed-1-8-251228`
-- CLI: `openclaw onboard --auth-choice byteplus-api-key`
+- CLI: `codyai onboard --auth-choice byteplus-api-key`
 
 ```json5
 {
@@ -319,7 +319,7 @@ Synthetic provides Anthropic-compatible models behind the `synthetic` provider:
 - Provider: `synthetic`
 - Auth: `SYNTHETIC_API_KEY`
 - Example model: `synthetic/hf:MiniMaxAI/MiniMax-M2.5`
-- CLI: `openclaw onboard --auth-choice synthetic-api-key`
+- CLI: `codyai onboard --auth-choice synthetic-api-key`
 
 ```json5
 {
@@ -437,23 +437,23 @@ Example (OpenAI‑compatible):
 Notes:
 
 - For custom providers, `reasoning`, `input`, `cost`, `contextWindow`, and `maxTokens` are optional.
-  When omitted, OpenClaw defaults to:
+  When omitted, CodyAI defaults to:
   - `reasoning: false`
   - `input: ["text"]`
   - `cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }`
   - `contextWindow: 200000`
   - `maxTokens: 8192`
 - Recommended: set explicit values that match your proxy/model limits.
-- For `api: "openai-completions"` on non-native endpoints (any non-empty `baseUrl` whose host is not `api.openai.com`), OpenClaw forces `compat.supportsDeveloperRole: false` to avoid provider 400 errors for unsupported `developer` roles.
-- If `baseUrl` is empty/omitted, OpenClaw keeps the default OpenAI behavior (which resolves to `api.openai.com`).
+- For `api: "openai-completions"` on non-native endpoints (any non-empty `baseUrl` whose host is not `api.openai.com`), CodyAI forces `compat.supportsDeveloperRole: false` to avoid provider 400 errors for unsupported `developer` roles.
+- If `baseUrl` is empty/omitted, CodyAI keeps the default OpenAI behavior (which resolves to `api.openai.com`).
 - For safety, an explicit `compat.supportsDeveloperRole: true` is still overridden on non-native `openai-completions` endpoints.
 
 ## CLI examples
 
 ```bash
-openclaw onboard --auth-choice opencode-zen
-openclaw models set opencode/claude-opus-4-6
-openclaw models list
+codyai onboard --auth-choice opencode-zen
+codyai models set opencode/claude-opus-4-6
+codyai models list
 ```
 
 See also: [/gateway/configuration](/gateway/configuration) for full configuration examples.

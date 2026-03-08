@@ -5,7 +5,7 @@ import type {
   OnboardOptions,
   ResetScope,
 } from "../commands/onboard-types.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 import {
   DEFAULT_GATEWAY_PORT,
   readConfigFileSnapshot,
@@ -32,15 +32,15 @@ async function requireRiskAcknowledgement(params: {
     [
       "Security warning — please read.",
       "",
-      "OpenClaw is a hobby project and still in beta. Expect sharp edges.",
-      "By default, OpenClaw is a personal agent: one trusted operator boundary.",
+      "CodyAI is a hobby project and still in beta. Expect sharp edges.",
+      "By default, CodyAI is a personal agent: one trusted operator boundary.",
       "This bot can read files and run actions if tools are enabled.",
       "A bad prompt can trick it into doing unsafe things.",
       "",
-      "OpenClaw is not a hostile multi-tenant boundary by default.",
+      "CodyAI is not a hostile multi-tenant boundary by default.",
       "If multiple users can message one tool-enabled agent, they share that delegated tool authority.",
       "",
-      "If you’re not comfortable with security hardening and access control, don’t run OpenClaw.",
+      "If you’re not comfortable with security hardening and access control, don’t run CodyAI.",
       "Ask someone experienced to help before enabling tools or exposing it to the internet.",
       "",
       "Recommended baseline:",
@@ -77,11 +77,11 @@ export async function runOnboardingWizard(
 ) {
   const onboardHelpers = await import("../commands/onboard-helpers.js");
   onboardHelpers.printWizardHeader(runtime);
-  await prompter.intro("OpenClaw onboarding");
+  await prompter.intro("CodyAI onboarding");
   await requireRiskAcknowledgement({ opts, prompter });
 
   const snapshot = await readConfigFileSnapshot();
-  let baseConfig: OpenClawConfig = snapshot.valid ? snapshot.config : {};
+  let baseConfig: CodyAIConfig = snapshot.valid ? snapshot.config : {};
 
   if (snapshot.exists && !snapshot.valid) {
     await prompter.note(onboardHelpers.summarizeExistingConfig(baseConfig), "Invalid config");
@@ -281,7 +281,7 @@ export async function runOnboardingWizard(
 
   const localPort = resolveGatewayPort(baseConfig);
   const localUrl = `ws://127.0.0.1:${localPort}`;
-  let localGatewayToken = process.env.OPENCLAW_GATEWAY_TOKEN ?? process.env.CLAWDBOT_GATEWAY_TOKEN;
+  let localGatewayToken = process.env.CODYAI_GATEWAY_TOKEN ?? process.env.CLAWDBOT_GATEWAY_TOKEN;
   try {
     const resolvedGatewayToken = await resolveOnboardingSecretInputString({
       config: baseConfig,
@@ -302,7 +302,7 @@ export async function runOnboardingWizard(
     );
   }
   let localGatewayPassword =
-    process.env.OPENCLAW_GATEWAY_PASSWORD ?? process.env.CLAWDBOT_GATEWAY_PASSWORD;
+    process.env.CODYAI_GATEWAY_PASSWORD ?? process.env.CLAWDBOT_GATEWAY_PASSWORD;
   try {
     const resolvedGatewayPassword = await resolveOnboardingSecretInputString({
       config: baseConfig,
@@ -407,7 +407,7 @@ export async function runOnboardingWizard(
   const workspaceDir = resolveUserPath(workspaceInput.trim() || onboardHelpers.DEFAULT_WORKSPACE);
 
   const { applyOnboardingLocalWorkspaceConfig } = await import("../commands/onboard-config.js");
-  let nextConfig: OpenClawConfig = applyOnboardingLocalWorkspaceConfig(baseConfig, workspaceDir);
+  let nextConfig: CodyAIConfig = applyOnboardingLocalWorkspaceConfig(baseConfig, workspaceDir);
 
   const { ensureAuthProfileStore } = await import("../agents/auth-profiles.js");
   const { promptAuthChoiceGrouped } = await import("../commands/auth-choice-prompt.js");

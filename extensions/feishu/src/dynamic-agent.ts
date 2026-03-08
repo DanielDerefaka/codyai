@@ -1,12 +1,12 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { OpenClawConfig, PluginRuntime } from "openclaw/plugin-sdk/feishu";
+import type { CodyAIConfig, PluginRuntime } from "openclaw/plugin-sdk/feishu";
 import type { DynamicAgentCreationConfig } from "./types.js";
 
 export type MaybeCreateDynamicAgentResult = {
   created: boolean;
-  updatedCfg: OpenClawConfig;
+  updatedCfg: CodyAIConfig;
   agentId?: string;
 };
 
@@ -15,7 +15,7 @@ export type MaybeCreateDynamicAgentResult = {
  * This creates a unique agent instance with its own workspace for each DM user.
  */
 export async function maybeCreateDynamicAgent(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   runtime: PluginRuntime;
   senderOpenId: string;
   dynamicCfg: DynamicAgentCreationConfig;
@@ -58,7 +58,7 @@ export async function maybeCreateDynamicAgent(params: {
     // Agent exists but binding doesn't - just add the binding
     log(`feishu: agent "${agentId}" exists, adding missing binding for ${senderOpenId}`);
 
-    const updatedCfg: OpenClawConfig = {
+    const updatedCfg: CodyAIConfig = {
       ...cfg,
       bindings: [
         ...existingBindings,
@@ -96,7 +96,7 @@ export async function maybeCreateDynamicAgent(params: {
   await fs.promises.mkdir(agentDir, { recursive: true });
 
   // Update configuration with new agent and binding
-  const updatedCfg: OpenClawConfig = {
+  const updatedCfg: CodyAIConfig = {
     ...cfg,
     agents: {
       ...cfg.agents,

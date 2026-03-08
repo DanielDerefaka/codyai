@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 import { runCliAgent } from "./cli-runner.js";
 import { resolveCliNoOutputTimeoutMs } from "./cli-runner/helpers.js";
 
@@ -259,7 +259,7 @@ describe("runCliAgent with process supervisor", () => {
           workspace: fallbackWorkspace,
         },
       },
-    } satisfies OpenClawConfig;
+    } satisfies CodyAIConfig;
 
     supervisorSpawnMock.mockResolvedValueOnce(
       createManagedRun({

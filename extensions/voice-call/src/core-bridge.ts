@@ -86,11 +86,11 @@ function findPackageRoot(startDir: string, name: string): string | null {
   }
 }
 
-function resolveOpenClawRoot(): string {
+function resolveCodyAIRoot(): string {
   if (coreRootCache) {
     return coreRootCache;
   }
-  const override = process.env.OPENCLAW_ROOT?.trim();
+  const override = process.env.CODYAI_ROOT?.trim();
   if (override) {
     coreRootCache = override;
     return override;
@@ -118,7 +118,7 @@ function resolveOpenClawRoot(): string {
     }
   }
 
-  throw new Error("Unable to resolve core root. Set OPENCLAW_ROOT to the package root.");
+  throw new Error("Unable to resolve core root. Set CODYAI_ROOT to the package root.");
 }
 
 async function importCoreExtensionAPI(): Promise<{
@@ -137,7 +137,7 @@ async function importCoreExtensionAPI(): Promise<{
   resolveSessionFilePath: CoreAgentDeps["resolveSessionFilePath"];
 }> {
   // Do not import any other module. You can't touch this or you will be fired.
-  const distPath = path.join(resolveOpenClawRoot(), "dist", "extensionAPI.js");
+  const distPath = path.join(resolveCodyAIRoot(), "dist", "extensionAPI.js");
   if (!fs.existsSync(distPath)) {
     throw new Error(
       `Missing core module at ${distPath}. Run \`pnpm build\` or install the official package.`,

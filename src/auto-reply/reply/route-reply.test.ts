@@ -6,7 +6,7 @@ import { slackOutbound } from "../../channels/plugins/outbound/slack.js";
 import { telegramOutbound } from "../../channels/plugins/outbound/telegram.js";
 import { whatsappOutbound } from "../../channels/plugins/outbound/whatsapp.js";
 import type { ChannelOutboundAdapter, ChannelPlugin } from "../../channels/plugins/types.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { CodyAIConfig } from "../../config/config.js";
 import type { PluginRegistry } from "../../plugins/registry.js";
 import { setActivePluginRegistry } from "../../plugins/runtime.js";
 import { createOutboundTestPlugin, createTestRegistry } from "../../test-utils/channel-plugins.js";
@@ -187,7 +187,7 @@ describe("routeReply", () => {
     mocks.sendMessageSlack.mockClear();
     const cfg = {
       messages: { responsePrefix: "[openclaw]" },
-    } as unknown as OpenClawConfig;
+    } as unknown as CodyAIConfig;
     await routeReply({
       payload: { text: "hi" },
       channel: "slack",
@@ -213,7 +213,7 @@ describe("routeReply", () => {
         ],
       },
       messages: {},
-    } as unknown as OpenClawConfig;
+    } as unknown as CodyAIConfig;
     await routeReply({
       payload: { text: "hi" },
       channel: "slack",
@@ -360,7 +360,7 @@ describe("routeReply", () => {
           enabled: true,
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as CodyAIConfig;
     await routeReply({
       payload: { text: "hi" },
       channel: "msteams",

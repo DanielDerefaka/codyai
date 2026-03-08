@@ -110,18 +110,18 @@ export function applyCliProfileEnv(params: {
   }
 
   // Convenience only: fill defaults, never override explicit env values.
-  env.OPENCLAW_PROFILE = profile;
+  env.CODYAI_PROFILE = profile;
 
-  const stateDir = env.OPENCLAW_STATE_DIR?.trim() || resolveProfileStateDir(profile, env, homedir);
-  if (!env.OPENCLAW_STATE_DIR?.trim()) {
-    env.OPENCLAW_STATE_DIR = stateDir;
+  const stateDir = env.CODYAI_STATE_DIR?.trim() || resolveProfileStateDir(profile, env, homedir);
+  if (!env.CODYAI_STATE_DIR?.trim()) {
+    env.CODYAI_STATE_DIR = stateDir;
   }
 
-  if (!env.OPENCLAW_CONFIG_PATH?.trim()) {
-    env.OPENCLAW_CONFIG_PATH = path.join(stateDir, "openclaw.json");
+  if (!env.CODYAI_CONFIG_PATH?.trim()) {
+    env.CODYAI_CONFIG_PATH = path.join(stateDir, "openclaw.json");
   }
 
-  if (profile === "dev" && !env.OPENCLAW_GATEWAY_PORT?.trim()) {
-    env.OPENCLAW_GATEWAY_PORT = "19001";
+  if (profile === "dev" && !env.CODYAI_GATEWAY_PORT?.trim()) {
+    env.CODYAI_GATEWAY_PORT = "19001";
   }
 }

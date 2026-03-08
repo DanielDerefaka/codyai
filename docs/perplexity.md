@@ -8,10 +8,10 @@ title: "Perplexity Search"
 
 # Perplexity Search API
 
-OpenClaw supports Perplexity Search API as a `web_search` provider.
+CodyAI supports Perplexity Search API as a `web_search` provider.
 It returns structured results with `title`, `url`, and `snippet` fields.
 
-For compatibility, OpenClaw also supports legacy Perplexity Sonar/OpenRouter setups.
+For compatibility, CodyAI also supports legacy Perplexity Sonar/OpenRouter setups.
 If you use `OPENROUTER_API_KEY`, an `sk-or-...` key in `tools.web.search.perplexity.apiKey`, or set `tools.web.search.perplexity.baseUrl` / `model`, the provider switches to the chat-completions path and returns AI-synthesized answers with citations instead of structured Search API results.
 
 ## Getting a Perplexity API key
@@ -69,12 +69,12 @@ Optional legacy controls:
 
 ## Where to set the key
 
-**Via config:** run `openclaw configure --section web`. It stores the key in
-`~/.openclaw/openclaw.json` under `tools.web.search.perplexity.apiKey`.
+**Via config:** run `codyai configure --section web`. It stores the key in
+`~/.codyai/codyai.json` under `tools.web.search.perplexity.apiKey`.
 
 **Via environment:** set `PERPLEXITY_API_KEY` or `OPENROUTER_API_KEY`
 in the Gateway process environment. For a gateway install, put it in
-`~/.openclaw/.env` (or your service environment). See [Env vars](/help/faq#how-does-openclaw-load-environment-variables).
+`~/.codyai/.env` (or your service environment). See [Env vars](/help/faq#how-does-codyai-load-environment-variables).
 
 ## Tool parameters
 

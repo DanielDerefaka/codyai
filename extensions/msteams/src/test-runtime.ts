@@ -5,7 +5,7 @@ import type { PluginRuntime } from "openclaw/plugin-sdk/msteams";
 export const msteamsRuntimeStub = {
   state: {
     resolveStateDir: (env: NodeJS.ProcessEnv = process.env, homedir?: () => string) => {
-      const override = env.OPENCLAW_STATE_DIR?.trim() || env.OPENCLAW_STATE_DIR?.trim();
+      const override = env.CODYAI_STATE_DIR?.trim() || env.CODYAI_STATE_DIR?.trim();
       if (override) {
         return override;
       }

@@ -7,9 +7,9 @@ installChromeUserDataDirHooks(chromeUserDataDir);
 vi.mock("./chrome.js", () => ({
   isChromeCdpReady: vi.fn(async () => true),
   isChromeReachable: vi.fn(async () => true),
-  launchOpenClawChrome: vi.fn(async () => {
+  launchCodyAIChrome: vi.fn(async () => {
     throw new Error("unexpected launch");
   }),
-  resolveOpenClawUserDataDir: vi.fn(() => chromeUserDataDir.dir),
-  stopOpenClawChrome: vi.fn(async () => {}),
+  resolveCodyAIUserDataDir: vi.fn(() => chromeUserDataDir.dir),
+  stopCodyAIChrome: vi.fn(async () => {}),
 }));

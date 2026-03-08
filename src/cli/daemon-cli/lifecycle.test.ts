@@ -129,7 +129,7 @@ describe("runDaemonRestart health checks", () => {
     mockSpawnSync.mockReset();
 
     service.readCommand.mockResolvedValue({
-      programArguments: ["openclaw", "gateway", "--port", "18789"],
+      programArguments: ["codyai", "gateway", "--port", "18789"],
       environment: {},
     });
 
@@ -164,7 +164,7 @@ describe("runDaemonRestart health checks", () => {
       }
       const pid = Number.parseInt(match[1] ?? "", 10);
       if ([4200, 4300].includes(pid)) {
-        return ["openclaw", "gateway", "--port", "18789", ""].join("\0");
+        return ["codyai", "gateway", "--port", "18789", ""].join("\0");
       }
       throw new Error(`unknown pid ${pid}`);
     });
@@ -229,7 +229,7 @@ describe("runDaemonRestart health checks", () => {
       error: null,
       status: 0,
       stdout:
-        'CommandLine="C:\\\\Program Files\\\\OpenClaw\\\\openclaw.exe" gateway --port 18789\r\n',
+        'CommandLine="C:\\\\Program Files\\\\CodyAI\\\\openclaw.exe" gateway --port 18789\r\n',
       stderr: "",
     });
     runServiceStop.mockImplementation(async (params: { onNotLoaded?: () => Promise<unknown> }) => {
@@ -251,7 +251,7 @@ describe("runDaemonRestart health checks", () => {
       error: null,
       status: 0,
       stdout:
-        'CommandLine="C:\\\\Program Files\\\\OpenClaw\\\\openclaw.exe" gateway --port 18789\r\n',
+        'CommandLine="C:\\\\Program Files\\\\CodyAI\\\\openclaw.exe" gateway --port 18789\r\n',
       stderr: "",
     });
     runServiceRestart.mockImplementation(
@@ -287,7 +287,7 @@ describe("runDaemonRestart health checks", () => {
       error: null,
       status: 0,
       stdout:
-        'CommandLine="C:\\\\Program Files\\\\OpenClaw\\\\openclaw.exe" gateway --port 18789\r\n',
+        'CommandLine="C:\\\\Program Files\\\\CodyAI\\\\openclaw.exe" gateway --port 18789\r\n',
       stderr: "",
     });
     runServiceRestart.mockImplementation(

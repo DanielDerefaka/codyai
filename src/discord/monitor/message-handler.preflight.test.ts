@@ -22,7 +22,7 @@ import {
 } from "./thread-bindings.js";
 
 type DiscordConfig = NonNullable<
-  import("../../config/config.js").OpenClawConfig["channels"]
+  import("../../config/config.js").CodyAIConfig["channels"]
 >["discord"];
 type DiscordMessageEvent = import("./listeners.js").DiscordMessageEvent;
 type DiscordClient = import("@buape/carbon").Client;
@@ -32,7 +32,7 @@ const DEFAULT_CFG = {
     mainKey: "main",
     scope: "per-sender",
   },
-} as import("../../config/config.js").OpenClawConfig;
+} as import("../../config/config.js").CodyAIConfig;
 
 function createThreadBinding(
   overrides?: Partial<
@@ -62,7 +62,7 @@ function createThreadBinding(
 }
 
 function createPreflightArgs(params: {
-  cfg: import("../../config/config.js").OpenClawConfig;
+  cfg: import("../../config/config.js").CodyAIConfig;
   discordConfig: DiscordConfig;
   data: DiscordMessageEvent;
   client: DiscordClient;
@@ -218,7 +218,7 @@ async function runGuildPreflight(params: {
   guildId: string;
   message: import("@buape/carbon").Message;
   discordConfig: DiscordConfig;
-  cfg?: import("../../config/config.js").OpenClawConfig;
+  cfg?: import("../../config/config.js").CodyAIConfig;
   guildEntries?: Parameters<typeof preflightDiscordMessage>[0]["guildEntries"];
 }) {
   return preflightDiscordMessage({
@@ -287,7 +287,7 @@ describe("preflightDiscordMessage", () => {
       author: {
         id: "relay-bot-1",
         bot: true,
-        username: "OpenClaw",
+        username: "CodyAI",
       },
     });
 
@@ -364,7 +364,7 @@ describe("preflightDiscordMessage", () => {
       createPreflightArgs({
         cfg: {
           ...DEFAULT_CFG,
-        } as import("../../config/config.js").OpenClawConfig,
+        } as import("../../config/config.js").CodyAIConfig,
         discordConfig: {
           allowBots: true,
         } as DiscordConfig,
@@ -571,10 +571,10 @@ describe("preflightDiscordMessage", () => {
           ...DEFAULT_CFG,
           messages: {
             groupChat: {
-              mentionPatterns: ["openclaw"],
+              mentionPatterns: ["codyai"],
             },
           },
-        } as import("../../config/config.js").OpenClawConfig,
+        } as import("../../config/config.js").CodyAIConfig,
         discordConfig: {} as DiscordConfig,
         data: createGuildEvent({
           channelId,

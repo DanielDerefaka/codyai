@@ -10,9 +10,9 @@ import {
   setRuntimeConfigSnapshot,
   writeConfigFile,
 } from "./io.js";
-import type { OpenClawConfig } from "./types.js";
+import type { CodyAIConfig } from "./types.js";
 
-function createSourceConfig(): OpenClawConfig {
+function createSourceConfig(): CodyAIConfig {
   return {
     models: {
       providers: {
@@ -26,7 +26,7 @@ function createSourceConfig(): OpenClawConfig {
   };
 }
 
-function createRuntimeConfig(): OpenClawConfig {
+function createRuntimeConfig(): CodyAIConfig {
   return {
     models: {
       providers: {

@@ -5,7 +5,7 @@ import path from "node:path";
 import type { AgentTool } from "@mariozechner/pi-agent-core";
 import type { ImageContent } from "@mariozechner/pi-ai";
 import type { ThinkLevel } from "../../auto-reply/thinking.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { CodyAIConfig } from "../../config/config.js";
 import type { CliBackendConfig } from "../../config/types.js";
 import { KeyedAsyncQueue } from "../../plugin-sdk/keyed-async-queue.js";
 import { buildTtsSystemPromptHint } from "../../tts/tts.js";
@@ -40,7 +40,7 @@ export type CliOutput = {
 
 export function buildSystemPrompt(params: {
   workspaceDir: string;
-  config?: OpenClawConfig;
+  config?: CodyAIConfig;
   defaultThinkLevel?: ThinkLevel;
   extraSystemPrompt?: string;
   ownerNumbers?: string[];
@@ -63,7 +63,7 @@ export function buildSystemPrompt(params: {
     workspaceDir: params.workspaceDir,
     cwd: process.cwd(),
     runtime: {
-      host: "openclaw",
+      host: "codyai",
       os: `${os.type()} ${os.release()}`,
       arch: os.arch(),
       node: process.version,

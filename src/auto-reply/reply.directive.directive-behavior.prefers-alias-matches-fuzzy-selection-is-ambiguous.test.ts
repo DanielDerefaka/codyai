@@ -2,7 +2,7 @@ import "./reply.directive.directive-behavior.e2e-mocks.js";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 import { loadSessionStore } from "../config/sessions.js";
 import type { ModelDefinitionConfig } from "../config/types.models.js";
 import { drainSystemEvents } from "../infra/system-events.js";
@@ -45,7 +45,7 @@ function makeMoonshotConfig(home: string, storePath: string) {
     agents: {
       defaults: {
         model: { primary: "anthropic/claude-opus-4-5" },
-        workspace: path.join(home, "openclaw"),
+        workspace: path.join(home, "codyai"),
         models: {
           "anthropic/claude-opus-4-5": {},
           "moonshot/kimi-k2-0905-preview": {},
@@ -64,7 +64,7 @@ function makeMoonshotConfig(home: string, storePath: string) {
       },
     },
     session: { store: storePath },
-  } as unknown as OpenClawConfig;
+  } as unknown as CodyAIConfig;
 }
 
 describe("directive behavior", () => {
@@ -120,7 +120,7 @@ describe("directive behavior", () => {
             agents: {
               defaults: {
                 model: { primary: "minimax/MiniMax-M2.5" },
-                workspace: path.join(home, "openclaw"),
+                workspace: path.join(home, "codyai"),
                 models: {
                   "minimax/MiniMax-M2.5": {},
                   "minimax/MiniMax-M2.5-highspeed": {},
@@ -154,7 +154,7 @@ describe("directive behavior", () => {
             agents: {
               defaults: {
                 model: { primary: "minimax/MiniMax-M2.5" },
-                workspace: path.join(home, "openclaw"),
+                workspace: path.join(home, "codyai"),
                 models: {
                   "minimax/MiniMax-M2.5": {},
                   "minimax/MiniMax-M2.5-highspeed": {},
@@ -184,7 +184,7 @@ describe("directive behavior", () => {
           {
             ...testCase.config,
             session: { store: testCase.storePath },
-          } as unknown as OpenClawConfig,
+          } as unknown as CodyAIConfig,
         );
         assertModelSelection(testCase.storePath);
       }
@@ -202,7 +202,7 @@ describe("directive behavior", () => {
           agents: {
             defaults: {
               model: { primary: "anthropic/claude-opus-4-5" },
-              workspace: path.join(home, "openclaw"),
+              workspace: path.join(home, "codyai"),
               models: {
                 "anthropic/claude-opus-4-5": {},
                 "moonshot/kimi-k2-0905-preview": { alias: "Kimi" },

@@ -355,7 +355,7 @@ export const matrixOnboardingAdapter: ChannelOnboardingAdapter = {
     const deviceName = String(
       await prompter.text({
         message: "Matrix device name (optional)",
-        initialValue: existing.deviceName ?? "OpenClaw Gateway",
+        initialValue: existing.deviceName ?? "CodyAI Gateway",
       }),
     ).trim();
 

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 const managerMocks = vi.hoisted(() => ({
   resolveSession: vi.fn(),
   closeSession: vi.fn(),
@@ -35,7 +35,7 @@ const baseCfg = {
   agents: {
     list: [{ id: "codex" }, { id: "claude" }],
   },
-} satisfies OpenClawConfig;
+} satisfies CodyAIConfig;
 
 beforeEach(() => {
   managerMocks.resolveSession.mockReset();
@@ -66,7 +66,7 @@ describe("resolveConfiguredAcpBindingRecord", () => {
           },
         },
       ],
-    } satisfies OpenClawConfig;
+    } satisfies CodyAIConfig;
 
     const resolved = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -96,7 +96,7 @@ describe("resolveConfiguredAcpBindingRecord", () => {
           },
         },
       ],
-    } satisfies OpenClawConfig;
+    } satisfies CodyAIConfig;
 
     const resolved = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -133,7 +133,7 @@ describe("resolveConfiguredAcpBindingRecord", () => {
           },
         },
       ],
-    } satisfies OpenClawConfig;
+    } satisfies CodyAIConfig;
 
     const resolved = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -170,7 +170,7 @@ describe("resolveConfiguredAcpBindingRecord", () => {
           },
         },
       ],
-    } satisfies OpenClawConfig;
+    } satisfies CodyAIConfig;
 
     const resolved = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -196,7 +196,7 @@ describe("resolveConfiguredAcpBindingRecord", () => {
           },
         },
       ],
-    } satisfies OpenClawConfig;
+    } satisfies CodyAIConfig;
 
     const resolved = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -226,7 +226,7 @@ describe("resolveConfiguredAcpBindingRecord", () => {
           },
         },
       ],
-    } satisfies OpenClawConfig;
+    } satisfies CodyAIConfig;
 
     const canonical = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -263,7 +263,7 @@ describe("resolveConfiguredAcpBindingRecord", () => {
           },
         },
       ],
-    } satisfies OpenClawConfig;
+    } satisfies CodyAIConfig;
 
     const resolved = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -305,7 +305,7 @@ describe("resolveConfiguredAcpBindingRecord", () => {
           },
         },
       ],
-    } satisfies OpenClawConfig;
+    } satisfies CodyAIConfig;
 
     const resolved = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -340,7 +340,7 @@ describe("resolveConfiguredAcpBindingSpecBySessionKey", () => {
           },
         },
       ],
-    } satisfies OpenClawConfig;
+    } satisfies CodyAIConfig;
 
     const resolved = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -396,7 +396,7 @@ describe("resolveConfiguredAcpBindingSpecBySessionKey", () => {
           },
         },
       ],
-    } satisfies OpenClawConfig;
+    } satisfies CodyAIConfig;
 
     const resolved = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -551,7 +551,7 @@ describe("resetAcpSessionInPlace", () => {
           },
         },
       ],
-    } satisfies OpenClawConfig;
+    } satisfies CodyAIConfig;
     const sessionKey = buildConfiguredAcpSessionKey({
       channel: "discord",
       accountId: "default",
@@ -612,7 +612,7 @@ describe("resetAcpSessionInPlace", () => {
       agents: {
         list: [{ id: "main" }, { id: "coding" }],
       },
-    } satisfies OpenClawConfig;
+    } satisfies CodyAIConfig;
     const sessionKey = "agent:coding:acp:binding:discord:default:9373ab192b2317f4";
     sessionMetaMocks.readAcpSessionEntry.mockReturnValue({
       acp: {

@@ -43,7 +43,7 @@ export function resolveShellFromEnv(env: NodeJS.ProcessEnv = process.env): Compl
 function sanitizeCompletionBasename(value: string): string {
   const trimmed = value.trim();
   if (!trimmed) {
-    return "openclaw";
+    return "codyai";
   }
   return trimmed.replace(/[^a-zA-Z0-9._-]/g, "-");
 }
@@ -63,7 +63,7 @@ export function resolveCompletionCachePath(shell: CompletionShell, binName: stri
 /** Check if the completion cache file exists for the given shell. */
 export async function completionCacheExists(
   shell: CompletionShell,
-  binName = "openclaw",
+  binName = "codyai",
 ): Promise<boolean> {
   const cachePath = resolveCompletionCachePath(shell, binName);
   return pathExists(cachePath);
@@ -108,7 +108,7 @@ function formatCompletionSourceLine(
 }
 
 function isCompletionProfileHeader(line: string): boolean {
-  return line.trim() === "# OpenClaw Completion";
+  return line.trim() === "# CodyAI Completion";
 }
 
 function isCompletionProfileLine(line: string, binName: string, cachePath: string | null): boolean {
@@ -155,7 +155,7 @@ function updateCompletionProfile(
   }
 
   const trimmed = filtered.join("\n").trimEnd();
-  const block = `# OpenClaw Completion\n${sourceLine}`;
+  const block = `# CodyAI Completion\n${sourceLine}`;
   const next = trimmed ? `${trimmed}\n\n${block}\n` : `${block}\n`;
   return { next, changed: next !== content, hadExisting };
 }
@@ -185,7 +185,7 @@ function getShellProfilePath(shell: CompletionShell): string {
 
 export async function isCompletionInstalled(
   shell: CompletionShell,
-  binName = "openclaw",
+  binName = "codyai",
 ): Promise<boolean> {
   const profilePath = getShellProfilePath(shell);
 
@@ -207,7 +207,7 @@ export async function isCompletionInstalled(
  */
 export async function usesSlowDynamicCompletion(
   shell: CompletionShell,
-  binName = "openclaw",
+  binName = "codyai",
 ): Promise<boolean> {
   const profilePath = getShellProfilePath(shell);
 
@@ -245,7 +245,7 @@ export function registerCompletionCli(program: Command) {
     .option("-i, --install", "Install completion script to shell profile")
     .option(
       "--write-state",
-      "Write completion scripts to $OPENCLAW_STATE_DIR/completions (no stdout)",
+      "Write completion scripts to $CODYAI_STATE_DIR/completions (no stdout)",
     )
     .option("-y, --yes", "Skip confirmation (non-interactive)", false)
     .action(async (options) => {
@@ -300,7 +300,7 @@ export function registerCompletionCli(program: Command) {
     });
 }
 
-export async function installCompletion(shell: string, yes: boolean, binName = "openclaw") {
+export async function installCompletion(shell: string, yes: boolean, binName = "codyai") {
   const home = process.env.HOME || os.homedir();
   let profilePath = "";
   let sourceLine = "";

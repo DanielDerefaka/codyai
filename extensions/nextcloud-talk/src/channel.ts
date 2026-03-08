@@ -16,7 +16,7 @@ import {
   normalizeAccountId,
   setAccountEnabledInConfigSection,
   type ChannelPlugin,
-  type OpenClawConfig,
+  type CodyAIConfig,
   type ChannelSetupInput,
 } from "openclaw/plugin-sdk/nextcloud-talk";
 import { waitForAbortSignal } from "../../../src/infra/abort-signal.js";
@@ -237,7 +237,7 @@ export const nextcloudTalkPlugin: ChannelPlugin<ResolvedNextcloudTalkAccount> = 
                     : {}),
             },
           },
-        } as OpenClawConfig;
+        } as CodyAIConfig;
       }
       return {
         ...namedConfig,
@@ -261,7 +261,7 @@ export const nextcloudTalkPlugin: ChannelPlugin<ResolvedNextcloudTalkAccount> = 
             },
           },
         },
-      } as OpenClawConfig;
+      } as CodyAIConfig;
     },
   },
   outbound: {
@@ -351,7 +351,7 @@ export const nextcloudTalkPlugin: ChannelPlugin<ResolvedNextcloudTalkAccount> = 
       stop();
     },
     logoutAccount: async ({ accountId, cfg }) => {
-      const nextCfg = { ...cfg } as OpenClawConfig;
+      const nextCfg = { ...cfg } as CodyAIConfig;
       const nextSection = cfg.channels?.["nextcloud-talk"]
         ? { ...cfg.channels["nextcloud-talk"] }
         : undefined;
@@ -389,7 +389,7 @@ export const nextcloudTalkPlugin: ChannelPlugin<ResolvedNextcloudTalkAccount> = 
           const nextChannels = { ...nextCfg.channels } as Record<string, unknown>;
           delete nextChannels["nextcloud-talk"];
           if (Object.keys(nextChannels).length > 0) {
-            nextCfg.channels = nextChannels as OpenClawConfig["channels"];
+            nextCfg.channels = nextChannels as CodyAIConfig["channels"];
           } else {
             delete nextCfg.channels;
           }

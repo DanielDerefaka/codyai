@@ -17,7 +17,7 @@ import {
   createExitThrowingRuntime,
   createWizardPrompter,
   readAuthProfilesForAgent,
-  requireOpenClawAgentDir,
+  requireCodyAIAgentDir,
   setupAuthTestEnv,
 } from "./test-wizard-helpers.js";
 
@@ -57,8 +57,8 @@ type StoredAuthProfile = {
 
 describe("applyAuthChoice", () => {
   const lifecycle = createAuthTestLifecycle([
-    "OPENCLAW_STATE_DIR",
-    "OPENCLAW_AGENT_DIR",
+    "CODYAI_STATE_DIR",
+    "CODYAI_AGENT_DIR",
     "PI_CODING_AGENT_DIR",
     "ANTHROPIC_API_KEY",
     "OPENROUTER_API_KEY",
@@ -118,7 +118,7 @@ describe("applyAuthChoice", () => {
   async function readAuthProfiles() {
     return await readAuthProfilesForAgent<{
       profiles?: Record<string, StoredAuthProfile>;
-    }>(requireOpenClawAgentDir());
+    }>(requireCodyAIAgentDir());
   }
   async function readAuthProfile(profileId: string) {
     return (await readAuthProfiles()).profiles?.[profileId];
@@ -954,7 +954,7 @@ describe("applyAuthChoice", () => {
     await setupTempState();
     process.env.LITELLM_API_KEY = "sk-litellm-test"; // pragma: allowlist secret
 
-    const authProfilePath = authProfilePathForAgent(requireOpenClawAgentDir());
+    const authProfilePath = authProfilePathForAgent(requireCodyAIAgentDir());
     await fs.writeFile(
       authProfilePath,
       JSON.stringify(

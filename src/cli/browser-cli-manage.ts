@@ -72,7 +72,7 @@ async function runBrowserToggle(
   if (printJsonResult(parent, status)) {
     return;
   }
-  const name = status.profile ?? "openclaw";
+  const name = status.profile ?? "codyai";
   defaultRuntime.log(info(`🦞 browser [${name}] running: ${status.running}`));
 }
 
@@ -117,7 +117,7 @@ export function registerBrowserManageCommands(
         const detectedDisplay = detectedPath ? shortenHomePath(detectedPath) : "auto";
         defaultRuntime.log(
           [
-            `profile: ${status.profile ?? "openclaw"}`,
+            `profile: ${status.profile ?? "codyai"}`,
             `enabled: ${status.enabled}`,
             `running: ${status.running}`,
             `cdpPort: ${status.cdpPort}`,

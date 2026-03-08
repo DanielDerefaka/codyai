@@ -11,8 +11,8 @@ import {
 
 describe("applyAuthChoiceAnthropic", () => {
   const lifecycle = createAuthTestLifecycle([
-    "OPENCLAW_STATE_DIR",
-    "OPENCLAW_AGENT_DIR",
+    "CODYAI_STATE_DIR",
+    "CODYAI_AGENT_DIR",
     "PI_CODING_AGENT_DIR",
     "ANTHROPIC_SETUP_TOKEN",
   ]);

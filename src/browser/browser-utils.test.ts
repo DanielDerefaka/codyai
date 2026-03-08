@@ -203,8 +203,8 @@ describe("cdp.helpers", () => {
   it("adds relay header for known relay ports", async () => {
     const port = await getFreePort();
     const cdpUrl = `http://127.0.0.1:${port}`;
-    const prev = process.env.OPENCLAW_GATEWAY_TOKEN;
-    process.env.OPENCLAW_GATEWAY_TOKEN = "test-gateway-token";
+    const prev = process.env.CODYAI_GATEWAY_TOKEN;
+    process.env.CODYAI_GATEWAY_TOKEN = "test-gateway-token";
     try {
       await ensureChromeExtensionRelayServer({ cdpUrl });
       const headers = getHeadersWithAuth(`${cdpUrl}/json/version`);
@@ -213,9 +213,9 @@ describe("cdp.helpers", () => {
     } finally {
       await stopChromeExtensionRelayServer({ cdpUrl }).catch(() => {});
       if (prev === undefined) {
-        delete process.env.OPENCLAW_GATEWAY_TOKEN;
+        delete process.env.CODYAI_GATEWAY_TOKEN;
       } else {
-        process.env.OPENCLAW_GATEWAY_TOKEN = prev;
+        process.env.CODYAI_GATEWAY_TOKEN = prev;
       }
     }
   });
@@ -241,12 +241,12 @@ describe("fetchBrowserJson loopback auth (bridge auth registry)", () => {
 describe("browser server-context listKnownProfileNames", () => {
   it("includes configured and runtime-only profile names", () => {
     const resolved = resolveBrowserConfig({
-      defaultProfile: "openclaw",
+      defaultProfile: "codyai",
       profiles: {
         openclaw: { cdpPort: 18800, color: "#FF4500" },
       },
     });
-    const openclaw = resolveProfile(resolved, "openclaw");
+    const openclaw = resolveProfile(resolved, "codyai");
     if (!openclaw) {
       throw new Error("expected openclaw profile");
     }
@@ -268,7 +268,7 @@ describe("browser server-context listKnownProfileNames", () => {
 
     expect(listKnownProfileNames(state).toSorted()).toEqual([
       "chrome",
-      "openclaw",
+      "codyai",
       "stale-removed",
     ]);
   });

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 import { withEnvAsync } from "../test-utils/env.js";
 import {
   resolveGatewayAuthTokenForService,
@@ -17,7 +17,7 @@ describe("resolveGatewayAuthTokenForService", () => {
             token: "config-token",
           },
         },
-      } as OpenClawConfig,
+      } as CodyAIConfig,
       {} as NodeJS.ProcessEnv,
     );
 
@@ -41,7 +41,7 @@ describe("resolveGatewayAuthTokenForService", () => {
             default: { source: "env" },
           },
         },
-      } as OpenClawConfig,
+      } as CodyAIConfig,
       {
         CUSTOM_GATEWAY_TOKEN: "resolved-token",
       } as NodeJS.ProcessEnv,
@@ -63,7 +63,7 @@ describe("resolveGatewayAuthTokenForService", () => {
             default: { source: "env" },
           },
         },
-      } as OpenClawConfig,
+      } as CodyAIConfig,
       {
         CUSTOM_GATEWAY_TOKEN: "resolved-token",
       } as NodeJS.ProcessEnv,
@@ -72,7 +72,7 @@ describe("resolveGatewayAuthTokenForService", () => {
     expect(resolved).toEqual({ token: "resolved-token" });
   });
 
-  it("falls back to OPENCLAW_GATEWAY_TOKEN when SecretRef is unresolved", async () => {
+  it("falls back to CODYAI_GATEWAY_TOKEN when SecretRef is unresolved", async () => {
     const resolved = await resolveGatewayAuthTokenForService(
       {
         gateway: {
@@ -89,16 +89,16 @@ describe("resolveGatewayAuthTokenForService", () => {
             default: { source: "env" },
           },
         },
-      } as OpenClawConfig,
+      } as CodyAIConfig,
       {
-        OPENCLAW_GATEWAY_TOKEN: "env-fallback-token",
+        CODYAI_GATEWAY_TOKEN: "env-fallback-token",
       } as NodeJS.ProcessEnv,
     );
 
     expect(resolved).toEqual({ token: "env-fallback-token" });
   });
 
-  it("falls back to OPENCLAW_GATEWAY_TOKEN when SecretRef resolves to empty", async () => {
+  it("falls back to CODYAI_GATEWAY_TOKEN when SecretRef resolves to empty", async () => {
     const resolved = await resolveGatewayAuthTokenForService(
       {
         gateway: {
@@ -115,10 +115,10 @@ describe("resolveGatewayAuthTokenForService", () => {
             default: { source: "env" },
           },
         },
-      } as OpenClawConfig,
+      } as CodyAIConfig,
       {
         CUSTOM_GATEWAY_TOKEN: "   ",
-        OPENCLAW_GATEWAY_TOKEN: "env-fallback-token",
+        CODYAI_GATEWAY_TOKEN: "env-fallback-token",
       } as NodeJS.ProcessEnv,
     );
 
@@ -142,7 +142,7 @@ describe("resolveGatewayAuthTokenForService", () => {
             default: { source: "env" },
           },
         },
-      } as OpenClawConfig,
+      } as CodyAIConfig,
       {} as NodeJS.ProcessEnv,
     );
 
@@ -160,7 +160,7 @@ describe("shouldRequireGatewayTokenForInstall", () => {
             mode: "token",
           },
         },
-      } as OpenClawConfig,
+      } as CodyAIConfig,
       {} as NodeJS.ProcessEnv,
     );
     expect(required).toBe(true);
@@ -174,7 +174,7 @@ describe("shouldRequireGatewayTokenForInstall", () => {
             mode: "password",
           },
         },
-      } as OpenClawConfig,
+      } as CodyAIConfig,
       {} as NodeJS.ProcessEnv,
     );
     expect(required).toBe(false);
@@ -190,7 +190,7 @@ describe("shouldRequireGatewayTokenForInstall", () => {
             gateway: {
               auth: {},
             },
-          } as OpenClawConfig,
+          } as CodyAIConfig,
           process.env,
         );
         expect(required).toBe(true);
@@ -215,7 +215,7 @@ describe("shouldRequireGatewayTokenForInstall", () => {
             default: { source: "env" },
           },
         },
-      } as OpenClawConfig,
+      } as CodyAIConfig,
       {} as NodeJS.ProcessEnv,
     );
     expect(required).toBe(false);
@@ -229,10 +229,10 @@ describe("shouldRequireGatewayTokenForInstall", () => {
         },
         env: {
           vars: {
-            OPENCLAW_GATEWAY_PASSWORD: "configured-password", // pragma: allowlist secret
+            CODYAI_GATEWAY_PASSWORD: "configured-password", // pragma: allowlist secret
           },
         },
-      } as OpenClawConfig,
+      } as CodyAIConfig,
       {} as NodeJS.ProcessEnv,
     );
     expect(required).toBe(false);
@@ -244,7 +244,7 @@ describe("shouldRequireGatewayTokenForInstall", () => {
         gateway: {
           auth: {},
         },
-      } as OpenClawConfig,
+      } as CodyAIConfig,
       {} as NodeJS.ProcessEnv,
     );
     expect(required).toBe(true);

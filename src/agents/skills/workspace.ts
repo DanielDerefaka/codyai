@@ -6,7 +6,7 @@ import {
   loadSkillsFromDir,
   type Skill,
 } from "@mariozechner/pi-coding-agent";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { CodyAIConfig } from "../../config/config.js";
 import { isPathInside } from "../../infra/path-guards.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
 import { CONFIG_DIR, resolveUserPath } from "../../utils.js";
@@ -16,7 +16,7 @@ import { shouldIncludeSkill } from "./config.js";
 import { normalizeSkillFilter } from "./filter.js";
 import {
   parseFrontmatter,
-  resolveOpenClawMetadata,
+  resolveCodyAIMetadata,
   resolveSkillInvocationPolicy,
 } from "./frontmatter.js";
 import { resolvePluginSkillDirs } from "./plugin-skills.js";
@@ -67,7 +67,7 @@ function debugSkillCommandOnce(
 
 function filterSkillEntries(
   entries: SkillEntry[],
-  config?: OpenClawConfig,
+  config?: CodyAIConfig,
   skillFilter?: string[],
   eligibility?: SkillEligibilityContext,
 ): SkillEntry[] {
@@ -136,7 +136,7 @@ type ResolvedSkillsLimits = {
   maxSkillFileBytes: number;
 };
 
-function resolveSkillsLimits(config?: OpenClawConfig): ResolvedSkillsLimits {
+function resolveSkillsLimits(config?: CodyAIConfig): ResolvedSkillsLimits {
   const limits = config?.skills?.limits;
   return {
     maxCandidatesPerRoot: limits?.maxCandidatesPerRoot ?? DEFAULT_MAX_CANDIDATES_PER_ROOT,
@@ -292,7 +292,7 @@ function unwrapLoadedSkills(loaded: unknown): Skill[] {
 function loadSkillEntries(
   workspaceDir: string,
   opts?: {
-    config?: OpenClawConfig;
+    config?: CodyAIConfig;
     managedSkillsDir?: string;
     bundledSkillsDir?: string;
   },
@@ -519,14 +519,14 @@ function loadSkillEntries(
     return {
       skill,
       frontmatter,
-      metadata: resolveOpenClawMetadata(frontmatter),
+      metadata: resolveCodyAIMetadata(frontmatter),
       invocation: resolveSkillInvocationPolicy(frontmatter),
     };
   });
   return skillEntries;
 }
 
-function applySkillsPromptLimits(params: { skills: Skill[]; config?: OpenClawConfig }): {
+function applySkillsPromptLimits(params: { skills: Skill[]; config?: CodyAIConfig }): {
   skillsForPrompt: Skill[];
   truncated: boolean;
   truncatedReason: "count" | "chars" | null;
@@ -591,7 +591,7 @@ export function buildWorkspaceSkillsPrompt(
 }
 
 type WorkspaceSkillBuildOptions = {
-  config?: OpenClawConfig;
+  config?: CodyAIConfig;
   managedSkillsDir?: string;
   bundledSkillsDir?: string;
   entries?: SkillEntry[];
@@ -640,7 +640,7 @@ function resolveWorkspaceSkillPromptState(
 export function resolveSkillsPromptForRun(params: {
   skillsSnapshot?: SkillSnapshot;
   entries?: SkillEntry[];
-  config?: OpenClawConfig;
+  config?: CodyAIConfig;
   workspaceDir: string;
 }): string {
   const snapshotPrompt = params.skillsSnapshot?.prompt?.trim();
@@ -660,7 +660,7 @@ export function resolveSkillsPromptForRun(params: {
 export function loadWorkspaceSkillEntries(
   workspaceDir: string,
   opts?: {
-    config?: OpenClawConfig;
+    config?: CodyAIConfig;
     managedSkillsDir?: string;
     bundledSkillsDir?: string;
   },
@@ -710,7 +710,7 @@ function resolveSyncedSkillDestinationPath(params: {
 export async function syncSkillsToWorkspace(params: {
   sourceWorkspaceDir: string;
   targetWorkspaceDir: string;
-  config?: OpenClawConfig;
+  config?: CodyAIConfig;
   managedSkillsDir?: string;
   bundledSkillsDir?: string;
 }) {
@@ -767,7 +767,7 @@ export async function syncSkillsToWorkspace(params: {
 
 export function filterWorkspaceSkillEntries(
   entries: SkillEntry[],
-  config?: OpenClawConfig,
+  config?: CodyAIConfig,
 ): SkillEntry[] {
   return filterSkillEntries(entries, config);
 }
@@ -775,7 +775,7 @@ export function filterWorkspaceSkillEntries(
 export function buildWorkspaceSkillCommandSpecs(
   workspaceDir: string,
   opts?: {
-    config?: OpenClawConfig;
+    config?: CodyAIConfig;
     managedSkillsDir?: string;
     bundledSkillsDir?: string;
     entries?: SkillEntry[];

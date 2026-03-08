@@ -7,7 +7,7 @@ import {
   createExitThrowingRuntime,
   createWizardPrompter,
   readAuthProfilesForAgent,
-  requireOpenClawAgentDir,
+  requireCodyAIAgentDir,
   setupAuthTestEnv,
 } from "./test-wizard-helpers.js";
 
@@ -17,8 +17,8 @@ function createPrompter(overrides: Partial<WizardPrompter>): WizardPrompter {
 
 describe("applyAuthChoice (moonshot)", () => {
   const lifecycle = createAuthTestLifecycle([
-    "OPENCLAW_STATE_DIR",
-    "OPENCLAW_AGENT_DIR",
+    "CODYAI_STATE_DIR",
+    "CODYAI_AGENT_DIR",
     "PI_CODING_AGENT_DIR",
     "MOONSHOT_API_KEY",
   ]);
@@ -32,7 +32,7 @@ describe("applyAuthChoice (moonshot)", () => {
   async function readAuthProfiles() {
     return await readAuthProfilesForAgent<{
       profiles?: Record<string, { key?: string }>;
-    }>(requireOpenClawAgentDir());
+    }>(requireCodyAIAgentDir());
   }
 
   async function runMoonshotCnFlow(params: {

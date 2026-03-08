@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { CodyAIConfig } from "../../config/config.js";
 import {
   coercePdfAssistantText,
   coercePdfModelConfig,
@@ -111,16 +111,16 @@ function resetAuthEnv() {
   vi.stubEnv("GITHUB_TOKEN", "");
 }
 
-function withDefaultModel(primary: string): OpenClawConfig {
+function withDefaultModel(primary: string): CodyAIConfig {
   return {
     agents: { defaults: { model: { primary } } },
-  } as OpenClawConfig;
+  } as CodyAIConfig;
 }
 
-function withPdfModel(primary: string): OpenClawConfig {
+function withPdfModel(primary: string): CodyAIConfig {
   return {
     agents: { defaults: { pdfModel: { primary } } },
-  } as OpenClawConfig;
+  } as CodyAIConfig;
 }
 
 async function stubPdfToolInfra(
@@ -150,7 +150,7 @@ async function stubPdfToolInfra(
   vi.spyOn(modelDiscovery, "discoverModels").mockReturnValue({ find } as never);
 
   const modelsConfig = await import("../models-config.js");
-  vi.spyOn(modelsConfig, "ensureOpenClawModelsJson").mockResolvedValue({
+  vi.spyOn(modelsConfig, "ensureCodyAIModelsJson").mockResolvedValue({
     agentDir,
     wrote: false,
   });
@@ -253,7 +253,7 @@ describe("resolvePdfModelConfigForTool", () => {
 
   it("returns null without any auth", async () => {
     await withTempAgentDir(async (agentDir) => {
-      const cfg: OpenClawConfig = {
+      const cfg: CodyAIConfig = {
         agents: { defaults: { model: { primary: "openai/gpt-5.2" } } },
       };
       expect(resolvePdfModelConfigForTool({ cfg, agentDir })).toBeNull();
@@ -262,14 +262,14 @@ describe("resolvePdfModelConfigForTool", () => {
 
   it("prefers explicit pdfModel config", async () => {
     await withTempAgentDir(async (agentDir) => {
-      const cfg: OpenClawConfig = {
+      const cfg: CodyAIConfig = {
         agents: {
           defaults: {
             model: { primary: "openai/gpt-5.2" },
             pdfModel: { primary: "anthropic/claude-opus-4-6" },
           },
         },
-      } as OpenClawConfig;
+      } as CodyAIConfig;
       expect(resolvePdfModelConfigForTool({ cfg, agentDir })).toEqual({
         primary: "anthropic/claude-opus-4-6",
       });
@@ -278,7 +278,7 @@ describe("resolvePdfModelConfigForTool", () => {
 
   it("falls back to imageModel config when no pdfModel set", async () => {
     await withTempAgentDir(async (agentDir) => {
-      const cfg: OpenClawConfig = {
+      const cfg: CodyAIConfig = {
         agents: {
           defaults: {
             model: { primary: "openai/gpt-5.2" },
@@ -337,7 +337,7 @@ describe("createPdfTool", () => {
 
   it("returns null without any auth configured", async () => {
     await withTempAgentDir(async (agentDir) => {
-      const cfg: OpenClawConfig = {
+      const cfg: CodyAIConfig = {
         agents: { defaults: { model: { primary: "openai/gpt-5.2" } } },
       };
       expect(createPdfTool({ config: cfg, agentDir })).toBeNull();
@@ -725,7 +725,7 @@ describe("pdf-tool.helpers", () => {
   });
 
   it("coercePdfModelConfig reads primary and fallbacks", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: CodyAIConfig = {
       agents: {
         defaults: {
           pdfModel: {

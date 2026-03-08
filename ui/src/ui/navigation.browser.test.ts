@@ -33,22 +33,22 @@ describe("control UI routing", () => {
   });
 
   it("infers nested base paths", async () => {
-    const app = mountApp("/apps/openclaw/cron");
+    const app = mountApp("/apps/codyai/cron");
     await app.updateComplete;
 
-    expect(app.basePath).toBe("/apps/openclaw");
+    expect(app.basePath).toBe("/apps/codyai");
     expect(app.tab).toBe("cron");
-    expect(window.location.pathname).toBe("/apps/openclaw/cron");
+    expect(window.location.pathname).toBe("/apps/codyai/cron");
   });
 
   it("honors explicit base path overrides", async () => {
-    window.__OPENCLAW_CONTROL_UI_BASE_PATH__ = "/openclaw";
-    const app = mountApp("/openclaw/sessions");
+    window.__CODYAI_CONTROL_UI_BASE_PATH__ = "/codyai";
+    const app = mountApp("/codyai/sessions");
     await app.updateComplete;
 
-    expect(app.basePath).toBe("/openclaw");
+    expect(app.basePath).toBe("/codyai");
     expect(app.tab).toBe("sessions");
-    expect(window.location.pathname).toBe("/openclaw/sessions");
+    expect(window.location.pathname).toBe("/codyai/sessions");
   });
 
   it("updates the URL when clicking nav items", async () => {
@@ -151,7 +151,7 @@ describe("control UI routing", () => {
     await app.updateComplete;
 
     expect(app.settings.token).toBe("abc123");
-    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}").token).toBe(
+    expect(JSON.parse(localStorage.getItem("codyai.control.settings.v1") ?? "{}").token).toBe(
       undefined,
     );
     expect(window.location.pathname).toBe("/ui/overview");
@@ -169,17 +169,17 @@ describe("control UI routing", () => {
 
   it("hydrates token from URL params even when settings already set", async () => {
     localStorage.setItem(
-      "openclaw.control.settings.v1",
-      JSON.stringify({ token: "existing-token", gatewayUrl: "wss://gateway.example/openclaw" }),
+      "codyai.control.settings.v1",
+      JSON.stringify({ token: "existing-token", gatewayUrl: "wss://gateway.example/codyai" }),
     );
     const app = mountApp("/ui/overview?token=abc123");
     await app.updateComplete;
 
     expect(app.settings.token).toBe("abc123");
-    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}")).toMatchObject({
-      gatewayUrl: "wss://gateway.example/openclaw",
+    expect(JSON.parse(localStorage.getItem("codyai.control.settings.v1") ?? "{}")).toMatchObject({
+      gatewayUrl: "wss://gateway.example/codyai",
     });
-    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}").token).toBe(
+    expect(JSON.parse(localStorage.getItem("codyai.control.settings.v1") ?? "{}").token).toBe(
       undefined,
     );
     expect(window.location.pathname).toBe("/ui/overview");
@@ -191,7 +191,7 @@ describe("control UI routing", () => {
     await app.updateComplete;
 
     expect(app.settings.token).toBe("abc123");
-    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}").token).toBe(
+    expect(JSON.parse(localStorage.getItem("codyai.control.settings.v1") ?? "{}").token).toBe(
       undefined,
     );
     expect(window.location.pathname).toBe("/ui/overview");

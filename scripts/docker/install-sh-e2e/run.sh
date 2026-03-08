@@ -9,34 +9,34 @@ fi
 # shellcheck source=../install-sh-common/version-parse.sh
 source "$VERIFY_HELPER_PATH"
 
-INSTALL_URL="${OPENCLAW_INSTALL_URL:-${CLAWDBOT_INSTALL_URL:-https://openclaw.bot/install.sh}}"
-MODELS_MODE="${OPENCLAW_E2E_MODELS:-${CLAWDBOT_E2E_MODELS:-both}}" # both|openai|anthropic
-INSTALL_TAG="${OPENCLAW_INSTALL_TAG:-${CLAWDBOT_INSTALL_TAG:-latest}}"
-E2E_PREVIOUS_VERSION="${OPENCLAW_INSTALL_E2E_PREVIOUS:-${CLAWDBOT_INSTALL_E2E_PREVIOUS:-}}"
-SKIP_PREVIOUS="${OPENCLAW_INSTALL_E2E_SKIP_PREVIOUS:-${CLAWDBOT_INSTALL_E2E_SKIP_PREVIOUS:-0}}"
+INSTALL_URL="${CODYAI_INSTALL_URL:-${CLAWDBOT_INSTALL_URL:-https://openclaw.bot/install.sh}}"
+MODELS_MODE="${CODYAI_E2E_MODELS:-${CLAWDBOT_E2E_MODELS:-both}}" # both|openai|anthropic
+INSTALL_TAG="${CODYAI_INSTALL_TAG:-${CLAWDBOT_INSTALL_TAG:-latest}}"
+E2E_PREVIOUS_VERSION="${CODYAI_INSTALL_E2E_PREVIOUS:-${CLAWDBOT_INSTALL_E2E_PREVIOUS:-}}"
+SKIP_PREVIOUS="${CODYAI_INSTALL_E2E_SKIP_PREVIOUS:-${CLAWDBOT_INSTALL_E2E_SKIP_PREVIOUS:-0}}"
 OPENAI_API_KEY="${OPENAI_API_KEY:-}"
 ANTHROPIC_API_KEY="${ANTHROPIC_API_KEY:-}"
 ANTHROPIC_API_TOKEN="${ANTHROPIC_API_TOKEN:-}"
 
 if [[ "$MODELS_MODE" != "both" && "$MODELS_MODE" != "openai" && "$MODELS_MODE" != "anthropic" ]]; then
-  echo "ERROR: OPENCLAW_E2E_MODELS must be one of: both|openai|anthropic" >&2
+  echo "ERROR: CODYAI_E2E_MODELS must be one of: both|openai|anthropic" >&2
   exit 2
 fi
 
 if [[ "$MODELS_MODE" == "both" ]]; then
   if [[ -z "$OPENAI_API_KEY" ]]; then
-    echo "ERROR: OPENCLAW_E2E_MODELS=both requires OPENAI_API_KEY." >&2
+    echo "ERROR: CODYAI_E2E_MODELS=both requires OPENAI_API_KEY." >&2
     exit 2
   fi
   if [[ -z "$ANTHROPIC_API_TOKEN" && -z "$ANTHROPIC_API_KEY" ]]; then
-    echo "ERROR: OPENCLAW_E2E_MODELS=both requires ANTHROPIC_API_TOKEN or ANTHROPIC_API_KEY." >&2
+    echo "ERROR: CODYAI_E2E_MODELS=both requires ANTHROPIC_API_TOKEN or ANTHROPIC_API_KEY." >&2
     exit 2
   fi
 elif [[ "$MODELS_MODE" == "openai" && -z "$OPENAI_API_KEY" ]]; then
-  echo "ERROR: OPENCLAW_E2E_MODELS=openai requires OPENAI_API_KEY." >&2
+  echo "ERROR: CODYAI_E2E_MODELS=openai requires OPENAI_API_KEY." >&2
   exit 2
 elif [[ "$MODELS_MODE" == "anthropic" && -z "$ANTHROPIC_API_TOKEN" && -z "$ANTHROPIC_API_KEY" ]]; then
-  echo "ERROR: OPENCLAW_E2E_MODELS=anthropic requires ANTHROPIC_API_TOKEN or ANTHROPIC_API_KEY." >&2
+  echo "ERROR: CODYAI_E2E_MODELS=anthropic requires ANTHROPIC_API_TOKEN or ANTHROPIC_API_KEY." >&2
   exit 2
 fi
 
@@ -60,7 +60,7 @@ fi
 echo "expected=$EXPECTED_VERSION previous=$PREVIOUS_VERSION"
 
 if [[ "$SKIP_PREVIOUS" == "1" ]]; then
-  echo "==> Skip preinstall previous (OPENCLAW_INSTALL_E2E_SKIP_PREVIOUS=1)"
+  echo "==> Skip preinstall previous (CODYAI_INSTALL_E2E_SKIP_PREVIOUS=1)"
 else
   echo "==> Preinstall previous (forces installer upgrade path; avoids read() prompt)"
   npm install -g "openclaw@${PREVIOUS_VERSION}"
@@ -68,9 +68,9 @@ fi
 
 echo "==> Run official installer one-liner"
 if [[ "$INSTALL_TAG" == "beta" ]]; then
-  OPENCLAW_BETA=1 CLAWDBOT_BETA=1 curl -fsSL "$INSTALL_URL" | bash
+  CODYAI_BETA=1 CLAWDBOT_BETA=1 curl -fsSL "$INSTALL_URL" | bash
 elif [[ "$INSTALL_TAG" != "latest" ]]; then
-  OPENCLAW_VERSION="$INSTALL_TAG" CLAWDBOT_VERSION="$INSTALL_TAG" curl -fsSL "$INSTALL_URL" | bash
+  CODYAI_VERSION="$INSTALL_TAG" CLAWDBOT_VERSION="$INSTALL_TAG" curl -fsSL "$INSTALL_URL" | bash
 else
   curl -fsSL "$INSTALL_URL" | bash
 fi

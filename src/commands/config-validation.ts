@@ -1,11 +1,11 @@
 import { formatCliCommand } from "../cli/command-format.js";
-import { type OpenClawConfig, readConfigFileSnapshot } from "../config/config.js";
+import { type CodyAIConfig, readConfigFileSnapshot } from "../config/config.js";
 import { formatConfigIssueLines } from "../config/issue-format.js";
 import type { RuntimeEnv } from "../runtime.js";
 
 export async function requireValidConfigSnapshot(
   runtime: RuntimeEnv,
-): Promise<OpenClawConfig | null> {
+): Promise<CodyAIConfig | null> {
   const snapshot = await readConfigFileSnapshot();
   if (snapshot.exists && !snapshot.valid) {
     const issues =

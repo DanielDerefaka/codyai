@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { CodyAIConfig } from "../../../config/config.js";
 import { signalOutbound } from "./signal.js";
 
 describe("signalOutbound", () => {
-  const cfg: OpenClawConfig = {
+  const cfg: CodyAIConfig = {
     channels: {
       signal: {
         mediaMaxMb: 8,

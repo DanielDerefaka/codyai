@@ -13,7 +13,7 @@ import {
   processLineMessage,
   type ChannelPlugin,
   type ChannelStatusIssue,
-  type OpenClawConfig,
+  type CodyAIConfig,
   type LineConfig,
   type LineChannelData,
   type ResolvedLineAccount,
@@ -44,11 +44,11 @@ const lineConfigAccessors = createScopedAccountConfigAccessors({
 });
 
 function patchLineAccountConfig(
-  cfg: OpenClawConfig,
+  cfg: CodyAIConfig,
   lineConfig: LineConfig,
   accountId: string,
   patch: Record<string, unknown>,
-): OpenClawConfig {
+): CodyAIConfig {
   if (accountId === DEFAULT_ACCOUNT_ID) {
     return {
       ...cfg,
@@ -97,7 +97,7 @@ export const linePlugin: ChannelPlugin<ResolvedLineAccount> = {
       if (!account.channelAccessToken) {
         throw new Error("LINE channel access token not configured");
       }
-      await line.pushMessageLine(id, "OpenClaw: your access has been approved.", {
+      await line.pushMessageLine(id, "CodyAI: your access has been approved.", {
         channelAccessToken: account.channelAccessToken,
       });
     },
@@ -655,7 +655,7 @@ export const linePlugin: ChannelPlugin<ResolvedLineAccount> = {
     },
     logoutAccount: async ({ accountId, cfg }) => {
       const envToken = process.env.LINE_CHANNEL_ACCESS_TOKEN?.trim() ?? "";
-      const nextCfg = { ...cfg } as OpenClawConfig;
+      const nextCfg = { ...cfg } as CodyAIConfig;
       const lineConfig = (cfg.channels?.line ?? {}) as LineConfig;
       const nextLine = { ...lineConfig };
       let cleared = false;

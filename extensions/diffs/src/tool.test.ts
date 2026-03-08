@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import type { OpenClawPluginApi } from "openclaw/plugin-sdk/diffs";
+import type { CodyAIPluginApi } from "openclaw/plugin-sdk/diffs";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { DiffScreenshotter } from "./browser.js";
 import { DEFAULT_DIFFS_TOOL_DEFAULTS } from "./config.js";
@@ -387,7 +387,7 @@ describe("diffs tool", () => {
   });
 });
 
-function createApi(): OpenClawPluginApi {
+function createApi(): CodyAIPluginApi {
   return {
     id: "diffs",
     name: "Diffs",
@@ -399,7 +399,7 @@ function createApi(): OpenClawPluginApi {
         bind: "loopback",
       },
     },
-    runtime: {} as OpenClawPluginApi["runtime"],
+    runtime: {} as CodyAIPluginApi["runtime"],
     logger: {
       info() {},
       warn() {},

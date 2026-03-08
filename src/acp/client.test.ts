@@ -45,22 +45,22 @@ afterEach(async () => {
 });
 
 describe("resolveAcpClientSpawnEnv", () => {
-  it("sets OPENCLAW_SHELL marker and preserves existing env values", () => {
+  it("sets CODYAI_SHELL marker and preserves existing env values", () => {
     const env = resolveAcpClientSpawnEnv({
       PATH: "/usr/bin",
-      USER: "openclaw",
+      USER: "codyai",
     });
 
-    expect(env.OPENCLAW_SHELL).toBe("acp-client");
+    expect(env.CODYAI_SHELL).toBe("acp-client");
     expect(env.PATH).toBe("/usr/bin");
-    expect(env.USER).toBe("openclaw");
+    expect(env.USER).toBe("codyai");
   });
 
-  it("overrides pre-existing OPENCLAW_SHELL to acp-client", () => {
+  it("overrides pre-existing CODYAI_SHELL to acp-client", () => {
     const env = resolveAcpClientSpawnEnv({
-      OPENCLAW_SHELL: "wrong",
+      CODYAI_SHELL: "wrong",
     });
-    expect(env.OPENCLAW_SHELL).toBe("acp-client");
+    expect(env.CODYAI_SHELL).toBe("acp-client");
   });
 
   it("strips skill-injected env keys when stripKeys is provided", () => {
@@ -79,7 +79,7 @@ describe("resolveAcpClientSpawnEnv", () => {
     );
 
     expect(env.PATH).toBe("/usr/bin");
-    expect(env.OPENCLAW_SHELL).toBe("acp-client");
+    expect(env.CODYAI_SHELL).toBe("acp-client");
     expect(env.ANTHROPIC_API_KEY).toBe("anthropic-test-value");
     expect(env.OPENAI_API_KEY).toBeUndefined();
     expect(env.ELEVENLABS_API_KEY).toBeUndefined();
@@ -97,17 +97,17 @@ describe("resolveAcpClientSpawnEnv", () => {
     expect(baseEnv.OPENAI_API_KEY).toBe("openai-original");
   });
 
-  it("preserves OPENCLAW_SHELL even when stripKeys contains it", () => {
+  it("preserves CODYAI_SHELL even when stripKeys contains it", () => {
     const openAiApiKeyEnv = envVar("OPENAI", "API", "KEY");
     const env = resolveAcpClientSpawnEnv(
       {
-        OPENCLAW_SHELL: "skill-overridden",
+        CODYAI_SHELL: "skill-overridden",
         [openAiApiKeyEnv]: "openai-leaked", // pragma: allowlist secret
       },
-      { stripKeys: new Set(["OPENCLAW_SHELL", openAiApiKeyEnv]) },
+      { stripKeys: new Set(["CODYAI_SHELL", openAiApiKeyEnv]) },
     );
 
-    expect(env.OPENCLAW_SHELL).toBe("acp-client");
+    expect(env.CODYAI_SHELL).toBe("acp-client");
     expect(env.OPENAI_API_KEY).toBeUndefined();
   });
 });
@@ -115,7 +115,7 @@ describe("resolveAcpClientSpawnEnv", () => {
 describe("resolveAcpClientSpawnInvocation", () => {
   it("keeps non-windows invocation unchanged", () => {
     const resolved = resolveAcpClientSpawnInvocation(
-      { serverCommand: "openclaw", serverArgs: ["acp", "--verbose"] },
+      { serverCommand: "codyai", serverArgs: ["acp", "--verbose"] },
       {
         platform: "darwin",
         env: {},
@@ -123,7 +123,7 @@ describe("resolveAcpClientSpawnInvocation", () => {
       },
     );
     expect(resolved).toEqual({
-      command: "openclaw",
+      command: "codyai",
       args: ["acp", "--verbose"],
       shell: undefined,
       windowsHide: undefined,
@@ -132,7 +132,7 @@ describe("resolveAcpClientSpawnInvocation", () => {
 
   it("unwraps .cmd shim entrypoint on windows", async () => {
     const dir = await createTempDir();
-    const scriptPath = path.join(dir, "openclaw", "dist", "entry.js");
+    const scriptPath = path.join(dir, "codyai", "dist", "entry.js");
     const shimPath = path.join(dir, "openclaw.cmd");
     await mkdir(path.dirname(scriptPath), { recursive: true });
     await writeFile(scriptPath, "console.log('ok')\n", "utf8");

@@ -1,7 +1,7 @@
 import type {
   ChannelOnboardingAdapter,
   ChannelOnboardingDmPolicy,
-  OpenClawConfig,
+  CodyAIConfig,
   WizardPrompter,
 } from "openclaw/plugin-sdk/zalouser";
 import {
@@ -31,11 +31,11 @@ import {
 const channel = "zalouser" as const;
 
 function setZalouserAccountScopedConfig(
-  cfg: OpenClawConfig,
+  cfg: CodyAIConfig,
   accountId: string,
   defaultPatch: Record<string, unknown>,
   accountPatch: Record<string, unknown> = defaultPatch,
-): OpenClawConfig {
+): CodyAIConfig {
   if (accountId === DEFAULT_ACCOUNT_ID) {
     return {
       ...cfg,
@@ -47,7 +47,7 @@ function setZalouserAccountScopedConfig(
           ...defaultPatch,
         },
       },
-    } as OpenClawConfig;
+    } as CodyAIConfig;
   }
   return {
     ...cfg,
@@ -66,18 +66,18 @@ function setZalouserAccountScopedConfig(
         },
       },
     },
-  } as OpenClawConfig;
+  } as CodyAIConfig;
 }
 
 function setZalouserDmPolicy(
-  cfg: OpenClawConfig,
+  cfg: CodyAIConfig,
   dmPolicy: "pairing" | "allowlist" | "open" | "disabled",
-): OpenClawConfig {
+): CodyAIConfig {
   return setTopLevelChannelDmPolicyWithAllowFrom({
     cfg,
     channel: "zalouser",
     dmPolicy,
-  }) as OpenClawConfig;
+  }) as CodyAIConfig;
 }
 
 async function noteZalouserHelp(prompter: WizardPrompter): Promise<void> {
@@ -94,10 +94,10 @@ async function noteZalouserHelp(prompter: WizardPrompter): Promise<void> {
 }
 
 async function promptZalouserAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   prompter: WizardPrompter;
   accountId: string;
-}): Promise<OpenClawConfig> {
+}): Promise<CodyAIConfig> {
   const { cfg, prompter, accountId } = params;
   const resolved = resolveZalouserAccountSync({ cfg, accountId });
   const existingAllowFrom = resolved.config.allowFrom ?? [];
@@ -149,20 +149,20 @@ async function promptZalouserAllowFrom(params: {
 }
 
 function setZalouserGroupPolicy(
-  cfg: OpenClawConfig,
+  cfg: CodyAIConfig,
   accountId: string,
   groupPolicy: "open" | "allowlist" | "disabled",
-): OpenClawConfig {
+): CodyAIConfig {
   return setZalouserAccountScopedConfig(cfg, accountId, {
     groupPolicy,
   });
 }
 
 function setZalouserGroupAllowlist(
-  cfg: OpenClawConfig,
+  cfg: CodyAIConfig,
   accountId: string,
   groupKeys: string[],
-): OpenClawConfig {
+): CodyAIConfig {
   const groups = Object.fromEntries(groupKeys.map((key) => [key, { allow: true }]));
   return setZalouserAccountScopedConfig(cfg, accountId, {
     groups,

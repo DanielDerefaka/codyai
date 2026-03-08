@@ -7,7 +7,7 @@ import {
   DEFAULT_PLUGIN_ENTRY_CANDIDATES,
   getPackageManifestMetadata,
   resolvePackageExtensionEntries,
-  type OpenClawPackageManifest,
+  type CodyAIPackageManifest,
   type PackageManifest,
 } from "./manifest.js";
 import { formatPosixMode, isPathInside, safeRealpathSync, safeStatSync } from "./path-safety.js";
@@ -25,7 +25,7 @@ export type PluginCandidate = {
   packageVersion?: string;
   packageDescription?: string;
   packageDir?: string;
-  packageManifest?: OpenClawPackageManifest;
+  packageManifest?: CodyAIPackageManifest;
 };
 
 export type PluginDiscoveryResult = {
@@ -43,7 +43,7 @@ export function clearPluginDiscoveryCache(): void {
 }
 
 function resolveDiscoveryCacheMs(env: NodeJS.ProcessEnv): number {
-  const raw = env.OPENCLAW_PLUGIN_DISCOVERY_CACHE_MS?.trim();
+  const raw = env.CODYAI_PLUGIN_DISCOVERY_CACHE_MS?.trim();
   if (raw === "" || raw === "0") {
     return 0;
   }
@@ -58,7 +58,7 @@ function resolveDiscoveryCacheMs(env: NodeJS.ProcessEnv): number {
 }
 
 function shouldUseDiscoveryCache(env: NodeJS.ProcessEnv): boolean {
-  const disabled = env.OPENCLAW_DISABLE_PLUGIN_DISCOVERY_CACHE?.trim();
+  const disabled = env.CODYAI_DISABLE_PLUGIN_DISCOVERY_CACHE?.trim();
   if (disabled) {
     return false;
   }
@@ -615,7 +615,7 @@ function discoverFromPath(params: {
   }
 }
 
-export function discoverOpenClawPlugins(params: {
+export function discoverCodyAIPlugins(params: {
   workspaceDir?: string;
   extraPaths?: string[];
   ownershipUid?: number | null;

@@ -160,16 +160,16 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
     run: (ctx: { tempHome: string }) => Promise<T>;
   }): Promise<T> {
     const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-exec-approvals-"));
-    const previousOpenClawHome = process.env.OPENCLAW_HOME;
-    process.env.OPENCLAW_HOME = tempHome;
+    const previousCodyAIHome = process.env.CODYAI_HOME;
+    process.env.CODYAI_HOME = tempHome;
     saveExecApprovals(params.approvals);
     try {
       return await params.run({ tempHome });
     } finally {
-      if (previousOpenClawHome === undefined) {
-        delete process.env.OPENCLAW_HOME;
+      if (previousCodyAIHome === undefined) {
+        delete process.env.CODYAI_HOME;
       } else {
-        process.env.OPENCLAW_HOME = previousOpenClawHome;
+        process.env.CODYAI_HOME = previousCodyAIHome;
       }
       fs.rmSync(tempHome, { recursive: true, force: true });
     }

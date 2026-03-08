@@ -69,8 +69,8 @@ vi.mock("node:fs", async (importOriginal) => {
 });
 
 vi.mock("./openclaw-root.js", () => ({
-  resolveOpenClawPackageRoot: vi.fn(async () => null),
-  resolveOpenClawPackageRootSync: vi.fn(() => null),
+  resolveCodyAIPackageRoot: vi.fn(async () => null),
+  resolveCodyAIPackageRootSync: vi.fn(() => null),
 }));
 
 let resolveControlUiRepoRoot: typeof import("./control-ui-assets.js").resolveControlUiRepoRoot;
@@ -123,10 +123,10 @@ describe("control UI assets helpers (fs-mocked)", () => {
     );
   });
 
-  it("uses resolveOpenClawPackageRoot when available", async () => {
+  it("uses resolveCodyAIPackageRoot when available", async () => {
     const pkgRoot = abs("fixtures/openclaw");
     (
-      openclawRoot.resolveOpenClawPackageRoot as unknown as ReturnType<typeof vi.fn>
+      openclawRoot.resolveCodyAIPackageRoot as unknown as ReturnType<typeof vi.fn>
     ).mockResolvedValueOnce(pkgRoot);
 
     await expect(resolveControlUiDistIndexPath(abs("fixtures/bin/openclaw"))).resolves.toBe(
@@ -136,7 +136,7 @@ describe("control UI assets helpers (fs-mocked)", () => {
 
   it("falls back to package.json name matching when root resolution fails", async () => {
     const root = abs("fixtures/fallback");
-    setFile(path.join(root, "package.json"), JSON.stringify({ name: "openclaw" }));
+    setFile(path.join(root, "package.json"), JSON.stringify({ name: "codyai" }));
     setFile(path.join(root, "dist", "control-ui", "index.html"), "<html></html>\n");
 
     await expect(resolveControlUiDistIndexPath(path.join(root, "openclaw.mjs"))).resolves.toBe(
@@ -184,7 +184,7 @@ describe("control UI assets helpers (fs-mocked)", () => {
   it("resolves control-ui root for dist bundle argv1 and moduleUrl candidates", async () => {
     const pkgRoot = abs("fixtures/openclaw-bundle");
     (
-      openclawRoot.resolveOpenClawPackageRootSync as unknown as ReturnType<typeof vi.fn>
+      openclawRoot.resolveCodyAIPackageRootSync as unknown as ReturnType<typeof vi.fn>
     ).mockReturnValueOnce(pkgRoot);
 
     const uiDir = path.join(pkgRoot, "dist", "control-ui");

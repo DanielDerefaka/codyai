@@ -34,29 +34,29 @@ describe("gateway e2e", () => {
     async () => {
       const envSnapshot = captureEnv([
         "HOME",
-        "OPENCLAW_CONFIG_PATH",
-        "OPENCLAW_GATEWAY_TOKEN",
-        "OPENCLAW_SKIP_CHANNELS",
-        "OPENCLAW_SKIP_GMAIL_WATCHER",
-        "OPENCLAW_SKIP_CRON",
-        "OPENCLAW_SKIP_CANVAS_HOST",
-        "OPENCLAW_SKIP_BROWSER_CONTROL_SERVER",
+        "CODYAI_CONFIG_PATH",
+        "CODYAI_GATEWAY_TOKEN",
+        "CODYAI_SKIP_CHANNELS",
+        "CODYAI_SKIP_GMAIL_WATCHER",
+        "CODYAI_SKIP_CRON",
+        "CODYAI_SKIP_CANVAS_HOST",
+        "CODYAI_SKIP_BROWSER_CONTROL_SERVER",
       ]);
 
       const { baseUrl: openaiBaseUrl, restore } = installOpenAiResponsesMock();
 
       const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-gw-mock-home-"));
       process.env.HOME = tempHome;
-      process.env.OPENCLAW_SKIP_CHANNELS = "1";
-      process.env.OPENCLAW_SKIP_GMAIL_WATCHER = "1";
-      process.env.OPENCLAW_SKIP_CRON = "1";
-      process.env.OPENCLAW_SKIP_CANVAS_HOST = "1";
-      process.env.OPENCLAW_SKIP_BROWSER_CONTROL_SERVER = "1";
+      process.env.CODYAI_SKIP_CHANNELS = "1";
+      process.env.CODYAI_SKIP_GMAIL_WATCHER = "1";
+      process.env.CODYAI_SKIP_CRON = "1";
+      process.env.CODYAI_SKIP_CANVAS_HOST = "1";
+      process.env.CODYAI_SKIP_BROWSER_CONTROL_SERVER = "1";
 
       const token = nextGatewayId("test-token");
-      process.env.OPENCLAW_GATEWAY_TOKEN = token;
+      process.env.CODYAI_GATEWAY_TOKEN = token;
 
-      const workspaceDir = path.join(tempHome, "openclaw");
+      const workspaceDir = path.join(tempHome, "codyai");
       await fs.mkdir(workspaceDir, { recursive: true });
 
       const nonceA = nextGatewayId("nonce-a");
@@ -131,27 +131,27 @@ describe("gateway e2e", () => {
     async () => {
       const envSnapshot = captureEnv([
         "HOME",
-        "OPENCLAW_STATE_DIR",
-        "OPENCLAW_CONFIG_PATH",
-        "OPENCLAW_GATEWAY_TOKEN",
-        "OPENCLAW_SKIP_CHANNELS",
-        "OPENCLAW_SKIP_GMAIL_WATCHER",
-        "OPENCLAW_SKIP_CRON",
-        "OPENCLAW_SKIP_CANVAS_HOST",
-        "OPENCLAW_SKIP_BROWSER_CONTROL_SERVER",
+        "CODYAI_STATE_DIR",
+        "CODYAI_CONFIG_PATH",
+        "CODYAI_GATEWAY_TOKEN",
+        "CODYAI_SKIP_CHANNELS",
+        "CODYAI_SKIP_GMAIL_WATCHER",
+        "CODYAI_SKIP_CRON",
+        "CODYAI_SKIP_CANVAS_HOST",
+        "CODYAI_SKIP_BROWSER_CONTROL_SERVER",
       ]);
 
-      process.env.OPENCLAW_SKIP_CHANNELS = "1";
-      process.env.OPENCLAW_SKIP_GMAIL_WATCHER = "1";
-      process.env.OPENCLAW_SKIP_CRON = "1";
-      process.env.OPENCLAW_SKIP_CANVAS_HOST = "1";
-      process.env.OPENCLAW_SKIP_BROWSER_CONTROL_SERVER = "1";
-      delete process.env.OPENCLAW_GATEWAY_TOKEN;
+      process.env.CODYAI_SKIP_CHANNELS = "1";
+      process.env.CODYAI_SKIP_GMAIL_WATCHER = "1";
+      process.env.CODYAI_SKIP_CRON = "1";
+      process.env.CODYAI_SKIP_CANVAS_HOST = "1";
+      process.env.CODYAI_SKIP_BROWSER_CONTROL_SERVER = "1";
+      delete process.env.CODYAI_GATEWAY_TOKEN;
 
       const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-wizard-home-"));
       process.env.HOME = tempHome;
-      delete process.env.OPENCLAW_STATE_DIR;
-      delete process.env.OPENCLAW_CONFIG_PATH;
+      delete process.env.CODYAI_STATE_DIR;
+      delete process.env.CODYAI_CONFIG_PATH;
 
       const wizardToken = nextGatewayId("wiz-token");
       const port = await getFreeGatewayPort();

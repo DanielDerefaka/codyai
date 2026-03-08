@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 
 const callGateway = vi.fn();
 
@@ -10,12 +10,12 @@ vi.mock("../gateway/call.js", () => ({
 const { resolveCommandSecretRefsViaGateway } = await import("./command-secret-gateway.js");
 
 describe("resolveCommandSecretRefsViaGateway", () => {
-  function makeTalkApiKeySecretRefConfig(envKey: string): OpenClawConfig {
+  function makeTalkApiKeySecretRefConfig(envKey: string): CodyAIConfig {
     return {
       talk: {
         apiKey: { source: "env", provider: "default", id: envKey },
       },
-    } as OpenClawConfig;
+    } as CodyAIConfig;
   }
 
   async function withEnvValue(
@@ -69,7 +69,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
       talk: {
         apiKey: "plain", // pragma: allowlist secret
       },
-    } as OpenClawConfig;
+    } as CodyAIConfig;
     const result = await resolveCommandSecretRefsViaGateway({
       config,
       commandName: "memory status",
@@ -94,7 +94,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
           },
         ],
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as CodyAIConfig;
 
     const result = await resolveCommandSecretRefsViaGateway({
       config,
@@ -124,7 +124,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
       talk: {
         apiKey: { source: "env", provider: "default", id: "TALK_API_KEY" },
       },
-    } as OpenClawConfig;
+    } as CodyAIConfig;
     const result = await resolveCommandSecretRefsViaGateway({
       config,
       commandName: "memory status",
@@ -156,7 +156,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
             talk: {
               apiKey: { source: "env", provider: "default", id: envKey },
             },
-          } as OpenClawConfig,
+          } as CodyAIConfig,
           commandName: "memory status",
           targetIds: new Set(["talk.apiKey"]),
         }),
@@ -185,7 +185,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
               default: { source: "env" },
             },
           },
-        } as OpenClawConfig,
+        } as CodyAIConfig,
         commandName: "memory status",
         targetIds: new Set(["talk.apiKey"]),
       });
@@ -241,7 +241,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
           talk: {
             apiKey: { source: "env", provider: "default", id: "TALK_API_KEY" },
           },
-        } as OpenClawConfig,
+        } as CodyAIConfig,
         commandName: "memory status",
         targetIds: new Set(["talk.apiKey"]),
       }),
@@ -265,7 +265,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
           talk: {
             apiKey: { source: "env", provider: "default", id: "TALK_API_KEY" },
           },
-        } as OpenClawConfig,
+        } as CodyAIConfig,
         commandName: "memory status",
         targetIds: new Set(["talk.apiKey"]),
       }),
@@ -335,7 +335,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
           },
         ],
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as CodyAIConfig;
 
     const result = await resolveCommandSecretRefsViaGateway({
       config,
@@ -428,7 +428,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as CodyAIConfig,
         commandName: "message send",
         targetIds: new Set(["talk.apiKey", "talk.providers.*.apiKey"]),
       });
@@ -472,7 +472,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
               password: { source: "env", provider: "default", id: gatewayEnvKey },
             },
           },
-        } as OpenClawConfig,
+        } as CodyAIConfig,
         commandName: "status",
         targetIds: new Set(["talk.apiKey"]),
         mode: "summary",
@@ -507,7 +507,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
           talk: {
             apiKey: { source: "env", provider: "default", id: envKey },
           },
-        } as OpenClawConfig,
+        } as CodyAIConfig,
         commandName: "channels resolve",
         targetIds: new Set(["talk.apiKey"]),
         mode: "operational_readonly",

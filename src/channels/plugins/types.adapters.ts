@@ -1,5 +1,5 @@
 import type { ReplyPayload } from "../../auto-reply/types.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { CodyAIConfig } from "../../config/config.js";
 import type { GroupToolPolicyConfig } from "../../config/types.tools.js";
 import type { OutboundDeliveryResult, OutboundSendDeps } from "../../infra/outbound/deliver.js";
 import type { OutboundIdentity } from "../../infra/outbound/identity.js";
@@ -23,59 +23,59 @@ import type {
 
 export type ChannelSetupAdapter = {
   resolveAccountId?: (params: {
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     accountId?: string;
     input?: ChannelSetupInput;
   }) => string;
   resolveBindingAccountId?: (params: {
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     agentId: string;
     accountId?: string;
   }) => string | undefined;
   applyAccountName?: (params: {
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     accountId: string;
     name?: string;
-  }) => OpenClawConfig;
+  }) => CodyAIConfig;
   applyAccountConfig: (params: {
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     accountId: string;
     input: ChannelSetupInput;
-  }) => OpenClawConfig;
+  }) => CodyAIConfig;
   validateInput?: (params: {
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     accountId: string;
     input: ChannelSetupInput;
   }) => string | null;
 };
 
 export type ChannelConfigAdapter<ResolvedAccount> = {
-  listAccountIds: (cfg: OpenClawConfig) => string[];
-  resolveAccount: (cfg: OpenClawConfig, accountId?: string | null) => ResolvedAccount;
-  inspectAccount?: (cfg: OpenClawConfig, accountId?: string | null) => unknown;
-  defaultAccountId?: (cfg: OpenClawConfig) => string;
+  listAccountIds: (cfg: CodyAIConfig) => string[];
+  resolveAccount: (cfg: CodyAIConfig, accountId?: string | null) => ResolvedAccount;
+  inspectAccount?: (cfg: CodyAIConfig, accountId?: string | null) => unknown;
+  defaultAccountId?: (cfg: CodyAIConfig) => string;
   setAccountEnabled?: (params: {
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     accountId: string;
     enabled: boolean;
-  }) => OpenClawConfig;
-  deleteAccount?: (params: { cfg: OpenClawConfig; accountId: string }) => OpenClawConfig;
-  isEnabled?: (account: ResolvedAccount, cfg: OpenClawConfig) => boolean;
-  disabledReason?: (account: ResolvedAccount, cfg: OpenClawConfig) => string;
-  isConfigured?: (account: ResolvedAccount, cfg: OpenClawConfig) => boolean | Promise<boolean>;
-  unconfiguredReason?: (account: ResolvedAccount, cfg: OpenClawConfig) => string;
-  describeAccount?: (account: ResolvedAccount, cfg: OpenClawConfig) => ChannelAccountSnapshot;
+  }) => CodyAIConfig;
+  deleteAccount?: (params: { cfg: CodyAIConfig; accountId: string }) => CodyAIConfig;
+  isEnabled?: (account: ResolvedAccount, cfg: CodyAIConfig) => boolean;
+  disabledReason?: (account: ResolvedAccount, cfg: CodyAIConfig) => string;
+  isConfigured?: (account: ResolvedAccount, cfg: CodyAIConfig) => boolean | Promise<boolean>;
+  unconfiguredReason?: (account: ResolvedAccount, cfg: CodyAIConfig) => string;
+  describeAccount?: (account: ResolvedAccount, cfg: CodyAIConfig) => ChannelAccountSnapshot;
   resolveAllowFrom?: (params: {
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     accountId?: string | null;
   }) => Array<string | number> | undefined;
   formatAllowFrom?: (params: {
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     accountId?: string | null;
     allowFrom: Array<string | number>;
   }) => string[];
   resolveDefaultTo?: (params: {
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     accountId?: string | null;
   }) => string | undefined;
 };
@@ -87,7 +87,7 @@ export type ChannelGroupAdapter = {
 };
 
 export type ChannelOutboundContext = {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   to: string;
   text: string;
   mediaUrl?: string;
@@ -112,7 +112,7 @@ export type ChannelOutboundAdapter = {
   textChunkLimit?: number;
   pollMaxOptions?: number;
   resolveTarget?: (params: {
-    cfg?: OpenClawConfig;
+    cfg?: CodyAIConfig;
     to?: string;
     allowFrom?: string[];
     accountId?: string | null;
@@ -128,37 +128,37 @@ export type ChannelStatusAdapter<ResolvedAccount, Probe = unknown, Audit = unkno
   defaultRuntime?: ChannelAccountSnapshot;
   buildChannelSummary?: (params: {
     account: ResolvedAccount;
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     defaultAccountId: string;
     snapshot: ChannelAccountSnapshot;
   }) => Record<string, unknown> | Promise<Record<string, unknown>>;
   probeAccount?: (params: {
     account: ResolvedAccount;
     timeoutMs: number;
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
   }) => Promise<Probe>;
   auditAccount?: (params: {
     account: ResolvedAccount;
     timeoutMs: number;
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     probe?: Probe;
   }) => Promise<Audit>;
   buildAccountSnapshot?: (params: {
     account: ResolvedAccount;
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     runtime?: ChannelAccountSnapshot;
     probe?: Probe;
     audit?: Audit;
   }) => ChannelAccountSnapshot | Promise<ChannelAccountSnapshot>;
   logSelfId?: (params: {
     account: ResolvedAccount;
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     runtime: RuntimeEnv;
     includeChannelPrefix?: boolean;
   }) => void;
   resolveAccountState?: (params: {
     account: ResolvedAccount;
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     configured: boolean;
     enabled: boolean;
   }) => ChannelAccountState;
@@ -166,7 +166,7 @@ export type ChannelStatusAdapter<ResolvedAccount, Probe = unknown, Audit = unkno
 };
 
 export type ChannelGatewayContext<ResolvedAccount = unknown> = {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   accountId: string;
   account: ResolvedAccount;
   runtime: RuntimeEnv;
@@ -255,7 +255,7 @@ export type ChannelLoginWithQrWaitResult = {
 };
 
 export type ChannelLogoutContext<ResolvedAccount = unknown> = {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   accountId: string;
   account: ResolvedAccount;
   runtime: RuntimeEnv;
@@ -266,7 +266,7 @@ export type ChannelPairingAdapter = {
   idLabel: string;
   normalizeAllowEntry?: (entry: string) => string;
   notifyApproval?: (params: {
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     id: string;
     runtime?: RuntimeEnv;
   }) => Promise<void>;
@@ -290,7 +290,7 @@ export type ChannelGatewayAdapter<ResolvedAccount = unknown> = {
 
 export type ChannelAuthAdapter = {
   login?: (params: {
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     accountId?: string | null;
     runtime: RuntimeEnv;
     verbose?: boolean;
@@ -300,24 +300,24 @@ export type ChannelAuthAdapter = {
 
 export type ChannelHeartbeatAdapter = {
   checkReady?: (params: {
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     accountId?: string | null;
     deps?: ChannelHeartbeatDeps;
   }) => Promise<{ ok: boolean; reason: string }>;
-  resolveRecipients?: (params: { cfg: OpenClawConfig; opts?: { to?: string; all?: boolean } }) => {
+  resolveRecipients?: (params: { cfg: CodyAIConfig; opts?: { to?: string; all?: boolean } }) => {
     recipients: string[];
     source: string;
   };
 };
 
 type ChannelDirectorySelfParams = {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   accountId?: string | null;
   runtime: RuntimeEnv;
 };
 
 type ChannelDirectoryListParams = {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   accountId?: string | null;
   query?: string | null;
   limit?: number | null;
@@ -325,7 +325,7 @@ type ChannelDirectoryListParams = {
 };
 
 type ChannelDirectoryListGroupMembersParams = {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   accountId?: string | null;
   groupId: string;
   limit?: number | null;
@@ -355,7 +355,7 @@ export type ChannelResolveResult = {
 
 export type ChannelResolverAdapter = {
   resolveTargets: (params: {
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     accountId?: string | null;
     inputs: string[];
     kind: ChannelResolveKind;
@@ -365,7 +365,7 @@ export type ChannelResolverAdapter = {
 
 export type ChannelElevatedAdapter = {
   allowFromFallback?: (params: {
-    cfg: OpenClawConfig;
+    cfg: CodyAIConfig;
     accountId?: string | null;
   }) => Array<string | number> | undefined;
 };

@@ -5,7 +5,7 @@ import {
   resolveStateDir,
 } from "../../config/config.js";
 import type {
-  OpenClawConfig,
+  CodyAIConfig,
   GatewayBindMode,
   GatewayControlUiConfig,
 } from "../../config/types.js";
@@ -59,8 +59,8 @@ type PortStatusSummary = {
 
 type DaemonConfigContext = {
   mergedDaemonEnv: Record<string, string | undefined>;
-  cliCfg: OpenClawConfig;
-  daemonCfg: OpenClawConfig;
+  cliCfg: CodyAIConfig;
+  daemonCfg: CodyAIConfig;
   cliConfigSummary: ConfigSummary;
   daemonConfigSummary: ConfigSummary;
   configMismatch: boolean;
@@ -178,8 +178,8 @@ async function loadDaemonConfigContext(
 }
 
 async function resolveGatewayStatusSummary(params: {
-  daemonCfg: OpenClawConfig;
-  cliCfg: OpenClawConfig;
+  daemonCfg: CodyAIConfig;
+  cliCfg: CodyAIConfig;
   mergedDaemonEnv: Record<string, string | undefined>;
   commandProgramArguments?: string[];
   rpcUrlOverride?: string;

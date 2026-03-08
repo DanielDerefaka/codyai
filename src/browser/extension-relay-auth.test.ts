@@ -2,7 +2,7 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import type { AddressInfo } from "node:net";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
-  probeAuthenticatedOpenClawRelay,
+  probeAuthenticatedCodyAIRelay,
   resolveRelayAcceptedTokensForPort,
   resolveRelayAuthTokenForPort,
 } from "./extension-relay-auth.js";
@@ -36,7 +36,7 @@ function handleNonVersionRequest(req: IncomingMessage, res: ServerResponse): boo
 }
 
 async function probeRelay(baseUrl: string, relayAuthToken: string): Promise<boolean> {
-  return await probeAuthenticatedOpenClawRelay({
+  return await probeAuthenticatedCodyAIRelay({
     baseUrl,
     relayAuthHeader: "x-openclaw-relay-token",
     relayAuthToken,
@@ -48,15 +48,15 @@ describe("extension-relay-auth", () => {
   let prevGatewayToken: string | undefined;
 
   beforeEach(() => {
-    prevGatewayToken = process.env.OPENCLAW_GATEWAY_TOKEN;
-    process.env.OPENCLAW_GATEWAY_TOKEN = TEST_GATEWAY_TOKEN;
+    prevGatewayToken = process.env.CODYAI_GATEWAY_TOKEN;
+    process.env.CODYAI_GATEWAY_TOKEN = TEST_GATEWAY_TOKEN;
   });
 
   afterEach(() => {
     if (prevGatewayToken === undefined) {
-      delete process.env.OPENCLAW_GATEWAY_TOKEN;
+      delete process.env.CODYAI_GATEWAY_TOKEN;
     } else {
-      process.env.OPENCLAW_GATEWAY_TOKEN = prevGatewayToken;
+      process.env.CODYAI_GATEWAY_TOKEN = prevGatewayToken;
     }
   });
 
@@ -86,7 +86,7 @@ describe("extension-relay-auth", () => {
         const header = req.headers["x-openclaw-relay-token"];
         seenToken = Array.isArray(header) ? header[0] : header;
         res.writeHead(200, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ Browser: "OpenClaw/extension-relay" }));
+        res.end(JSON.stringify({ Browser: "CodyAI/extension-relay" }));
       },
       async ({ port }) => {
         const token = await resolveRelayAuthTokenForPort(port);

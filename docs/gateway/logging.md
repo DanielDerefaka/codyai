@@ -10,16 +10,16 @@ title: "Logging"
 
 For a user-facing overview (CLI + Control UI + config), see [/logging](/logging).
 
-OpenClaw has two log “surfaces”:
+CodyAI has two log “surfaces”:
 
 - **Console output** (what you see in the terminal / Debug UI).
 - **File logs** (JSON lines) written by the gateway logger.
 
 ## File-based logger
 
-- Default rolling log file is under `/tmp/openclaw/` (one file per day): `openclaw-YYYY-MM-DD.log`
+- Default rolling log file is under `/tmp/codyai/` (one file per day): `codyai-YYYY-MM-DD.log`
   - Date uses the gateway host's local timezone.
-- The log file path and level can be configured via `~/.openclaw/openclaw.json`:
+- The log file path and level can be configured via `~/.codyai/codyai.json`:
   - `logging.file`
   - `logging.level`
 
@@ -29,7 +29,7 @@ The Control UI Logs tab tails this file via the gateway (`logs.tail`).
 CLI can do the same:
 
 ```bash
-openclaw logs --follow
+codyai logs --follow
 ```
 
 **Verbose vs. log levels**
@@ -73,7 +73,7 @@ The gateway prints WebSocket protocol logs in two modes:
 
 ### WS log style
 
-`openclaw gateway` supports a per-gateway style switch:
+`codyai gateway` supports a per-gateway style switch:
 
 - `--ws-log auto` (default): normal mode is optimized; verbose mode uses compact output
 - `--ws-log compact`: compact output (paired request/response) when verbose
@@ -84,13 +84,13 @@ Examples:
 
 ```bash
 # optimized (only errors/slow)
-openclaw gateway
+codyai gateway
 
 # show all WS traffic (paired)
-openclaw gateway --verbose --ws-log compact
+codyai gateway --verbose --ws-log compact
 
 # show all WS traffic (full meta)
-openclaw gateway --verbose --ws-log full
+codyai gateway --verbose --ws-log full
 ```
 
 ## Console formatting (subsystem logging)

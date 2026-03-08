@@ -111,7 +111,7 @@ describe("runGatewayUpdate", () => {
 
   async function setupGitCheckout(options?: { packageManager?: string }) {
     await fs.mkdir(path.join(tempDir, ".git"));
-    const pkg: Record<string, string> = { name: "openclaw", version: "1.0.0" };
+    const pkg: Record<string, string> = { name: "codyai", version: "1.0.0" };
     if (options?.packageManager) {
       pkg.packageManager = options.packageManager;
     }
@@ -179,7 +179,7 @@ describe("runGatewayUpdate", () => {
     await fs.mkdir(pkgRoot, { recursive: true });
     await fs.writeFile(
       path.join(pkgRoot, "package.json"),
-      JSON.stringify({ name: "openclaw", version }),
+      JSON.stringify({ name: "codyai", version }),
       "utf-8",
     );
   }
@@ -310,7 +310,7 @@ describe("runGatewayUpdate", () => {
   it("skips update when no git root", async () => {
     await fs.writeFile(
       path.join(tempDir, "package.json"),
-      JSON.stringify({ name: "openclaw", packageManager: "pnpm@8.0.0" }),
+      JSON.stringify({ name: "codyai", packageManager: "pnpm@8.0.0" }),
       "utf-8",
     );
     await fs.writeFile(path.join(tempDir, "pnpm-lock.yaml"), "", "utf-8");
@@ -334,7 +334,7 @@ describe("runGatewayUpdate", () => {
     tag?: string;
   }): Promise<{ calls: string[]; result: Awaited<ReturnType<typeof runGatewayUpdate>> }> {
     const nodeModules = path.join(tempDir, "node_modules");
-    const pkgRoot = path.join(nodeModules, "openclaw");
+    const pkgRoot = path.join(nodeModules, "codyai");
     await seedGlobalPackageRoot(pkgRoot);
 
     const { calls, runCommand } = createGlobalInstallHarness({
@@ -344,7 +344,7 @@ describe("runGatewayUpdate", () => {
       onInstall: async () => {
         await fs.writeFile(
           path.join(pkgRoot, "package.json"),
-          JSON.stringify({ name: "openclaw", version: "2.0.0" }),
+          JSON.stringify({ name: "codyai", version: "2.0.0" }),
           "utf-8",
         );
       },
@@ -421,7 +421,7 @@ describe("runGatewayUpdate", () => {
 
   it("cleans stale npm rename dirs before global update", async () => {
     const nodeModules = path.join(tempDir, "node_modules");
-    const pkgRoot = path.join(nodeModules, "openclaw");
+    const pkgRoot = path.join(nodeModules, "codyai");
     const staleDir = path.join(nodeModules, ".openclaw-stale");
     await fs.mkdir(staleDir, { recursive: true });
     await seedGlobalPackageRoot(pkgRoot);
@@ -445,7 +445,7 @@ describe("runGatewayUpdate", () => {
 
   it("retries global npm update with --omit=optional when initial install fails", async () => {
     const nodeModules = path.join(tempDir, "node_modules");
-    const pkgRoot = path.join(nodeModules, "openclaw");
+    const pkgRoot = path.join(nodeModules, "codyai");
     await seedGlobalPackageRoot(pkgRoot);
 
     let firstAttempt = true;
@@ -459,7 +459,7 @@ describe("runGatewayUpdate", () => {
       onOmitOptionalInstall: async () => {
         await fs.writeFile(
           path.join(pkgRoot, "package.json"),
-          JSON.stringify({ name: "openclaw", version: "2.0.0" }),
+          JSON.stringify({ name: "codyai", version: "2.0.0" }),
           "utf-8",
         );
         return { stdout: "ok", stderr: "", code: 0 };
@@ -481,7 +481,7 @@ describe("runGatewayUpdate", () => {
     const bunInstall = path.join(tempDir, "bun-install");
     await withEnvAsync({ BUN_INSTALL: bunInstall }, async () => {
       const bunGlobalRoot = path.join(bunInstall, "install", "global", "node_modules");
-      const pkgRoot = path.join(bunGlobalRoot, "openclaw");
+      const pkgRoot = path.join(bunGlobalRoot, "codyai");
       await seedGlobalPackageRoot(pkgRoot);
 
       const { calls, runCommand } = createGlobalInstallHarness({
@@ -490,7 +490,7 @@ describe("runGatewayUpdate", () => {
         onInstall: async () => {
           await fs.writeFile(
             path.join(pkgRoot, "package.json"),
-            JSON.stringify({ name: "openclaw", version: "2.0.0" }),
+            JSON.stringify({ name: "codyai", version: "2.0.0" }),
             "utf-8",
           );
         },

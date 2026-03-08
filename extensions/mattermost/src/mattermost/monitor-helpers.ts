@@ -1,7 +1,7 @@
 import {
   formatInboundFromLabel as formatInboundFromLabelShared,
   resolveThreadSessionKeys as resolveThreadSessionKeysShared,
-  type OpenClawConfig,
+  type CodyAIConfig,
 } from "openclaw/plugin-sdk/mattermost";
 export { createDedupeCache, rawDataToString } from "openclaw/plugin-sdk/mattermost";
 
@@ -39,9 +39,9 @@ function normalizeAgentId(value: string | undefined | null): string {
   );
 }
 
-type AgentEntry = NonNullable<NonNullable<OpenClawConfig["agents"]>["list"]>[number];
+type AgentEntry = NonNullable<NonNullable<CodyAIConfig["agents"]>["list"]>[number];
 
-function listAgents(cfg: OpenClawConfig): AgentEntry[] {
+function listAgents(cfg: CodyAIConfig): AgentEntry[] {
   const list = cfg.agents?.list;
   if (!Array.isArray(list)) {
     return [];
@@ -49,12 +49,12 @@ function listAgents(cfg: OpenClawConfig): AgentEntry[] {
   return list.filter((entry): entry is AgentEntry => Boolean(entry && typeof entry === "object"));
 }
 
-function resolveAgentEntry(cfg: OpenClawConfig, agentId: string): AgentEntry | undefined {
+function resolveAgentEntry(cfg: CodyAIConfig, agentId: string): AgentEntry | undefined {
   const id = normalizeAgentId(agentId);
   return listAgents(cfg).find((entry) => normalizeAgentId(entry.id) === id);
 }
 
-export function resolveIdentityName(cfg: OpenClawConfig, agentId: string): string | undefined {
+export function resolveIdentityName(cfg: CodyAIConfig, agentId: string): string | undefined {
   const entry = resolveAgentEntry(cfg, agentId);
   return entry?.identity?.name?.trim() || undefined;
 }

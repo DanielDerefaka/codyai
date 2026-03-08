@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { withEnvAsync } from "../test-utils/env.js";
-import { clearPluginDiscoveryCache, discoverOpenClawPlugins } from "./discovery.js";
+import { clearPluginDiscoveryCache, discoverCodyAIPlugins } from "./discovery.js";
 
 const tempDirs: string[] = [];
 
@@ -18,9 +18,9 @@ function makeTempDir() {
 async function withStateDir<T>(stateDir: string, fn: () => Promise<T>) {
   return await withEnvAsync(
     {
-      OPENCLAW_STATE_DIR: stateDir,
+      CODYAI_STATE_DIR: stateDir,
       CLAWDBOT_STATE_DIR: undefined,
-      OPENCLAW_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
+      CODYAI_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
     },
     fn,
   );
@@ -28,10 +28,10 @@ async function withStateDir<T>(stateDir: string, fn: () => Promise<T>) {
 
 async function discoverWithStateDir(
   stateDir: string,
-  params: Parameters<typeof discoverOpenClawPlugins>[0],
+  params: Parameters<typeof discoverCodyAIPlugins>[0],
 ) {
   return await withStateDir(stateDir, async () => {
-    return discoverOpenClawPlugins(params);
+    return discoverCodyAIPlugins(params);
   });
 }
 
@@ -67,7 +67,7 @@ afterEach(() => {
   }
 });
 
-describe("discoverOpenClawPlugins", () => {
+describe("discoverCodyAIPlugins", () => {
   it("discovers global and workspace extensions", async () => {
     const stateDir = makeTempDir();
     const workspaceDir = path.join(stateDir, "workspace");
@@ -81,7 +81,7 @@ describe("discoverOpenClawPlugins", () => {
     fs.writeFileSync(path.join(workspaceExt, "beta.ts"), "export default function () {}", "utf-8");
 
     const { candidates } = await withStateDir(stateDir, async () => {
-      return discoverOpenClawPlugins({ workspaceDir });
+      return discoverCodyAIPlugins({ workspaceDir });
     });
 
     const ids = candidates.map((c) => c.idHint);
@@ -111,7 +111,7 @@ describe("discoverOpenClawPlugins", () => {
     fs.writeFileSync(path.join(liveDir, "index.ts"), "export default function () {}", "utf-8");
 
     const { candidates } = await withStateDir(stateDir, async () => {
-      return discoverOpenClawPlugins({});
+      return discoverCodyAIPlugins({});
     });
 
     const ids = candidates.map((candidate) => candidate.idHint);
@@ -143,7 +143,7 @@ describe("discoverOpenClawPlugins", () => {
     );
 
     const { candidates } = await withStateDir(stateDir, async () => {
-      return discoverOpenClawPlugins({});
+      return discoverCodyAIPlugins({});
     });
 
     const ids = candidates.map((c) => c.idHint);
@@ -168,7 +168,7 @@ describe("discoverOpenClawPlugins", () => {
     );
 
     const { candidates } = await withStateDir(stateDir, async () => {
-      return discoverOpenClawPlugins({});
+      return discoverCodyAIPlugins({});
     });
 
     const ids = candidates.map((c) => c.idHint);
@@ -188,7 +188,7 @@ describe("discoverOpenClawPlugins", () => {
     fs.writeFileSync(path.join(packDir, "index.js"), "module.exports = {}", "utf-8");
 
     const { candidates } = await withStateDir(stateDir, async () => {
-      return discoverOpenClawPlugins({ extraPaths: [packDir] });
+      return discoverCodyAIPlugins({ extraPaths: [packDir] });
     });
 
     const ids = candidates.map((c) => c.idHint);
@@ -267,7 +267,7 @@ describe("discoverOpenClawPlugins", () => {
     });
 
     const { candidates, diagnostics } = await withStateDir(stateDir, async () => {
-      return discoverOpenClawPlugins({});
+      return discoverCodyAIPlugins({});
     });
 
     expect(candidates.some((candidate) => candidate.idHint === "pack")).toBe(false);
@@ -304,7 +304,7 @@ describe("discoverOpenClawPlugins", () => {
     }
 
     const { candidates } = await withStateDir(stateDir, async () => {
-      return discoverOpenClawPlugins({});
+      return discoverCodyAIPlugins({});
     });
 
     expect(candidates.some((candidate) => candidate.idHint === "pack")).toBe(false);
@@ -319,7 +319,7 @@ describe("discoverOpenClawPlugins", () => {
     fs.chmodSync(pluginPath, 0o777);
 
     const result = await withStateDir(stateDir, async () => {
-      return discoverOpenClawPlugins({});
+      return discoverCodyAIPlugins({});
     });
 
     expect(result.candidates).toHaveLength(0);
@@ -342,7 +342,7 @@ describe("discoverOpenClawPlugins", () => {
 
       const actualUid = (process as NodeJS.Process & { getuid: () => number }).getuid();
       const result = await withStateDir(stateDir, async () => {
-        return discoverOpenClawPlugins({ ownershipUid: actualUid + 1 });
+        return discoverCodyAIPlugins({ ownershipUid: actualUid + 1 });
       });
       const shouldBlockForMismatch = actualUid !== 0;
       expect(result.candidates).toHaveLength(shouldBlockForMismatch ? 0 : 1);
@@ -361,9 +361,9 @@ describe("discoverOpenClawPlugins", () => {
 
     const first = await withEnvAsync(
       {
-        OPENCLAW_PLUGIN_DISCOVERY_CACHE_MS: "5000",
+        CODYAI_PLUGIN_DISCOVERY_CACHE_MS: "5000",
       },
-      async () => withStateDir(stateDir, async () => discoverOpenClawPlugins({})),
+      async () => withStateDir(stateDir, async () => discoverCodyAIPlugins({})),
     );
     expect(first.candidates.some((candidate) => candidate.idHint === "cached")).toBe(true);
 
@@ -371,9 +371,9 @@ describe("discoverOpenClawPlugins", () => {
 
     const second = await withEnvAsync(
       {
-        OPENCLAW_PLUGIN_DISCOVERY_CACHE_MS: "5000",
+        CODYAI_PLUGIN_DISCOVERY_CACHE_MS: "5000",
       },
-      async () => withStateDir(stateDir, async () => discoverOpenClawPlugins({})),
+      async () => withStateDir(stateDir, async () => discoverCodyAIPlugins({})),
     );
     expect(second.candidates.some((candidate) => candidate.idHint === "cached")).toBe(true);
 
@@ -381,9 +381,9 @@ describe("discoverOpenClawPlugins", () => {
 
     const third = await withEnvAsync(
       {
-        OPENCLAW_PLUGIN_DISCOVERY_CACHE_MS: "5000",
+        CODYAI_PLUGIN_DISCOVERY_CACHE_MS: "5000",
       },
-      async () => withStateDir(stateDir, async () => discoverOpenClawPlugins({})),
+      async () => withStateDir(stateDir, async () => discoverCodyAIPlugins({})),
     );
     expect(third.candidates.some((candidate) => candidate.idHint === "cached")).toBe(false);
   });

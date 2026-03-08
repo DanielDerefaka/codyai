@@ -20,7 +20,7 @@ function enableAdvertiserUnitMode(hostname = "test-host") {
   delete process.env.VITEST;
   process.env.NODE_ENV = "development";
   vi.spyOn(os, "hostname").mockReturnValue(hostname);
-  process.env.OPENCLAW_MDNS_HOSTNAME = hostname;
+  process.env.CODYAI_MDNS_HOSTNAME = hostname;
 }
 
 function mockCiaoService(params?: {
@@ -300,9 +300,9 @@ describe("gateway bonjour advertiser", () => {
     });
 
     const [gatewayCall] = createService.mock.calls as Array<[ServiceCall]>;
-    expect(gatewayCall?.[0]?.name).toBe("openclaw (OpenClaw)");
+    expect(gatewayCall?.[0]?.name).toBe("openclaw (CodyAI)");
     expect(gatewayCall?.[0]?.domain).toBe("local");
-    expect(gatewayCall?.[0]?.hostname).toBe("openclaw");
+    expect(gatewayCall?.[0]?.hostname).toBe("codyai");
     expect((gatewayCall?.[0]?.txt as Record<string, string>)?.lanHost).toBe("openclaw.local");
 
     await started.stop();

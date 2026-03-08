@@ -3,7 +3,7 @@ import fsSync from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 import { resetLogger, setLoggerOverride } from "../logging.js";
 import { redactIdentifier } from "../logging/redact-identifier.js";
 import { setActiveWebListener } from "./active-listener.js";
@@ -166,7 +166,7 @@ describe("web outbound", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as CodyAIConfig;
 
     await sendMessageWhatsApp("+1555", "pic", {
       verbose: false,

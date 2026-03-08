@@ -141,12 +141,12 @@ describe("sanitizeSystemRunEnvOverrides", () => {
     const overrides = sanitizeSystemRunEnvOverrides({
       shellWrapper: false,
       overrides: {
-        OPENCLAW_TEST: "1",
+        CODYAI_TEST: "1",
         TOKEN: "abc",
       },
     });
     expect(overrides).toEqual({
-      OPENCLAW_TEST: "1",
+      CODYAI_TEST: "1",
       TOKEN: "abc",
     });
   });
@@ -155,7 +155,7 @@ describe("sanitizeSystemRunEnvOverrides", () => {
     const overrides = sanitizeSystemRunEnvOverrides({
       shellWrapper: true,
       overrides: {
-        OPENCLAW_TEST: "1",
+        CODYAI_TEST: "1",
         TOKEN: "abc",
         LANG: "C",
         LC_ALL: "C",

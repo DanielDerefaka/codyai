@@ -1,20 +1,20 @@
 {
-  "name": "openclaw",
+  "name": "codyai",
   "version": "2026.3.8",
-  "description": "Multi-channel AI gateway with extensible messaging integrations",
-  "keywords": [],
-  "homepage": "https://github.com/openclaw/openclaw#readme",
+  "description": "AI co-pilot with built-in Bittensor subnet intelligence — powered by CodyAI",
+  "keywords": ["ai", "bittensor", "subnet", "research", "co-pilot"],
+  "homepage": "https://github.com/DanielDerefaka/codyai#readme",
   "bugs": {
-    "url": "https://github.com/openclaw/openclaw/issues"
+    "url": "https://github.com/DanielDerefaka/codyai/issues"
   },
   "license": "MIT",
-  "author": "",
+  "author": "DanielDerefaka",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/openclaw/openclaw.git"
+    "url": "git+https://github.com/DanielDerefaka/codyai.git"
   },
   "bin": {
-    "openclaw": "openclaw.mjs"
+    "codyai": "codyai.mjs"
   },
   "directories": {
     "doc": "docs",
@@ -23,7 +23,7 @@
   "files": [
     "CHANGELOG.md",
     "LICENSE",
-    "openclaw.mjs",
+    "codyai.mjs",
     "README-header.png",
     "README.md",
     "assets/",
@@ -212,7 +212,7 @@
       "types": "./dist/plugin-sdk/keyed-async-queue.d.ts",
       "default": "./dist/plugin-sdk/keyed-async-queue.js"
     },
-    "./cli-entry": "./openclaw.mjs"
+    "./cli-entry": "./codyai.mjs"
   },
   "scripts": {
     "android:assemble": "cd apps/android && ./gradlew :app:assembleDebug",

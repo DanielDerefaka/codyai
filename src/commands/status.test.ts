@@ -5,8 +5,8 @@ import { captureEnv } from "../test-utils/env.js";
 let envSnapshot: ReturnType<typeof captureEnv>;
 
 beforeAll(() => {
-  envSnapshot = captureEnv(["OPENCLAW_PROFILE"]);
-  process.env.OPENCLAW_PROFILE = "isolated";
+  envSnapshot = captureEnv(["CODYAI_PROFILE"]);
+  process.env.CODYAI_PROFILE = "isolated";
 });
 
 afterAll(() => {
@@ -307,7 +307,7 @@ vi.mock("../gateway/session-utils.js", async (importOriginal) => {
   };
 });
 vi.mock("../infra/openclaw-root.js", () => ({
-  resolveOpenClawPackageRoot: vi.fn().mockResolvedValue("/tmp/openclaw"),
+  resolveCodyAIPackageRoot: vi.fn().mockResolvedValue("/tmp/openclaw"),
 }));
 vi.mock("../infra/os-summary.js", () => ({
   resolveOsSummary: () => ({
@@ -441,7 +441,7 @@ describe("statusCommand", () => {
   it("prints formatted lines otherwise", async () => {
     const logs = await runStatusAndGetLogs();
     for (const token of [
-      "OpenClaw status",
+      "CodyAI status",
       "Overview",
       "Security audit",
       "Summary:",
@@ -473,7 +473,7 @@ describe("statusCommand", () => {
   });
 
   it("shows gateway auth when reachable", async () => {
-    await withEnvVar("OPENCLAW_GATEWAY_TOKEN", "abcd1234", async () => {
+    await withEnvVar("CODYAI_GATEWAY_TOKEN", "abcd1234", async () => {
       mockProbeGatewayResult({
         ok: true,
         connectLatencyMs: 123,

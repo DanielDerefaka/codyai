@@ -4,7 +4,7 @@ import {
   hasConfiguredSecretInput,
   promptSingleChannelSecretInput,
   type ChannelOnboardingAdapter,
-  type OpenClawConfig,
+  type CodyAIConfig,
   type SecretInput,
   type WizardPrompter,
 } from "openclaw/plugin-sdk/mattermost";
@@ -180,7 +180,7 @@ export const mattermostOnboardingAdapter: ChannelOnboardingAdapter = {
 
     return { cfg: next, accountId };
   },
-  disable: (cfg: OpenClawConfig) => ({
+  disable: (cfg: CodyAIConfig) => ({
     ...cfg,
     channels: {
       ...cfg.channels,

@@ -1,26 +1,26 @@
 ---
-summary: "CLI reference for `openclaw daemon` (legacy alias for gateway service management)"
+summary: "CLI reference for `codyai daemon` (legacy alias for gateway service management)"
 read_when:
-  - You still use `openclaw daemon ...` in scripts
+  - You still use `codyai daemon ...` in scripts
   - You need service lifecycle commands (install/start/stop/restart/status)
 title: "daemon"
 ---
 
-# `openclaw daemon`
+# `codyai daemon`
 
 Legacy alias for Gateway service management commands.
 
-`openclaw daemon ...` maps to the same service control surface as `openclaw gateway ...` service commands.
+`codyai daemon ...` maps to the same service control surface as `codyai gateway ...` service commands.
 
 ## Usage
 
 ```bash
-openclaw daemon status
-openclaw daemon install
-openclaw daemon start
-openclaw daemon stop
-openclaw daemon restart
-openclaw daemon uninstall
+codyai daemon status
+codyai daemon install
+codyai daemon start
+codyai daemon stop
+codyai daemon restart
+codyai daemon uninstall
 ```
 
 ## Subcommands
@@ -48,4 +48,4 @@ Notes:
 
 ## Prefer
 
-Use [`openclaw gateway`](/cli/gateway) for current docs and examples.
+Use [`codyai gateway`](/cli/gateway) for current docs and examples.

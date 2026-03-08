@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/tlon";
+import type { CodyAIConfig } from "openclaw/plugin-sdk/tlon";
 import {
   formatDocsLink,
   resolveAccountIdForConfigure,
@@ -18,7 +18,7 @@ function isConfigured(account: TlonResolvedAccount): boolean {
 }
 
 function applyAccountConfig(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   accountId: string;
   input: {
     name?: string;
@@ -30,7 +30,7 @@ function applyAccountConfig(params: {
     dmAllowlist?: string[];
     autoDiscoverChannels?: boolean;
   };
-}): OpenClawConfig {
+}): CodyAIConfig {
   const { cfg, accountId, input } = params;
   const useDefault = accountId === DEFAULT_ACCOUNT_ID;
   const base = cfg.channels?.tlon ?? {};

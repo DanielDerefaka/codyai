@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { createConfigIO } from "./io.js";
-import type { OpenClawConfig } from "./types.js";
+import type { CodyAIConfig } from "./types.js";
 
 describe("config io write", () => {
   let fixtureRoot = "";
@@ -150,14 +150,14 @@ describe("config io write", () => {
         logger: silentLogger,
       });
 
-      const invalidConfig: OpenClawConfig = {
+      const invalidConfig: CodyAIConfig = {
         channels: {
           telegram: {
             dmPolicy: "open",
             allowFrom: [],
           },
         },
-      } satisfies OpenClawConfig;
+      } satisfies CodyAIConfig;
 
       await expect(io.writeConfigFile(invalidConfig)).rejects.toThrow(
         "openclaw config set channels.telegram.allowFrom '[\"*\"]'",
@@ -516,9 +516,9 @@ describe("config io write", () => {
         initialConfig: { gateway: { mode: "local" } },
         gatewayPatch: { bind: "loopback" },
         env: {
-          OPENCLAW_WATCH_MODE: "1",
-          OPENCLAW_WATCH_SESSION: "watch-session-1",
-          OPENCLAW_WATCH_COMMAND: "gateway --force",
+          CODYAI_WATCH_MODE: "1",
+          CODYAI_WATCH_SESSION: "watch-session-1",
+          CODYAI_WATCH_COMMAND: "gateway --force",
         } as NodeJS.ProcessEnv,
       });
       expect(last.watchMode).toBe(true);

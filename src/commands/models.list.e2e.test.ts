@@ -10,8 +10,8 @@ const readConfigFileSnapshotForWrite = vi.fn().mockResolvedValue({
   writeOptions: {},
 });
 const setRuntimeConfigSnapshot = vi.fn();
-const ensureOpenClawModelsJson = vi.fn().mockResolvedValue(undefined);
-const resolveOpenClawAgentDir = vi.fn().mockReturnValue("/tmp/openclaw-agent");
+const ensureCodyAIModelsJson = vi.fn().mockResolvedValue(undefined);
+const resolveCodyAIAgentDir = vi.fn().mockReturnValue("/tmp/openclaw-agent");
 const ensureAuthProfileStore = vi.fn().mockReturnValue({ version: 1, profiles: {} });
 const listProfilesForProvider = vi.fn().mockReturnValue([]);
 const resolveAuthProfileDisplayLabel = vi.fn(({ profileId }: { profileId: string }) => profileId);
@@ -39,11 +39,11 @@ vi.mock("../config/config.js", () => ({
 }));
 
 vi.mock("../agents/models-config.js", () => ({
-  ensureOpenClawModelsJson,
+  ensureCodyAIModelsJson,
 }));
 
 vi.mock("../agents/agent-paths.js", () => ({
-  resolveOpenClawAgentDir,
+  resolveCodyAIAgentDir,
 }));
 
 vi.mock("../agents/auth-profiles.js", () => ({
@@ -129,7 +129,7 @@ beforeEach(() => {
   modelRegistryState.getAllError = undefined;
   modelRegistryState.getAvailableError = undefined;
   listProfilesForProvider.mockReturnValue([]);
-  ensureOpenClawModelsJson.mockClear();
+  ensureCodyAIModelsJson.mockClear();
   readConfigFileSnapshotForWrite.mockClear();
   readConfigFileSnapshotForWrite.mockResolvedValue({
     snapshot: { valid: false, resolved: {} },
@@ -333,7 +333,7 @@ describe("models list/status", () => {
 
     await loadModelRegistry(resolvedConfig as never);
 
-    expect(ensureOpenClawModelsJson).not.toHaveBeenCalled();
+    expect(ensureCodyAIModelsJson).not.toHaveBeenCalled();
   });
 
   it("modelsListCommand persists using the write snapshot config when provided", async () => {
@@ -354,8 +354,8 @@ describe("models list/status", () => {
 
     await modelsListCommand({ all: true, json: true }, runtime);
 
-    expect(ensureOpenClawModelsJson).toHaveBeenCalledTimes(1);
-    expect(ensureOpenClawModelsJson).toHaveBeenCalledWith(resolvedConfig);
+    expect(ensureCodyAIModelsJson).toHaveBeenCalledTimes(1);
+    expect(ensureCodyAIModelsJson).toHaveBeenCalledWith(resolvedConfig);
   });
 
   it("toModelRow does not crash without cfg/authStore when availability is undefined", async () => {

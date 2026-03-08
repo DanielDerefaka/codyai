@@ -5,11 +5,11 @@ import {
   resolveBundledPluginSources,
 } from "./bundled-sources.js";
 
-const discoverOpenClawPluginsMock = vi.fn();
+const discoverCodyAIPluginsMock = vi.fn();
 const loadPluginManifestMock = vi.fn();
 
 vi.mock("./discovery.js", () => ({
-  discoverOpenClawPlugins: (...args: unknown[]) => discoverOpenClawPluginsMock(...args),
+  discoverCodyAIPlugins: (...args: unknown[]) => discoverCodyAIPluginsMock(...args),
 }));
 
 vi.mock("./manifest.js", () => ({
@@ -18,12 +18,12 @@ vi.mock("./manifest.js", () => ({
 
 describe("bundled plugin sources", () => {
   beforeEach(() => {
-    discoverOpenClawPluginsMock.mockReset();
+    discoverCodyAIPluginsMock.mockReset();
     loadPluginManifestMock.mockReset();
   });
 
   it("resolves bundled sources keyed by plugin id", () => {
-    discoverOpenClawPluginsMock.mockReturnValue({
+    discoverCodyAIPluginsMock.mockReturnValue({
       candidates: [
         {
           origin: "global",
@@ -78,7 +78,7 @@ describe("bundled plugin sources", () => {
   });
 
   it("finds bundled source by npm spec", () => {
-    discoverOpenClawPluginsMock.mockReturnValue({
+    discoverCodyAIPluginsMock.mockReturnValue({
       candidates: [
         {
           origin: "bundled",
@@ -104,7 +104,7 @@ describe("bundled plugin sources", () => {
   });
 
   it("finds bundled source by plugin id", () => {
-    discoverOpenClawPluginsMock.mockReturnValue({
+    discoverCodyAIPluginsMock.mockReturnValue({
       candidates: [
         {
           origin: "bundled",

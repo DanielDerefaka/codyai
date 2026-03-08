@@ -7,7 +7,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 import { openBoundaryFile } from "../infra/boundary-file-read.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { resolveHookConfig } from "./config.js";
@@ -27,7 +27,7 @@ const log = createSubsystemLogger("hooks:loader");
  * 1. Directory-based discovery (bundled, managed, workspace)
  * 2. Legacy config handlers (backwards compatibility)
  *
- * @param cfg - OpenClaw configuration
+ * @param cfg - CodyAI configuration
  * @param workspaceDir - Workspace directory for hook discovery
  * @returns Number of handlers successfully loaded
  *
@@ -40,7 +40,7 @@ const log = createSubsystemLogger("hooks:loader");
  * ```
  */
 export async function loadInternalHooks(
-  cfg: OpenClawConfig,
+  cfg: CodyAIConfig,
   workspaceDir: string,
   opts?: {
     managedHooksDir?: string;

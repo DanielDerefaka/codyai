@@ -1,12 +1,12 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { CodyAIConfig } from "../../../config/config.js";
 
-export function resolveConfiguredAcpBackendId(cfg: OpenClawConfig): string {
+export function resolveConfiguredAcpBackendId(cfg: CodyAIConfig): string {
   return cfg.acp?.backend?.trim() || "acpx";
 }
 
-export function resolveAcpInstallCommandHint(cfg: OpenClawConfig): string {
+export function resolveAcpInstallCommandHint(cfg: CodyAIConfig): string {
   const configured = cfg.acp?.runtime?.installCommand?.trim();
   if (configured) {
     return configured;

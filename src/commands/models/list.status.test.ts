@@ -30,7 +30,7 @@ const mocks = vi.hoisted(() => {
 
   return {
     store,
-    resolveOpenClawAgentDir: vi.fn().mockReturnValue("/tmp/openclaw-agent"),
+    resolveCodyAIAgentDir: vi.fn().mockReturnValue("/tmp/openclaw-agent"),
     resolveAgentDir: vi.fn().mockReturnValue("/tmp/openclaw-agent"),
     resolveAgentExplicitModelPrimary: vi.fn().mockReturnValue(undefined),
     resolveAgentEffectiveModelPrimary: vi.fn().mockReturnValue(undefined),
@@ -82,7 +82,7 @@ const mocks = vi.hoisted(() => {
 });
 
 vi.mock("../../agents/agent-paths.js", () => ({
-  resolveOpenClawAgentDir: mocks.resolveOpenClawAgentDir,
+  resolveCodyAIAgentDir: mocks.resolveCodyAIAgentDir,
 }));
 
 vi.mock("../../agents/agent-scope.js", () => ({
@@ -202,7 +202,7 @@ describe("modelsStatusCommand auth overview", () => {
     await modelsStatusCommand({ json: true }, runtime as never);
     const payload = JSON.parse(String((runtime.log as Mock).mock.calls[0]?.[0]));
 
-    expect(mocks.resolveOpenClawAgentDir).toHaveBeenCalled();
+    expect(mocks.resolveCodyAIAgentDir).toHaveBeenCalled();
     expect(payload.defaultModel).toBe("anthropic/claude-opus-4-5");
     expect(payload.configPath).toBe("/tmp/openclaw-dev/openclaw.json");
     expect(payload.auth.storePath).toBe("/tmp/openclaw-agent/auth-profiles.json");

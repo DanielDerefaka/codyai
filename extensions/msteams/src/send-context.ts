@@ -1,6 +1,6 @@
 import {
   resolveChannelMediaMaxBytes,
-  type OpenClawConfig,
+  type CodyAIConfig,
   type PluginRuntime,
 } from "openclaw/plugin-sdk/msteams";
 import type { MSTeamsAccessTokenProvider } from "./attachments/types.js";
@@ -92,7 +92,7 @@ async function findConversationReference(recipient: {
 }
 
 export async function resolveMSTeamsSendContext(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   to: string;
 }): Promise<MSTeamsProactiveContext> {
   const msteamsCfg = params.cfg.channels?.msteams;

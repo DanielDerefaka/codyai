@@ -108,7 +108,7 @@ vi.mock("openclaw/plugin-sdk/diagnostics-otel", async () => {
   };
 });
 
-import type { OpenClawPluginServiceContext } from "openclaw/plugin-sdk/diagnostics-otel";
+import type { CodyAIPluginServiceContext } from "openclaw/plugin-sdk/diagnostics-otel";
 import { emitDiagnosticEvent } from "openclaw/plugin-sdk/diagnostics-otel";
 import { createDiagnosticsOtelService } from "./service.js";
 
@@ -133,7 +133,7 @@ type OtelContextFlags = {
 function createOtelContext(
   endpoint: string,
   { traces = false, metrics = false, logs = false }: OtelContextFlags = {},
-): OpenClawPluginServiceContext {
+): CodyAIPluginServiceContext {
   return {
     config: {
       diagnostics: {
@@ -153,7 +153,7 @@ function createOtelContext(
   };
 }
 
-function createTraceOnlyContext(endpoint: string): OpenClawPluginServiceContext {
+function createTraceOnlyContext(endpoint: string): CodyAIPluginServiceContext {
   return createOtelContext(endpoint, { traces: true });
 }
 

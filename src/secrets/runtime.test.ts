@@ -3,20 +3,20 @@ import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { ensureAuthProfileStore, type AuthProfileStore } from "../agents/auth-profiles.js";
-import { loadConfig, type OpenClawConfig } from "../config/config.js";
+import { loadConfig, type CodyAIConfig } from "../config/config.js";
 import {
   activateSecretsRuntimeSnapshot,
   clearSecretsRuntimeSnapshot,
   prepareSecretsRuntimeSnapshot,
 } from "./runtime.js";
 
-function asConfig(value: unknown): OpenClawConfig {
-  return value as OpenClawConfig;
+function asConfig(value: unknown): CodyAIConfig {
+  return value as CodyAIConfig;
 }
 
 const OPENAI_ENV_KEY_REF = { source: "env", provider: "default", id: "OPENAI_API_KEY" } as const;
 
-function createOpenAiFileModelsConfig(): NonNullable<OpenClawConfig["models"]> {
+function createOpenAiFileModelsConfig(): NonNullable<CodyAIConfig["models"]> {
   return {
     providers: {
       openai: {
@@ -217,7 +217,7 @@ describe("secrets runtime snapshot", () => {
   });
 
   it("normalizes inline SecretRef object on token to tokenRef", async () => {
-    const config: OpenClawConfig = { models: {}, secrets: {} };
+    const config: CodyAIConfig = { models: {}, secrets: {} };
     const snapshot = await prepareSecretsRuntimeSnapshot({
       config,
       env: { MY_TOKEN: "resolved-token-value" },
@@ -244,7 +244,7 @@ describe("secrets runtime snapshot", () => {
   });
 
   it("normalizes inline SecretRef object on key to keyRef", async () => {
-    const config: OpenClawConfig = { models: {}, secrets: {} };
+    const config: CodyAIConfig = { models: {}, secrets: {} };
     const snapshot = await prepareSecretsRuntimeSnapshot({
       config,
       env: { MY_KEY: "resolved-key-value" },
@@ -271,7 +271,7 @@ describe("secrets runtime snapshot", () => {
   });
 
   it("keeps explicit keyRef when inline key SecretRef is also present", async () => {
-    const config: OpenClawConfig = { models: {}, secrets: {} };
+    const config: CodyAIConfig = { models: {}, secrets: {} };
     const snapshot = await prepareSecretsRuntimeSnapshot({
       config,
       env: {
@@ -1917,7 +1917,7 @@ describe("secrets runtime snapshot", () => {
     const stateDir = path.join(root, ".openclaw");
     const mainAgentDir = path.join(stateDir, "agents", "main", "agent");
     const workerStorePath = path.join(stateDir, "agents", "worker", "agent", "auth-profiles.json");
-    const prevStateDir = process.env.OPENCLAW_STATE_DIR;
+    const prevStateDir = process.env.CODYAI_STATE_DIR;
 
     try {
       await fs.mkdir(mainAgentDir, { recursive: true });
@@ -1934,7 +1934,7 @@ describe("secrets runtime snapshot", () => {
         }),
         "utf8",
       );
-      process.env.OPENCLAW_STATE_DIR = stateDir;
+      process.env.CODYAI_STATE_DIR = stateDir;
 
       await prepareSecretsRuntimeSnapshot({
         config: {
@@ -1948,9 +1948,9 @@ describe("secrets runtime snapshot", () => {
       await expect(fs.access(workerStorePath)).rejects.toMatchObject({ code: "ENOENT" });
     } finally {
       if (prevStateDir === undefined) {
-        delete process.env.OPENCLAW_STATE_DIR;
+        delete process.env.CODYAI_STATE_DIR;
       } else {
-        process.env.OPENCLAW_STATE_DIR = prevStateDir;
+        process.env.CODYAI_STATE_DIR = prevStateDir;
       }
       await fs.rm(root, { recursive: true, force: true });
     }

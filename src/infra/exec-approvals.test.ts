@@ -163,9 +163,9 @@ describe("mergeExecApprovalsSocketDefaults", () => {
 describe("resolve exec approvals defaults", () => {
   it("expands home-prefixed default file and socket paths", () => {
     const dir = makeTempDir();
-    const prevOpenClawHome = process.env.OPENCLAW_HOME;
+    const prevCodyAIHome = process.env.CODYAI_HOME;
     try {
-      process.env.OPENCLAW_HOME = dir;
+      process.env.CODYAI_HOME = dir;
       expect(path.normalize(resolveExecApprovalsPath())).toBe(
         path.normalize(path.join(dir, ".openclaw", "exec-approvals.json")),
       );
@@ -173,10 +173,10 @@ describe("resolve exec approvals defaults", () => {
         path.normalize(path.join(dir, ".openclaw", "exec-approvals.sock")),
       );
     } finally {
-      if (prevOpenClawHome === undefined) {
-        delete process.env.OPENCLAW_HOME;
+      if (prevCodyAIHome === undefined) {
+        delete process.env.CODYAI_HOME;
       } else {
-        process.env.OPENCLAW_HOME = prevOpenClawHome;
+        process.env.CODYAI_HOME = prevCodyAIHome;
       }
     }
   });

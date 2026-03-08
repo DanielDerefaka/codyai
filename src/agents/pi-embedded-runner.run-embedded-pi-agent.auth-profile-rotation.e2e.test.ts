@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import type { AssistantMessage } from "@mariozechner/pi-ai";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 import type { AuthProfileFailureReason } from "./auth-profiles.js";
 import type { EmbeddedRunAttemptResult } from "./pi-embedded-runner/run/types.js";
 
@@ -46,7 +46,7 @@ vi.mock("./models-config.js", async (importOriginal) => {
   const mod = await importOriginal<typeof import("./models-config.js")>();
   return {
     ...mod,
-    ensureOpenClawModelsJson: vi.fn(async () => ({ wrote: false })),
+    ensureCodyAIModelsJson: vi.fn(async () => ({ wrote: false })),
   };
 });
 
@@ -104,7 +104,7 @@ const makeAttempt = (overrides: Partial<EmbeddedRunAttemptResult>): EmbeddedRunA
   ...overrides,
 });
 
-const makeConfig = (opts?: { fallbacks?: string[]; apiKey?: string }): OpenClawConfig =>
+const makeConfig = (opts?: { fallbacks?: string[]; apiKey?: string }): CodyAIConfig =>
   ({
     agents: {
       defaults: {
@@ -133,9 +133,9 @@ const makeConfig = (opts?: { fallbacks?: string[]; apiKey?: string }): OpenClawC
         },
       },
     },
-  }) satisfies OpenClawConfig;
+  }) satisfies CodyAIConfig;
 
-const makeAgentOverrideOnlyFallbackConfig = (agentId: string): OpenClawConfig =>
+const makeAgentOverrideOnlyFallbackConfig = (agentId: string): CodyAIConfig =>
   ({
     agents: {
       defaults: {
@@ -172,11 +172,11 @@ const makeAgentOverrideOnlyFallbackConfig = (agentId: string): OpenClawConfig =>
         },
       },
     },
-  }) satisfies OpenClawConfig;
+  }) satisfies CodyAIConfig;
 
 const copilotModelId = "gpt-4o";
 
-const makeCopilotConfig = (): OpenClawConfig =>
+const makeCopilotConfig = (): CodyAIConfig =>
   ({
     models: {
       providers: {
@@ -197,7 +197,7 @@ const makeCopilotConfig = (): OpenClawConfig =>
         },
       },
     },
-  }) satisfies OpenClawConfig;
+  }) satisfies CodyAIConfig;
 
 const writeAuthStore = async (
   agentDir: string,

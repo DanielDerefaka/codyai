@@ -40,7 +40,7 @@ if (
 ) {
   // Imported as a dependency — skip all entry-point side effects.
 } else {
-  process.title = "openclaw";
+  process.title = "codyai";
   installProcessWarningFilter();
   normalizeEnv();
   if (!isTruthyEnvValue(process.env.NODE_DISABLE_COMPILE_CACHE)) {
@@ -52,7 +52,7 @@ if (
   }
 
   if (shouldForceReadOnlyAuthStore(process.argv)) {
-    process.env.OPENCLAW_AUTH_STORE_READONLY = "1";
+    process.env.CODYAI_AUTH_STORE_READONLY = "1";
   }
 
   if (process.argv.includes("--no-color")) {
@@ -79,10 +79,10 @@ if (
     if (shouldSkipRespawnForArgv(process.argv)) {
       return false;
     }
-    if (isTruthyEnvValue(process.env.OPENCLAW_NO_RESPAWN)) {
+    if (isTruthyEnvValue(process.env.CODYAI_NO_RESPAWN)) {
       return false;
     }
-    if (isTruthyEnvValue(process.env.OPENCLAW_NODE_OPTIONS_READY)) {
+    if (isTruthyEnvValue(process.env.CODYAI_NODE_OPTIONS_READY)) {
       return false;
     }
     if (hasExperimentalWarningSuppressed()) {
@@ -90,7 +90,7 @@ if (
     }
 
     // Respawn guard (and keep recursion bounded if something goes wrong).
-    process.env.OPENCLAW_NODE_OPTIONS_READY = "1";
+    process.env.CODYAI_NODE_OPTIONS_READY = "1";
     // Pass flag as a Node CLI option, not via NODE_OPTIONS (--disable-warning is disallowed in NODE_OPTIONS).
     const child = spawn(
       process.execPath,
@@ -130,7 +130,7 @@ if (
     Promise.all([import("./version.js"), import("./infra/git-commit.js")])
       .then(([{ VERSION }, { resolveCommitHash }]) => {
         const commit = resolveCommitHash({ moduleUrl: import.meta.url });
-        console.log(commit ? `OpenClaw ${VERSION} (${commit})` : `OpenClaw ${VERSION}`);
+        console.log(commit ? `CodyAI ${VERSION} (${commit})` : `CodyAI ${VERSION}`);
         process.exit(0);
       })
       .catch((error) => {

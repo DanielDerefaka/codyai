@@ -1,4 +1,4 @@
-const KEY = "openclaw.control.settings.v1";
+const KEY = "codyai.control.settings.v1";
 
 type PersistedUiSettings = Omit<UiSettings, "token"> & { token?: never };
 
@@ -25,8 +25,8 @@ export function loadSettings(): UiSettings {
     const proto = location.protocol === "https:" ? "wss" : "ws";
     const configured =
       typeof window !== "undefined" &&
-      typeof window.__OPENCLAW_CONTROL_UI_BASE_PATH__ === "string" &&
-      window.__OPENCLAW_CONTROL_UI_BASE_PATH__.trim();
+      typeof window.__CODYAI_CONTROL_UI_BASE_PATH__ === "string" &&
+      window.__CODYAI_CONTROL_UI_BASE_PATH__.trim();
     const basePath = configured
       ? normalizeBasePath(configured)
       : inferBasePathFromPathname(location.pathname);

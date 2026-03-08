@@ -5,7 +5,7 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vites
 const TEST_GATEWAY_TOKEN = "test-gateway-token-1234567890";
 
 let cfg: Record<string, unknown> = {};
-let lastCreateOpenClawToolsContext: Record<string, unknown> | undefined;
+let lastCreateCodyAIToolsContext: Record<string, unknown> | undefined;
 
 // Perf: keep this suite pure unit. Mock heavyweight config/session modules.
 vi.mock("../config/config.js", () => ({
@@ -82,8 +82,8 @@ vi.mock("../agents/openclaw-tools.js", () => {
       execute: async () => ({
         ok: true,
         route: {
-          agentTo: lastCreateOpenClawToolsContext?.agentTo,
-          agentThreadId: lastCreateOpenClawToolsContext?.agentThreadId,
+          agentTo: lastCreateCodyAIToolsContext?.agentTo,
+          agentThreadId: lastCreateCodyAIToolsContext?.agentThreadId,
         },
       }),
     },
@@ -145,8 +145,8 @@ vi.mock("../agents/openclaw-tools.js", () => {
   ];
 
   return {
-    createOpenClawTools: (ctx: Record<string, unknown>) => {
-      lastCreateOpenClawToolsContext = ctx;
+    createCodyAITools: (ctx: Record<string, unknown>) => {
+      lastCreateCodyAIToolsContext = ctx;
       return tools;
     },
   };
@@ -201,11 +201,11 @@ afterAll(async () => {
 });
 
 beforeEach(() => {
-  delete process.env.OPENCLAW_GATEWAY_TOKEN;
-  delete process.env.OPENCLAW_GATEWAY_PASSWORD;
+  delete process.env.CODYAI_GATEWAY_TOKEN;
+  delete process.env.CODYAI_GATEWAY_PASSWORD;
   pluginHttpHandlers = [];
   cfg = {};
-  lastCreateOpenClawToolsContext = undefined;
+  lastCreateCodyAIToolsContext = undefined;
 });
 
 const resolveGatewayToken = (): string => TEST_GATEWAY_TOKEN;
@@ -335,7 +335,7 @@ describe("POST /tools/invoke", () => {
     const body = await res.json();
     expect(body.ok).toBe(true);
     expect(body).toHaveProperty("result");
-    expect(lastCreateOpenClawToolsContext?.allowMediaInvokeCommands).toBe(true);
+    expect(lastCreateCodyAIToolsContext?.allowMediaInvokeCommands).toBe(true);
   });
 
   it("supports tools.alsoAllow in profile and implicit modes", async () => {

@@ -9,7 +9,7 @@ import type {
   ChannelAccountSnapshot,
   ChannelDock,
   ChannelPlugin,
-  OpenClawConfig,
+  CodyAIConfig,
 } from "openclaw/plugin-sdk/zalo";
 import {
   applyAccountNameToChannelSection,

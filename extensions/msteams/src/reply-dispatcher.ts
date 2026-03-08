@@ -3,7 +3,7 @@ import {
   createTypingCallbacks,
   logTypingFailure,
   resolveChannelMediaMaxBytes,
-  type OpenClawConfig,
+  type CodyAIConfig,
   type MSTeamsReplyStyle,
   type RuntimeEnv,
 } from "openclaw/plugin-sdk/msteams";
@@ -26,7 +26,7 @@ import { getMSTeamsRuntime } from "./runtime.js";
 import type { MSTeamsTurnContext } from "./sdk-types.js";
 
 export function createMSTeamsReplyDispatcher(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   agentId: string;
   accountId?: string;
   runtime: RuntimeEnv;

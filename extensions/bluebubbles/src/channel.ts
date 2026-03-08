@@ -1,7 +1,7 @@
 import type {
   ChannelAccountSnapshot,
   ChannelPlugin,
-  OpenClawConfig,
+  CodyAIConfig,
 } from "openclaw/plugin-sdk/bluebubbles";
 import {
   applyAccountNameToChannelSection,

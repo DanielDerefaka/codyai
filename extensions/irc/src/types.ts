@@ -7,7 +7,7 @@ import type {
   GroupToolPolicyBySenderConfig,
   GroupToolPolicyConfig,
   MarkdownConfig,
-  OpenClawConfig,
+  CodyAIConfig,
 } from "openclaw/plugin-sdk/irc";
 
 export type IrcChannelConfig = {
@@ -71,8 +71,8 @@ export type IrcConfig = IrcAccountConfig & {
   defaultAccount?: string;
 };
 
-export type CoreConfig = OpenClawConfig & {
-  channels?: OpenClawConfig["channels"] & {
+export type CoreConfig = CodyAIConfig & {
+  channels?: CodyAIConfig["channels"] & {
     irc?: IrcConfig;
   };
 };

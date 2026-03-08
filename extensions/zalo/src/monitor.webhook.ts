@@ -1,6 +1,6 @@
 import { timingSafeEqual } from "node:crypto";
 import type { IncomingMessage, ServerResponse } from "node:http";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/zalo";
+import type { CodyAIConfig } from "openclaw/plugin-sdk/zalo";
 import {
   createDedupeCache,
   createFixedWindowRateLimiter,
@@ -25,7 +25,7 @@ const ZALO_WEBHOOK_REPLAY_WINDOW_MS = 5 * 60_000;
 export type ZaloWebhookTarget = {
   token: string;
   account: ResolvedZaloAccount;
-  config: OpenClawConfig;
+  config: CodyAIConfig;
   runtime: ZaloRuntimeEnv;
   core: unknown;
   secret: string;

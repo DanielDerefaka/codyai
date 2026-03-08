@@ -152,8 +152,8 @@ describe("resolveConfigDir", () => {
 });
 
 describe("resolveHomeDir", () => {
-  it("prefers OPENCLAW_HOME over HOME", () => {
-    vi.stubEnv("OPENCLAW_HOME", "/srv/openclaw-home");
+  it("prefers CODYAI_HOME over HOME", () => {
+    vi.stubEnv("CODYAI_HOME", "/srv/openclaw-home");
     vi.stubEnv("HOME", "/home/other");
 
     expect(resolveHomeDir()).toBe(path.resolve("/srv/openclaw-home"));
@@ -163,12 +163,12 @@ describe("resolveHomeDir", () => {
 });
 
 describe("shortenHomePath", () => {
-  it("uses $OPENCLAW_HOME prefix when OPENCLAW_HOME is set", () => {
-    vi.stubEnv("OPENCLAW_HOME", "/srv/openclaw-home");
+  it("uses $CODYAI_HOME prefix when CODYAI_HOME is set", () => {
+    vi.stubEnv("CODYAI_HOME", "/srv/openclaw-home");
     vi.stubEnv("HOME", "/home/other");
 
     expect(shortenHomePath(`${path.resolve("/srv/openclaw-home")}/.openclaw/openclaw.json`)).toBe(
-      "$OPENCLAW_HOME/.openclaw/openclaw.json",
+      "$CODYAI_HOME/.openclaw/openclaw.json",
     );
 
     vi.unstubAllEnvs();
@@ -176,13 +176,13 @@ describe("shortenHomePath", () => {
 });
 
 describe("shortenHomeInString", () => {
-  it("uses $OPENCLAW_HOME replacement when OPENCLAW_HOME is set", () => {
-    vi.stubEnv("OPENCLAW_HOME", "/srv/openclaw-home");
+  it("uses $CODYAI_HOME replacement when CODYAI_HOME is set", () => {
+    vi.stubEnv("CODYAI_HOME", "/srv/openclaw-home");
     vi.stubEnv("HOME", "/home/other");
 
     expect(
       shortenHomeInString(`config: ${path.resolve("/srv/openclaw-home")}/.openclaw/openclaw.json`),
-    ).toBe("config: $OPENCLAW_HOME/.openclaw/openclaw.json");
+    ).toBe("config: $CODYAI_HOME/.openclaw/openclaw.json");
 
     vi.unstubAllEnvs();
   });
@@ -220,18 +220,18 @@ describe("resolveUserPath", () => {
   });
 
   it("expands ~/ to home dir", () => {
-    expect(resolveUserPath("~/openclaw")).toBe(path.resolve(os.homedir(), "openclaw"));
+    expect(resolveUserPath("~/openclaw")).toBe(path.resolve(os.homedir(), "codyai"));
   });
 
   it("resolves relative paths", () => {
     expect(resolveUserPath("tmp/dir")).toBe(path.resolve("tmp/dir"));
   });
 
-  it("prefers OPENCLAW_HOME for tilde expansion", () => {
-    vi.stubEnv("OPENCLAW_HOME", "/srv/openclaw-home");
+  it("prefers CODYAI_HOME for tilde expansion", () => {
+    vi.stubEnv("CODYAI_HOME", "/srv/openclaw-home");
     vi.stubEnv("HOME", "/home/other");
 
-    expect(resolveUserPath("~/openclaw")).toBe(path.resolve("/srv/openclaw-home", "openclaw"));
+    expect(resolveUserPath("~/openclaw")).toBe(path.resolve("/srv/openclaw-home", "codyai"));
 
     vi.unstubAllEnvs();
   });

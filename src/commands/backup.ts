@@ -290,8 +290,8 @@ export async function backupCreateCommand(
   if (plan.included.length === 0) {
     throw new Error(
       onlyConfig
-        ? "No OpenClaw config file was found to back up."
-        : "No local OpenClaw state was found to back up.",
+        ? "No CodyAI config file was found to back up."
+        : "No local CodyAI state was found to back up.",
     );
   }
 

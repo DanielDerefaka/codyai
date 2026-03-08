@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 import {
   autoMigrateLegacyStateDir,
   autoMigrateLegacyState,
@@ -22,7 +22,7 @@ async function makeTempRoot() {
 
 async function makeRootWithEmptyCfg() {
   const root = await makeTempRoot();
-  const cfg: OpenClawConfig = {};
+  const cfg: CodyAIConfig = {};
   return { root, cfg };
 }
 
@@ -57,12 +57,12 @@ function writeLegacySessionsFixture(params: {
 
 async function detectAndRunMigrations(params: {
   root: string;
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   now?: () => number;
 }) {
   const detected = await detectLegacyStateMigrations({
     cfg: params.cfg,
-    env: { OPENCLAW_STATE_DIR: params.root } as NodeJS.ProcessEnv,
+    env: { CODYAI_STATE_DIR: params.root } as NodeJS.ProcessEnv,
   });
   await runLegacyStateMigrations({ detected, now: params.now });
 }
@@ -76,7 +76,7 @@ function readSessionsStore(targetDir: string) {
 
 async function runAndReadSessionsStore(params: {
   root: string;
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   targetDir: string;
   now?: () => number;
 }) {
@@ -115,13 +115,13 @@ async function runStateDirMigration(root: string, env = {} as NodeJS.ProcessEnv)
 
 async function runAutoMigrateLegacyStateWithLog(params: {
   root: string;
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   now?: () => number;
 }) {
   const log = { info: vi.fn(), warn: vi.fn() };
   const result = await autoMigrateLegacyState({
     cfg: params.cfg,
-    env: { OPENCLAW_STATE_DIR: params.root } as NodeJS.ProcessEnv,
+    env: { CODYAI_STATE_DIR: params.root } as NodeJS.ProcessEnv,
     log,
     now: params.now,
   });
@@ -158,7 +158,7 @@ function ensureCredentialsDir(root: string) {
 describe("doctor legacy state migrations", () => {
   it("migrates legacy sessions into agents/<id>/sessions", async () => {
     const root = await makeTempRoot();
-    const cfg: OpenClawConfig = {};
+    const cfg: CodyAIConfig = {};
     const legacySessionsDir = writeLegacySessionsFixture({
       root,
       sessions: {
@@ -176,7 +176,7 @@ describe("doctor legacy state migrations", () => {
 
     const detected = await detectLegacyStateMigrations({
       cfg,
-      env: { OPENCLAW_STATE_DIR: root } as NodeJS.ProcessEnv,
+      env: { CODYAI_STATE_DIR: root } as NodeJS.ProcessEnv,
     });
     const result = await runLegacyStateMigrations({
       detected,
@@ -293,7 +293,7 @@ describe("doctor legacy state migrations", () => {
 
     const detected = await detectLegacyStateMigrations({
       cfg,
-      env: { OPENCLAW_STATE_DIR: root } as NodeJS.ProcessEnv,
+      env: { CODYAI_STATE_DIR: root } as NodeJS.ProcessEnv,
     });
     expect(detected.pairingAllowFrom.hasLegacyTelegram).toBe(true);
     expect(
@@ -313,7 +313,7 @@ describe("doctor legacy state migrations", () => {
 
   it("fans out legacy Telegram pairing allowFrom store to configured named accounts", async () => {
     const root = await makeTempRoot();
-    const cfg: OpenClawConfig = {
+    const cfg: CodyAIConfig = {
       channels: {
         telegram: {
           accounts: {
@@ -339,7 +339,7 @@ describe("doctor legacy state migrations", () => {
 
     const detected = await detectLegacyStateMigrations({
       cfg,
-      env: { OPENCLAW_STATE_DIR: root } as NodeJS.ProcessEnv,
+      env: { CODYAI_STATE_DIR: root } as NodeJS.ProcessEnv,
     });
     expect(detected.pairingAllowFrom.hasLegacyTelegram).toBe(true);
     expect(
@@ -366,10 +366,10 @@ describe("doctor legacy state migrations", () => {
 
   it("no-ops when nothing detected", async () => {
     const root = await makeTempRoot();
-    const cfg: OpenClawConfig = {};
+    const cfg: CodyAIConfig = {};
     const detected = await detectLegacyStateMigrations({
       cfg,
-      env: { OPENCLAW_STATE_DIR: root } as NodeJS.ProcessEnv,
+      env: { CODYAI_STATE_DIR: root } as NodeJS.ProcessEnv,
     });
     const result = await runLegacyStateMigrations({ detected });
     expect(result.changes).toEqual([]);
@@ -377,7 +377,7 @@ describe("doctor legacy state migrations", () => {
 
   it("routes legacy state to the default agent entry", async () => {
     const root = await makeTempRoot();
-    const cfg: OpenClawConfig = {
+    const cfg: CodyAIConfig = {
       agents: { list: [{ id: "alpha", default: true }] },
     };
     writeLegacySessionsFixture({
@@ -399,7 +399,7 @@ describe("doctor legacy state migrations", () => {
 
   it("honors session.mainKey when seeding the direct-chat bucket", async () => {
     const root = await makeTempRoot();
-    const cfg: OpenClawConfig = { session: { mainKey: "work" } };
+    const cfg: CodyAIConfig = { session: { mainKey: "work" } };
     writeLegacySessionsFixture({
       root,
       sessions: {
@@ -439,7 +439,7 @@ describe("doctor legacy state migrations", () => {
 
   it("prefers the newest entry when collapsing main aliases", async () => {
     const root = await makeTempRoot();
-    const cfg: OpenClawConfig = { session: { mainKey: "work" } };
+    const cfg: CodyAIConfig = { session: { mainKey: "work" } };
     const targetDir = path.join(root, "agents", "main", "sessions");
     writeJson5(path.join(targetDir, "sessions.json"), {
       "agent:main:main": { sessionId: "legacy", updatedAt: 50 },
@@ -458,7 +458,7 @@ describe("doctor legacy state migrations", () => {
 
   it("lowercases agent session keys during canonicalization", async () => {
     const root = await makeTempRoot();
-    const cfg: OpenClawConfig = {};
+    const cfg: CodyAIConfig = {};
     const targetDir = path.join(root, "agents", "main", "sessions");
     writeJson5(path.join(targetDir, "sessions.json"), {
       "agent:main:slack:channel:C123": { sessionId: "legacy", updatedAt: 10 },
@@ -507,7 +507,7 @@ describe("doctor legacy state migrations", () => {
     fs.mkdirSync(legacyDir, { recursive: true });
 
     const result = await runStateDirMigration(root, {
-      OPENCLAW_STATE_DIR: "/custom/state",
+      CODYAI_STATE_DIR: "/custom/state",
     } as NodeJS.ProcessEnv);
 
     expect(result.skipped).toBe(true);

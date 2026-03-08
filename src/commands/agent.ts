@@ -150,7 +150,7 @@ function prependInternalEventContext(
   body: string,
   events: AgentCommandOpts["internalEvents"],
 ): string {
-  if (body.includes("OpenClaw runtime context (internal):")) {
+  if (body.includes("CodyAI runtime context (internal):")) {
     return body;
   }
   const renderedEvents = formatAgentInternalEventsForPrompt(events);
@@ -305,7 +305,7 @@ async function persistAcpTurnTranscript(params: {
       role: "assistant",
       content: [{ type: "text", text: replyText }],
       api: "openai-responses",
-      provider: "openclaw",
+      provider: "codyai",
       model: "acp-runtime",
       usage: ACP_TRANSCRIPT_USAGE,
       stopReason: "stop",

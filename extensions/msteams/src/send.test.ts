@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/msteams";
+import type { CodyAIConfig } from "openclaw/plugin-sdk/msteams";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { sendMessageMSTeams } from "./send.js";
 
@@ -80,7 +80,7 @@ describe("sendMessageMSTeams", () => {
     });
 
     await sendMessageMSTeams({
-      cfg: {} as OpenClawConfig,
+      cfg: {} as CodyAIConfig,
       to: "conversation:19:conversation@thread.tacv2",
       text: "hello",
       mediaUrl: "file:///tmp/agent-workspace/inline.png",

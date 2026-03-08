@@ -16,11 +16,11 @@ describe("cli json stdout contract", () => {
           ...process.env,
           HOME: tempHome,
           USERPROFILE: tempHome,
-          OPENCLAW_TEST_FAST: "1",
+          CODYAI_TEST_FAST: "1",
         };
-        delete env.OPENCLAW_HOME;
-        delete env.OPENCLAW_STATE_DIR;
-        delete env.OPENCLAW_CONFIG_PATH;
+        delete env.CODYAI_HOME;
+        delete env.CODYAI_STATE_DIR;
+        delete env.CODYAI_CONFIG_PATH;
         delete env.VITEST;
 
         const entry = path.resolve(process.cwd(), "openclaw.mjs");

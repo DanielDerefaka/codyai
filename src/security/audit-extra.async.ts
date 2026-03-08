@@ -20,7 +20,7 @@ import { listAgentWorkspaceDirs } from "../agents/workspace-dirs.js";
 import { formatCliCommand } from "../cli/command-format.js";
 import { MANIFEST_KEY } from "../compat/legacy-names.js";
 import { resolveNativeSkillsEnabled } from "../config/commands.js";
-import type { OpenClawConfig, ConfigFileSnapshot } from "../config/config.js";
+import type { CodyAIConfig, ConfigFileSnapshot } from "../config/config.js";
 import { createConfigIO } from "../config/config.js";
 import { collectIncludePathsRecursive } from "../config/includes-scan.js";
 import { resolveOAuthDir } from "../config/paths.js";
@@ -130,7 +130,7 @@ async function listInstalledPluginDirs(params: {
 }
 
 function resolveToolPolicies(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   agentTools?: AgentToolsConfig;
   sandboxMode?: "off" | "non-main" | "all";
   agentId?: string | null;
@@ -153,7 +153,7 @@ function normalizePluginIdSet(entries: string[]): Set<string> {
 }
 
 function resolveEnabledExtensionPluginIds(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   pluginDirs: string[];
 }): string[] {
   const normalized = normalizePluginsConfig(params.cfg.plugins);
@@ -524,7 +524,7 @@ export async function collectSandboxBrowserHashLabelFindings(params?: {
 }
 
 export async function collectPluginsTrustFindings(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   stateDir: string;
 }): Promise<SecurityAuditFinding[]> {
   const findings: SecurityAuditFinding[] = [];
@@ -821,7 +821,7 @@ export async function collectPluginsTrustFindings(params: {
 }
 
 export async function collectWorkspaceSkillSymlinkEscapeFindings(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
 }): Promise<SecurityAuditFinding[]> {
   const findings: SecurityAuditFinding[] = [];
   const workspaceDirs = listAgentWorkspaceDirs(params.cfg);
@@ -971,7 +971,7 @@ export async function collectIncludeFilePermFindings(params: {
 }
 
 export async function collectStateDeepFilesystemFindings(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   env: NodeJS.ProcessEnv;
   stateDir: string;
   platform?: NodeJS.Platform;
@@ -1219,7 +1219,7 @@ export async function collectPluginsCodeSafetyFindings(params: {
         title: `Plugin "${pluginName}" contains dangerous code patterns`,
         detail: `Found ${summary.critical} critical issue(s) in ${summary.scannedFiles} scanned file(s):\n${details}`,
         remediation:
-          "Review the plugin source code carefully before use. If untrusted, remove the plugin from your OpenClaw extensions state directory.",
+          "Review the plugin source code carefully before use. If untrusted, remove the plugin from your CodyAI extensions state directory.",
       });
     } else if (summary.warn > 0) {
       const warnFindings = summary.findings.filter((f) => f.severity === "warn");
@@ -1239,7 +1239,7 @@ export async function collectPluginsCodeSafetyFindings(params: {
 }
 
 export async function collectInstalledSkillsCodeSafetyFindings(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   stateDir: string;
   summaryCache?: CodeSafetySummaryCache;
 }): Promise<SecurityAuditFinding[]> {

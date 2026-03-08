@@ -6,7 +6,7 @@ import WebSocket, { WebSocketServer } from "ws";
 import { isLoopbackAddress, isLoopbackHost } from "../gateway/net.js";
 import { rawDataToString } from "../infra/ws.js";
 import {
-  probeAuthenticatedOpenClawRelay,
+  probeAuthenticatedCodyAIRelay,
   resolveRelayAcceptedTokensForPort,
   resolveRelayAuthTokenForPort,
 } from "./extension-relay-auth.js";
@@ -251,11 +251,11 @@ export async function ensureChromeExtensionRelayServer(opts: {
   }
 
   const extensionReconnectGraceMs = envMsOrDefault(
-    "OPENCLAW_EXTENSION_RELAY_RECONNECT_GRACE_MS",
+    "CODYAI_EXTENSION_RELAY_RECONNECT_GRACE_MS",
     DEFAULT_EXTENSION_RECONNECT_GRACE_MS,
   );
   const extensionCommandReconnectWaitMs = envMsOrDefault(
-    "OPENCLAW_EXTENSION_RELAY_COMMAND_RECONNECT_WAIT_MS",
+    "CODYAI_EXTENSION_RELAY_COMMAND_RECONNECT_WAIT_MS",
     DEFAULT_EXTENSION_COMMAND_RECONNECT_WAIT_MS,
   );
 
@@ -471,9 +471,9 @@ export async function ensureChromeExtensionRelayServer(opts: {
         case "Browser.getVersion":
           return {
             protocolVersion: "1.3",
-            product: "Chrome/OpenClaw-Extension-Relay",
+            product: "Chrome/CodyAI-Extension-Relay",
             revision: "0",
-            userAgent: "OpenClaw-Extension-Relay",
+            userAgent: "CodyAI-Extension-Relay",
             jsVersion: "V8",
           };
         case "Browser.setDownloadBehavior":
@@ -607,7 +607,7 @@ export async function ensureChromeExtensionRelayServer(opts: {
         (req.method === "GET" || req.method === "PUT")
       ) {
         const payload: Record<string, unknown> = {
-          Browser: "OpenClaw/extension-relay",
+          Browser: "CodyAI/extension-relay",
           "Protocol-Version": "1.3",
         };
         // Keep reporting CDP WS while attached targets are cached, so callers can
@@ -981,7 +981,7 @@ export async function ensureChromeExtensionRelayServer(opts: {
     } catch (err) {
       if (
         isAddrInUseError(err) &&
-        (await probeAuthenticatedOpenClawRelay({
+        (await probeAuthenticatedCodyAIRelay({
           baseUrl: info.baseUrl,
           relayAuthHeader: RELAY_AUTH_HEADER,
           relayAuthToken,

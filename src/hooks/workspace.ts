@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { MANIFEST_KEY } from "../compat/legacy-names.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 import { openBoundaryFileSync } from "../infra/boundary-file-read.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { isPathInsideWithRealpath } from "../security/scan-paths.js";
@@ -10,7 +10,7 @@ import { resolveBundledHooksDir } from "./bundled-dir.js";
 import { shouldIncludeHook } from "./config.js";
 import {
   parseFrontmatter,
-  resolveOpenClawMetadata,
+  resolveCodyAIMetadata,
   resolveHookInvocationPolicy,
 } from "./frontmatter.js";
 import type {
@@ -29,7 +29,7 @@ const log = createSubsystemLogger("hooks/workspace");
 
 function filterHookEntries(
   entries: HookEntry[],
-  config?: OpenClawConfig,
+  config?: CodyAIConfig,
   eligibility?: HookEligibilityContext,
 ): HookEntry[] {
   return entries.filter((entry) => shouldIncludeHook({ entry, config, eligibility }));
@@ -220,7 +220,7 @@ export function loadHookEntriesFromDir(params: {
         pluginId: params.pluginId,
       },
       frontmatter,
-      metadata: resolveOpenClawMetadata(frontmatter),
+      metadata: resolveCodyAIMetadata(frontmatter),
       invocation: resolveHookInvocationPolicy(frontmatter),
     };
     return entry;
@@ -230,7 +230,7 @@ export function loadHookEntriesFromDir(params: {
 function loadHookEntries(
   workspaceDir: string,
   opts?: {
-    config?: OpenClawConfig;
+    config?: CodyAIConfig;
     managedHooksDir?: string;
     bundledHooksDir?: string;
   },
@@ -293,7 +293,7 @@ function loadHookEntries(
     return {
       hook,
       frontmatter,
-      metadata: resolveOpenClawMetadata(frontmatter),
+      metadata: resolveCodyAIMetadata(frontmatter),
       invocation: resolveHookInvocationPolicy(frontmatter),
     };
   });
@@ -302,7 +302,7 @@ function loadHookEntries(
 export function buildWorkspaceHookSnapshot(
   workspaceDir: string,
   opts?: {
-    config?: OpenClawConfig;
+    config?: CodyAIConfig;
     managedHooksDir?: string;
     bundledHooksDir?: string;
     entries?: HookEntry[];
@@ -326,7 +326,7 @@ export function buildWorkspaceHookSnapshot(
 export function loadWorkspaceHookEntries(
   workspaceDir: string,
   opts?: {
-    config?: OpenClawConfig;
+    config?: CodyAIConfig;
     managedHooksDir?: string;
     bundledHooksDir?: string;
   },

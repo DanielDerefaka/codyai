@@ -9,7 +9,7 @@ title: "Web Tools"
 
 # Web tools
 
-OpenClaw ships two lightweight web tools:
+CodyAI ships two lightweight web tools:
 
 - `web_search` — Search the web using Brave Search API, Gemini with Google Search grounding, Grok, Kimi, or Perplexity Search API.
 - `web_fetch` — HTTP fetch + readable extraction (HTML → markdown/text).
@@ -51,13 +51,13 @@ If no keys are found, it falls back to Brave (you'll get a missing-key error pro
 
 ## Setting up web search
 
-Use `openclaw configure --section web` to set up your API key and choose a provider.
+Use `codyai configure --section web` to set up your API key and choose a provider.
 
 ### Brave Search
 
 1. Create a Brave Search API account at [brave.com/search/api](https://brave.com/search/api/)
 2. In the dashboard, choose the **Search** plan and generate an API key.
-3. Run `openclaw configure --section web` to store the key in config, or set `BRAVE_API_KEY` in your environment.
+3. Run `codyai configure --section web` to store the key in config, or set `BRAVE_API_KEY` in your environment.
 
 Each Brave plan includes **$5/month in free credit** (renewing). The Search
 plan costs $5 per 1,000 requests, so the credit covers 1,000 queries/month. Set
@@ -69,7 +69,7 @@ pricing.
 
 1. Create a Perplexity account at [perplexity.ai/settings/api](https://www.perplexity.ai/settings/api)
 2. Generate an API key in the dashboard
-3. Run `openclaw configure --section web` to store the key in config, or set `PERPLEXITY_API_KEY` in your environment.
+3. Run `codyai configure --section web` to store the key in config, or set `PERPLEXITY_API_KEY` in your environment.
 
 For legacy Sonar/OpenRouter compatibility, set `OPENROUTER_API_KEY` instead, or configure `tools.web.search.perplexity.apiKey` with an `sk-or-...` key. Setting `tools.web.search.perplexity.baseUrl` or `model` also opts Perplexity back into the chat-completions compatibility path.
 
@@ -77,9 +77,9 @@ See [Perplexity Search API Docs](https://docs.perplexity.ai/guides/search-quicks
 
 ### Where to store the key
 
-**Via config:** run `openclaw configure --section web`. It stores the key under `tools.web.search.apiKey` or `tools.web.search.perplexity.apiKey`, depending on provider.
+**Via config:** run `codyai configure --section web`. It stores the key under `tools.web.search.apiKey` or `tools.web.search.perplexity.apiKey`, depending on provider.
 
-**Via environment:** set `PERPLEXITY_API_KEY`, `OPENROUTER_API_KEY`, or `BRAVE_API_KEY` in the Gateway process environment. For a gateway install, put it in `~/.openclaw/.env` (or your service environment). See [Env vars](/help/faq#how-does-openclaw-load-environment-variables).
+**Via environment:** set `PERPLEXITY_API_KEY`, `OPENROUTER_API_KEY`, or `BRAVE_API_KEY` in the Gateway process environment. For a gateway install, put it in `~/.codyai/.env` (or your service environment). See [Env vars](/help/faq#how-does-codyai-load-environment-variables).
 
 ### Config examples
 
@@ -192,7 +192,7 @@ which returns AI-synthesized answers backed by live Google Search results with c
 ```
 
 **Environment alternative:** set `GEMINI_API_KEY` in the Gateway environment.
-For a gateway install, put it in `~/.openclaw/.env`.
+For a gateway install, put it in `~/.codyai/.env`.
 
 ### Notes
 

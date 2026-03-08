@@ -55,7 +55,7 @@ export function configureProgramHelp(program: Command, ctx: ProgramContext) {
     )
     .option(
       "--profile <name>",
-      "Use a named profile (isolates OPENCLAW_STATE_DIR/OPENCLAW_CONFIG_PATH under ~/.openclaw-<name>)",
+      "Use a named profile (isolates CODYAI_STATE_DIR/CODYAI_CONFIG_PATH under ~/.openclaw-<name>)",
     )
     .option(
       "--log-level <level>",
@@ -112,7 +112,7 @@ export function configureProgramHelp(program: Command, ctx: ProgramContext) {
   ) {
     const commit = resolveCommitHash({ moduleUrl: import.meta.url });
     console.log(
-      commit ? `OpenClaw ${ctx.programVersion} (${commit})` : `OpenClaw ${ctx.programVersion}`,
+      commit ? `CodyAI ${ctx.programVersion} (${commit})` : `CodyAI ${ctx.programVersion}`,
     );
     process.exit(0);
   }

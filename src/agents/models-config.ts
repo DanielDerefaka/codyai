@@ -3,12 +3,12 @@ import path from "node:path";
 import {
   getRuntimeConfigSnapshot,
   getRuntimeConfigSourceSnapshot,
-  type OpenClawConfig,
+  type CodyAIConfig,
   loadConfig,
 } from "../config/config.js";
 import { createConfigRuntimeEnv } from "../config/env-vars.js";
 import { isRecord } from "../utils.js";
-import { resolveOpenClawAgentDir } from "./agent-paths.js";
+import { resolveCodyAIAgentDir } from "./agent-paths.js";
 import {
   mergeProviders,
   mergeWithExistingProviderSecrets,
@@ -20,7 +20,7 @@ import {
   resolveImplicitProviders,
 } from "./models-config.providers.js";
 
-type ModelsConfig = NonNullable<OpenClawConfig["models"]>;
+type ModelsConfig = NonNullable<CodyAIConfig["models"]>;
 
 const DEFAULT_MODE: NonNullable<ModelsConfig["mode"]> = "merge";
 const MODELS_JSON_WRITE_LOCKS = new Map<string, Promise<void>>();
@@ -44,7 +44,7 @@ async function readExistingModelsFile(pathname: string): Promise<{
 }
 
 async function resolveProvidersForModelsJson(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   agentDir: string;
   env: NodeJS.ProcessEnv;
 }): Promise<Record<string, ProviderConfig>> {
@@ -101,7 +101,7 @@ async function writeModelsFileAtomic(targetPath: string, contents: string): Prom
   await fs.rename(tempPath, targetPath);
 }
 
-function resolveModelsConfigInput(config?: OpenClawConfig): OpenClawConfig {
+function resolveModelsConfigInput(config?: CodyAIConfig): CodyAIConfig {
   const runtimeSource = getRuntimeConfigSourceSnapshot();
   if (!runtimeSource) {
     return config ?? loadConfig();
@@ -135,12 +135,12 @@ async function withModelsJsonWriteLock<T>(targetPath: string, run: () => Promise
   }
 }
 
-export async function ensureOpenClawModelsJson(
-  config?: OpenClawConfig,
+export async function ensureCodyAIModelsJson(
+  config?: CodyAIConfig,
   agentDirOverride?: string,
 ): Promise<{ agentDir: string; wrote: boolean }> {
   const cfg = resolveModelsConfigInput(config);
-  const agentDir = agentDirOverride?.trim() ? agentDirOverride.trim() : resolveOpenClawAgentDir();
+  const agentDir = agentDirOverride?.trim() ? agentDirOverride.trim() : resolveCodyAIAgentDir();
   const targetPath = path.join(agentDir, "models.json");
 
   return await withModelsJsonWriteLock(targetPath, async () => {

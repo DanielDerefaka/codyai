@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process";
-import { triggerOpenClawRestart } from "./restart.js";
+import { triggerCodyAIRestart } from "./restart.js";
 import { detectRespawnSupervisor } from "./supervisor-markers.js";
 
 type RespawnMode = "spawned" | "supervised" | "disabled" | "failed";
@@ -21,11 +21,11 @@ function isTruthy(value: string | undefined): boolean {
 /**
  * Attempt to restart this process with a fresh PID.
  * - supervised environments (launchd/systemd/schtasks): caller should exit and let supervisor restart
- * - OPENCLAW_NO_RESPAWN=1: caller should keep in-process restart behavior (tests/dev)
+ * - CODYAI_NO_RESPAWN=1: caller should keep in-process restart behavior (tests/dev)
  * - otherwise: spawn detached child with current argv/execArgv, then caller exits
  */
 export function restartGatewayProcessWithFreshPid(): GatewayRespawnResult {
-  if (isTruthy(process.env.OPENCLAW_NO_RESPAWN)) {
+  if (isTruthy(process.env.CODYAI_NO_RESPAWN)) {
     return { mode: "disabled" };
   }
   const supervisor = detectRespawnSupervisor(process.env);
@@ -35,7 +35,7 @@ export function restartGatewayProcessWithFreshPid(): GatewayRespawnResult {
     // and can leave the LaunchAgent permanently unloaded.
     // See: https://github.com/openclaw/openclaw/issues/39760
     if (supervisor === "schtasks") {
-      const restart = triggerOpenClawRestart();
+      const restart = triggerCodyAIRestart();
       if (!restart.ok) {
         return {
           mode: "failed",

@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 import type { ModelDefinitionConfig } from "../config/types.models.js";
 import { coerceSecretRef, resolveSecretInputRef } from "../config/types.secrets.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
@@ -67,7 +67,7 @@ import { OLLAMA_NATIVE_BASE_URL } from "./ollama-stream.js";
 import { discoverVeniceModels, VENICE_BASE_URL } from "./venice-models.js";
 import { discoverVercelAiGatewayModels, VERCEL_AI_GATEWAY_BASE_URL } from "./vercel-ai-gateway.js";
 
-type ModelsConfig = NonNullable<OpenClawConfig["models"]>;
+type ModelsConfig = NonNullable<CodyAIConfig["models"]>;
 export type ProviderConfig = NonNullable<ModelsConfig["providers"]>[string];
 
 const OLLAMA_BASE_URL = OLLAMA_NATIVE_BASE_URL;
@@ -442,7 +442,7 @@ export function normalizeGoogleModelId(id: string): string {
   if (id === "gemini-3.1-flash-lite") {
     return "gemini-3.1-flash-lite-preview";
   }
-  // Preserve compatibility with earlier OpenClaw docs/config that pointed at a
+  // Preserve compatibility with earlier CodyAI docs/config that pointed at a
   // non-existent Gemini Flash preview ID. Google's current Flash text model is
   // `gemini-3-flash-preview`.
   if (id === "gemini-3.1-flash" || id === "gemini-3.1-flash-preview") {
@@ -715,7 +715,7 @@ async function buildKilocodeProviderWithDiscovery(): Promise<ProviderConfig> {
 
 type ImplicitProviderParams = {
   agentDir: string;
-  config?: OpenClawConfig;
+  config?: CodyAIConfig;
   env?: NodeJS.ProcessEnv;
   explicitProviders?: Record<string, ProviderConfig> | null;
 };
@@ -1065,7 +1065,7 @@ export async function resolveImplicitCopilotProvider(params: {
   }
 
   // We deliberately do not write pi-coding-agent auth.json here.
-  // OpenClaw keeps auth in auth-profiles and resolves runtime availability from that store.
+  // CodyAI keeps auth in auth-profiles and resolves runtime availability from that store.
 
   // We intentionally do NOT define custom models for Copilot in models.json.
   // pi-coding-agent treats providers with models as replacements requiring apiKey.
@@ -1078,7 +1078,7 @@ export async function resolveImplicitCopilotProvider(params: {
 
 export async function resolveImplicitBedrockProvider(params: {
   agentDir: string;
-  config?: OpenClawConfig;
+  config?: CodyAIConfig;
   env?: NodeJS.ProcessEnv;
 }): Promise<ProviderConfig | null> {
   const env = params.env ?? process.env;

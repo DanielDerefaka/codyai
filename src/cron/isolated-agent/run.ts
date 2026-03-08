@@ -37,7 +37,7 @@ import {
   supportsXHighThinking,
 } from "../../auto-reply/thinking.js";
 import type { CliDeps } from "../../cli/outbound-send-deps.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { CodyAIConfig } from "../../config/config.js";
 import {
   resolveSessionTranscriptPath,
   setSessionRuntimeModel,
@@ -158,7 +158,7 @@ function resolveCronToolPolicy(params: {
 }
 
 async function resolveCronDeliveryContext(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   job: CronJob;
   agentId: string;
 }) {
@@ -191,7 +191,7 @@ function appendCronDeliveryInstruction(params: {
 }
 
 export async function runCronIsolatedAgentTurn(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   deps: CliDeps;
   job: CronJob;
   message: string;
@@ -209,7 +209,7 @@ export async function runCronIsolatedAgentTurn(params: {
       ? reason.trim()
       : "cron: job execution timed out";
   };
-  const isFastTestEnv = process.env.OPENCLAW_TEST_FAST === "1";
+  const isFastTestEnv = process.env.CODYAI_TEST_FAST === "1";
   const defaultAgentId = resolveDefaultAgentId(params.cfg);
   const requestedAgentId =
     typeof params.agentId === "string" && params.agentId.trim()
@@ -229,7 +229,7 @@ export async function runCronIsolatedAgentTurn(params: {
     defaults: params.cfg.agents?.defaults,
     agentConfigOverride,
   });
-  const cfgWithAgentDefaults: OpenClawConfig = {
+  const cfgWithAgentDefaults: CodyAIConfig = {
     ...params.cfg,
     agents: Object.assign({}, params.cfg.agents, { defaults: agentCfg }),
   };

@@ -1,4 +1,4 @@
-import type { OpenClawPluginApi } from "openclaw/plugin-sdk/feishu";
+import type { CodyAIPluginApi } from "openclaw/plugin-sdk/feishu";
 import { emptyPluginConfigSchema } from "openclaw/plugin-sdk/feishu";
 import { registerFeishuBitableTools } from "./src/bitable.js";
 import { feishuPlugin } from "./src/channel.js";
@@ -50,7 +50,7 @@ const plugin = {
   name: "Feishu",
   description: "Feishu/Lark channel plugin",
   configSchema: emptyPluginConfigSchema(),
-  register(api: OpenClawPluginApi) {
+  register(api: CodyAIPluginApi) {
     setFeishuRuntime(api.runtime);
     api.registerChannel({ plugin: feishuPlugin });
     registerFeishuDocTools(api);

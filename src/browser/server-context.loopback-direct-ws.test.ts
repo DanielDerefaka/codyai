@@ -33,13 +33,13 @@ describe("browser server-context loopback direct WebSocket profiles", () => {
     });
 
     global.fetch = withFetchPreconnect(fetchMock);
-    const state = makeState("openclaw");
+    const state = makeState("codyai");
     state.resolved.profiles.openclaw = {
       cdpUrl: "ws://127.0.0.1:18800/devtools/browser/SESSION?token=abc",
       color: "#FF4500",
     };
     const ctx = createBrowserRouteContext({ getState: () => state });
-    const openclaw = ctx.forProfile("openclaw");
+    const openclaw = ctx.forProfile("codyai");
 
     const opened = await openclaw.openTab("http://127.0.0.1:8080");
     expect(opened.targetId).toBe("CREATED");
@@ -77,13 +77,13 @@ describe("browser server-context loopback direct WebSocket profiles", () => {
     });
 
     global.fetch = withFetchPreconnect(fetchMock);
-    const state = makeState("openclaw");
+    const state = makeState("codyai");
     state.resolved.profiles.openclaw = {
       cdpUrl: "ws://127.0.0.1:18800/devtools/browser/SESSION?token=abc",
       color: "#FF4500",
     };
     const ctx = createBrowserRouteContext({ getState: () => state });
-    const openclaw = ctx.forProfile("openclaw");
+    const openclaw = ctx.forProfile("codyai");
 
     await openclaw.focusTab("T1");
     await openclaw.closeTab("T1");
@@ -125,13 +125,13 @@ describe("browser server-context loopback direct WebSocket profiles", () => {
     });
 
     global.fetch = withFetchPreconnect(fetchMock);
-    const state = makeState("openclaw");
+    const state = makeState("codyai");
     state.resolved.profiles.openclaw = {
       cdpUrl: "wss://127.0.0.1:18800/cdp?token=abc",
       color: "#FF4500",
     };
     const ctx = createBrowserRouteContext({ getState: () => state });
-    const openclaw = ctx.forProfile("openclaw");
+    const openclaw = ctx.forProfile("codyai");
 
     const tabs = await openclaw.listTabs();
     expect(tabs.map((tab) => tab.targetId)).toEqual(["T2"]);

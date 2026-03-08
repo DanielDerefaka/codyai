@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { withTempHome as withTempHomeBase } from "../../test/helpers/temp-home.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 import type { CronJob } from "./types.js";
 
 export async function withTempCronHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
@@ -35,17 +35,17 @@ export async function writeSessionStoreEntries(
 export function makeCfg(
   home: string,
   storePath: string,
-  overrides: Partial<OpenClawConfig> = {},
-): OpenClawConfig {
-  const base: OpenClawConfig = {
+  overrides: Partial<CodyAIConfig> = {},
+): CodyAIConfig {
+  const base: CodyAIConfig = {
     agents: {
       defaults: {
         model: "anthropic/claude-opus-4-5",
-        workspace: path.join(home, "openclaw"),
+        workspace: path.join(home, "codyai"),
       },
     },
     session: { store: storePath, mainKey: "main" },
-  } as OpenClawConfig;
+  } as CodyAIConfig;
   return { ...base, ...overrides };
 }
 

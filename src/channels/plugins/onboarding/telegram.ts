@@ -1,5 +1,5 @@
 import { formatCliCommand } from "../../../cli/command-format.js";
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { CodyAIConfig } from "../../../config/config.js";
 import { hasConfiguredSecretInput } from "../../../config/types.secrets.js";
 import { DEFAULT_ACCOUNT_ID } from "../../../routing/session-key.js";
 import { inspectTelegramAccount } from "../../../telegram/account-inspect.js";
@@ -67,11 +67,11 @@ export function parseTelegramAllowFromId(raw: string): string | null {
 }
 
 async function promptTelegramAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   prompter: WizardPrompter;
   accountId: string;
   tokenOverride?: string;
-}): Promise<OpenClawConfig> {
+}): Promise<CodyAIConfig> {
   const { cfg, prompter, accountId } = params;
   const resolved = resolveTelegramAccount({ cfg, accountId });
   const existingAllowFrom = resolved.config.allowFrom ?? [];
@@ -121,10 +121,10 @@ async function promptTelegramAllowFrom(params: {
 }
 
 async function promptTelegramAllowFromForAccount(params: {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   prompter: WizardPrompter;
   accountId?: string;
-}): Promise<OpenClawConfig> {
+}): Promise<CodyAIConfig> {
   const accountId = resolveOnboardingAccountId({
     accountId: params.accountId,
     defaultAccountId: resolveDefaultTelegramAccountId(params.cfg),

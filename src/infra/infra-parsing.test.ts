@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { CodyAIConfig } from "../config/config.js";
 import { isDiagnosticFlagEnabled, resolveDiagnosticFlags } from "./diagnostic-flags.js";
 import { isMainModule } from "./is-main.js";
 import { buildNodeShellCommand } from "./node-shell.js";
@@ -10,9 +10,9 @@ describe("infra parsing", () => {
     it("merges config + env flags", () => {
       const cfg = {
         diagnostics: { flags: ["telegram.http", "cache.*"] },
-      } as OpenClawConfig;
+      } as CodyAIConfig;
       const env = {
-        OPENCLAW_DIAGNOSTICS: "foo,bar",
+        CODYAI_DIAGNOSTICS: "foo,bar",
       } as NodeJS.ProcessEnv;
 
       const flags = resolveDiagnosticFlags(cfg, env);
@@ -23,12 +23,12 @@ describe("infra parsing", () => {
     });
 
     it("treats env true as wildcard", () => {
-      const env = { OPENCLAW_DIAGNOSTICS: "1" } as NodeJS.ProcessEnv;
+      const env = { CODYAI_DIAGNOSTICS: "1" } as NodeJS.ProcessEnv;
       expect(isDiagnosticFlagEnabled("anything.here", undefined, env)).toBe(true);
     });
 
     it("treats env false as disabled", () => {
-      const env = { OPENCLAW_DIAGNOSTICS: "0" } as NodeJS.ProcessEnv;
+      const env = { CODYAI_DIAGNOSTICS: "0" } as NodeJS.ProcessEnv;
       expect(isDiagnosticFlagEnabled("telegram.http", undefined, env)).toBe(false);
     });
   });

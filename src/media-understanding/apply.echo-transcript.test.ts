@@ -2,8 +2,8 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MsgContext } from "../auto-reply/templating.js";
-import type { OpenClawConfig } from "../config/config.js";
-import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.js";
+import type { CodyAIConfig } from "../config/config.js";
+import { resolvePreferredCodyAITmpDir } from "../infra/tmp-openclaw-dir.js";
 import { createSafeAudioFixtureBuffer } from "./runner.test-utils.js";
 
 // ---------------------------------------------------------------------------
@@ -93,10 +93,10 @@ function createAudioConfigWithEcho(opts?: {
   echoFormat?: string;
   transcribedText?: string;
 }): {
-  cfg: OpenClawConfig;
+  cfg: CodyAIConfig;
   providers: Record<string, { id: string; transcribeAudio: () => Promise<{ text: string }> }>;
 } {
-  const cfg: OpenClawConfig = {
+  const cfg: CodyAIConfig = {
     tools: {
       media: {
         audio: {
@@ -145,7 +145,7 @@ function createAudioConfigWithoutEchoFlag() {
 
 describe("applyMediaUnderstanding – echo transcript", () => {
   beforeAll(async () => {
-    const baseDir = resolvePreferredOpenClawTmpDir();
+    const baseDir = resolvePreferredCodyAITmpDir();
     await fs.mkdir(baseDir, { recursive: true });
     suiteTempMediaRootDir = await fs.mkdtemp(path.join(baseDir, TEMP_MEDIA_PREFIX));
     const mod = await import("./apply.js");

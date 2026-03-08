@@ -1,4 +1,4 @@
-import type { OpenClawPluginApi } from "openclaw/plugin-sdk/discord";
+import type { CodyAIPluginApi } from "openclaw/plugin-sdk/discord";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { registerDiscordSubagentHooks } from "./subagent-hooks.js";
 
@@ -59,7 +59,7 @@ function registerHandlersForTest(
     on: (hookName: string, handler: (event: unknown, ctx: unknown) => unknown) => {
       handlers.set(hookName, handler);
     },
-  } as unknown as OpenClawPluginApi;
+  } as unknown as CodyAIPluginApi;
   registerDiscordSubagentHooks(api);
   return handlers;
 }

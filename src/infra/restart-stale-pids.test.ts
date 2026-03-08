@@ -679,7 +679,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
   // -------------------------------------------------------------------------
   describe("parsePidsFromLsofOutput — branch coverage (lines 67-69)", () => {
     it("skips a mid-loop entry when the command does not include 'openclaw'", () => {
-      // Exercises the false branch of currentCmd.toLowerCase().includes("openclaw")
+      // Exercises the false branch of currentCmd.toLowerCase().includes("codyai")
       // inside the mid-loop flush: a non-openclaw cmd between two entries must not
       // be pushed, but the following openclaw entry still must be.
       const stalePid = process.pid + 700;

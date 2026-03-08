@@ -204,7 +204,7 @@ describe("buildWorkspaceSkillsPrompt", () => {
       name: "nano-banana-pro",
       description: "Generates images",
       metadata:
-        '{"openclaw":{"requires":{"env":["GEMINI_API_KEY"]},"primaryEnv":"GEMINI_API_KEY"}}',
+        '{"codyai":{"requires":{"env":["GEMINI_API_KEY"]},"primaryEnv":"GEMINI_API_KEY"}}',
       body: "# Nano Banana\n",
     });
 

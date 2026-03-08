@@ -15,7 +15,7 @@ type PersistentDedupeData = Record<string, number>;
 const memoryDedupe = createDedupeCache({ ttlMs: DEDUP_TTL_MS, maxSize: MEMORY_MAX_SIZE });
 
 function resolveStateDirFromEnv(env: NodeJS.ProcessEnv = process.env): string {
-  const stateOverride = env.OPENCLAW_STATE_DIR?.trim() || env.CLAWDBOT_STATE_DIR?.trim();
+  const stateOverride = env.CODYAI_STATE_DIR?.trim() || env.CLAWDBOT_STATE_DIR?.trim();
   if (stateOverride) {
     return stateOverride;
   }
